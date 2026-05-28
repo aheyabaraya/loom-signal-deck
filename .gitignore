@@ -1,5 +1,5 @@
 .DS_Store
-.vercel
-node_modules
-dist
-*.log
+.vercel/
+node_modules/
+npm-debug.log*
+pnpm-lock.yaml
