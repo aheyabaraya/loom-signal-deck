@@ -26,6 +26,12 @@ http://localhost:5173
 
 ## Vercel
 
+Linked Vercel project:
+
+```text
+yuminseoks-projects/loom-signal-deck
+```
+
 This site can be deployed as a static project from this folder:
 
 ```bash
@@ -34,6 +40,8 @@ vercel
 
 Build command: none  
 Output directory: `.`
+
+The local `.vercel/` link directory is intentionally ignored by git.
 
 ## Source Planning
 
