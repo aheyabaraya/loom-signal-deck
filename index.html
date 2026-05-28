@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Loom is a 13-member idol group built as an open frame. Harne provides the thread."
+    />
+    <title>Loom Signal Deck</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="stage" aria-labelledby="page-title">
+        <div class="stage__backdrop" aria-hidden="true"></div>
+
+        <header class="topbar">
+          <div class="brand" aria-label="Loom">
+            <span class="brand__mark"></span>
+            <span class="brand__text">LOOM</span>
+          </div>
+          <nav class="nav" aria-label="Primary">
+            <a href="#members">Members</a>
+            <a href="#vote">Harne Vote</a>
+          </nav>
+        </header>
+
+        <div class="hero">
+          <p class="kicker">AURORA-M public frame</p>
+          <h1 id="page-title">Thirteen signals. One stage you can enter.</h1>
+          <p class="lede">Loom provides the frame. Harne provides the thread.</p>
+          <div class="actions" aria-label="Page actions">
+            <a class="button button--primary" href="#members">Meet members</a>
+            <a class="button" href="#vote">Vote thread</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="members" id="members" aria-labelledby="members-title">
+        <div class="section-head">
+          <p class="kicker">Signal Deck</p>
+          <h2 id="members-title">13 Member Zones</h2>
+        </div>
+        <div class="member-grid" id="member-grid"></div>
+      </section>
+
+      <section class="vote" id="vote" aria-labelledby="vote-title">
+        <div>
+          <p class="kicker">Harne Identity Vote</p>
+          <h2 id="vote-title">Which thread did you feel first?</h2>
+        </div>
+        <p>
+          Voting is a participation signal, not an automatic canon rewrite.
+          Founder review is required before any result becomes public direction.
+        </p>
+      </section>
+    </main>
+
+    <script src="./members.js"></script>
+    <script src="./main.js"></script>
+  </body>
+</html>
