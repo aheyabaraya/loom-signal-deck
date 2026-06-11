@@ -17,11 +17,11 @@ export function TikTokAssetGrid({ className, memberCode, memberName }: TikTokAss
   return (
     <section
       className={["tiktok-asset-section", className].filter(Boolean).join(" ")}
-      aria-label={`${memberName} TikTok assets with 100 or more views`}
+      aria-label={`${memberName} TikTok assets`}
     >
       <div className="asset-heading tiktok-asset-heading">
         <p>TikTok Proof</p>
-        <h2>{memberName} 100+ view clips</h2>
+        <h2>{memberName} TikTok clips</h2>
       </div>
 
       <div className="tiktok-asset-grid">
