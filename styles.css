@@ -2385,10 +2385,11 @@ img {
 .section-hero h1 {
   margin: 8px 0 0;
   font-family: var(--display);
-  font-size: clamp(4.6rem, 9vw, 10rem);
+  font-size: clamp(3.2rem, 5vw, 6rem);
   font-weight: 400;
   line-height: 0.82;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .section-hero > span {
@@ -3836,7 +3837,7 @@ img {
   }
 
   .section-hero h1 {
-    font-size: clamp(4rem, 16vw, 7.2rem);
+    font-size: clamp(2.7rem, 7.2vw, 4.8rem);
   }
 
   .archive-overview-grid,
@@ -4202,7 +4203,7 @@ img {
   }
 
   .section-hero h1 {
-    font-size: clamp(3.35rem, 18vw, 5.6rem);
+    font-size: clamp(2.05rem, 8.8vw, 3.2rem);
   }
 
   .section-hero > span {
