@@ -2341,6 +2341,107 @@ img {
   padding-top: 58px;
 }
 
+.tiktok-asset-section {
+  position: relative;
+  z-index: 3;
+}
+
+.tiktok-asset-heading {
+  align-items: start;
+}
+
+.tiktok-asset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+  gap: 18px;
+}
+
+.tiktok-asset-card {
+  overflow: hidden;
+  border: 1px solid rgba(230, 238, 242, 0.16);
+  background:
+    linear-gradient(180deg, rgba(8, 11, 12, 0.96), rgba(3, 4, 5, 0.98)),
+    repeating-linear-gradient(90deg, rgba(230, 238, 242, 0.035) 0 1px, transparent 1px 90px);
+}
+
+.tiktok-player-frame {
+  aspect-ratio: 9 / 16;
+  max-height: 650px;
+  background: #050606;
+}
+
+.tiktok-player-frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.tiktok-asset-meta {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.tiktok-asset-meta strong,
+.tiktok-asset-meta span,
+.tiktok-asset-meta a {
+  overflow-wrap: anywhere;
+}
+
+.tiktok-asset-meta strong {
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.tiktok-asset-meta span {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tiktok-asset-meta a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  color: var(--cyan);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.tiktok-asset-meta a i {
+  width: 16px;
+  height: 8px;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  transform: skewX(28deg);
+}
+
+.member-tiktok-panel {
+  grid-column: 1 / -1;
+  padding: 24px;
+  border: 1px solid rgba(230, 238, 242, 0.13);
+  background: rgba(5, 8, 9, 0.72);
+}
+
+.member-tiktok-panel .tiktok-asset-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.member-tiktok-panel .asset-heading h2 {
+  font-size: clamp(1.8rem, 3vw, 3.6rem);
+}
+
 .section-shell {
   overflow-x: hidden;
   overflow-y: visible;
@@ -4177,6 +4278,15 @@ img {
 
   .stage-gallery {
     grid-template-columns: 1fr;
+  }
+
+  .tiktok-asset-grid,
+  .member-tiktok-panel .tiktok-asset-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .member-tiktok-panel {
+    padding: 16px;
   }
 
   .member-portrait-large {

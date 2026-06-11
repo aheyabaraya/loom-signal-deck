@@ -3,6 +3,7 @@ import type { MemberArchive } from "../data/media";
 import type { Member } from "../data/members";
 import { rootSignalTrack } from "../data/tracks";
 import { SiteHeader } from "./SiteHeader";
+import { TikTokAssetGrid } from "./TikTokAssetGrid";
 
 type MemberProfilePageProps = {
   archive?: MemberArchive;
@@ -93,6 +94,12 @@ export function MemberProfilePage({ archive, member }: MemberProfilePageProps) {
           ))}
         </div>
       </section>
+
+      <TikTokAssetGrid
+        className="asset-section member-tiktok-section"
+        memberCode={member.code}
+        memberName={member.name}
+      />
     </main>
   );
 }

@@ -16,6 +16,7 @@ import {
 } from "../data/trackVotes";
 import { latestTracks, tracks } from "../data/tracks";
 import { SiteHeader } from "./SiteHeader";
+import { TikTokAssetGrid } from "./TikTokAssetGrid";
 
 type NextTrackVoteState = {
   brief: string;
@@ -318,6 +319,12 @@ export function MembersArchivePage() {
             ))}
           </div>
         </section>
+
+        <TikTokAssetGrid
+          className="member-tiktok-panel"
+          memberCode={selectedMember.code}
+          memberName={selectedMember.name}
+        />
       </section>
     </SectionShell>
   );
