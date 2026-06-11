@@ -56,10 +56,10 @@ export function MemberProfilePage({ archive, member }: MemberProfilePageProps) {
             </div>
           </dl>
           <div className="cta-row">
-            <a className="button primary" href="/archive#members">
+            <a className="button primary" href="/members">
               Member Map <i />
             </a>
-            <a className="button secondary" href="/archive#tracks">
+            <a className="button secondary" href="/track">
               Track <i />
             </a>
           </div>

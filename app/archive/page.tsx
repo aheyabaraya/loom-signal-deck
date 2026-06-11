@@ -1,5 +1,5 @@
-import { ArchiveConsole } from "../../components/ArchiveConsole";
+import { ArchiveOverviewPage } from "../../components/ArchiveSectionPages";
 
 export default function ArchivePage() {
-  return <ArchiveConsole />;
+  return <ArchiveOverviewPage />;
 }

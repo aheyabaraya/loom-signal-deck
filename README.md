@@ -6,9 +6,10 @@ routes, and interactions into maintainable app structure.
 
 ## Files
 
-- `app/`: Next routes for the home entry, archive deck, vote entry, and member detail URLs.
+- `app/`: Next routes for home, archive index, members, story, track, CF, vote, and member detail URLs.
 - `components/SignalDeck.tsx`: home signal deck, member switching, and vote modal state.
-- `components/ArchiveConsole.tsx`: archive console for the official track, storyboards, member boards, and member-filtered stage cuts.
+- `components/ArchiveSectionPages.tsx`: separated archive section pages with focused member, story, track, and CF views.
+- `components/ArchiveConsole.tsx`: legacy archive console retained for reference.
 - `components/MemberProfilePage.tsx`: dedicated member profile page with portrait, identity board, and member-scoped stage cuts.
 - `components/TrackVideo.tsx`: reusable YouTube embed block for official track videos.
 - `data/members.ts`: member data, image paths, accents, map positions, and vote options.
@@ -35,7 +36,7 @@ routes, and interactions into maintainable app structure.
 - Each member needs `code`, `name`, `word`, `identity`, `accent`, `position`, `role`, `image`, `votePrompt`, and `voteOptions`.
 - The circular map position is controlled by `position.x` and `position.y`.
 - The right panel and member page link are updated from React state in `SignalDeck`.
-- Public CTAs route to archive, member pages, Track, and the local Harne Vote prototype. No database or public vote collection is connected.
+- Public CTAs route to archive, members, story, track, member pages, and the local Harne Vote prototype. No database or public vote collection is connected.
 - `Root Signal` is embedded from YouTube ID `DUyCAFHZ7X0`.
 - `data/mediaExperience.ts` is the planned sync layer for member-click media updates: selected member -> video cue, profile image, board image, storyboard set, and stage cut ids.
 - Member portraits, character boards, storyboards, and stage cuts are committed as web-ready assets under `public/assets/**`.

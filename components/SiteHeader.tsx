@@ -1,4 +1,4 @@
-export type SiteHeaderActive = "home" | "archive" | "member" | "vote";
+export type SiteHeaderActive = "home" | "archive" | "members" | "story" | "track" | "cf" | "member" | "vote";
 
 type SiteHeaderProps = {
   active?: SiteHeaderActive;
@@ -17,10 +17,18 @@ export function SiteHeader({ active = "home" }: SiteHeaderProps) {
         <a aria-current={active === "archive" ? "page" : undefined} href="/archive">
           Archive
         </a>
-        <a href="/archive#members">Members</a>
-        <a href="/archive#storyboard">Story</a>
-        <a href="/archive#tracks">Track</a>
-        <a href="/archive#cf">CF</a>
+        <a aria-current={active === "members" ? "page" : undefined} href="/members">
+          Members
+        </a>
+        <a aria-current={active === "story" ? "page" : undefined} href="/story">
+          Story
+        </a>
+        <a aria-current={active === "track" ? "page" : undefined} href="/track">
+          Track
+        </a>
+        <a aria-current={active === "cf" ? "page" : undefined} href="/cf">
+          CF
+        </a>
         <a aria-current={active === "vote" ? "page" : undefined} href="/vote">
           Vote
         </a>
