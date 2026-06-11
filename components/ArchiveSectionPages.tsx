@@ -25,6 +25,115 @@ type NextTrackVoteState = {
 const nextTrackVoteStorageKey = "loom-next-track-vote-v1";
 const nextTrackBriefPlaceholder =
   "Paste the next album theme, song title, hook line, or rough track mood.";
+const contactSheetBasePath = "/assets/tracks/code-root-signal/contact-sheets";
+
+type ContactSheet = {
+  image: string;
+  label: string;
+  title: string;
+};
+
+const beatContactSheetFiles = [
+  "beat-03-b03-bassline-walk.webp",
+  "beat-09-b09-set-the-motion.webp",
+  "beat-10-b10-let-it-rise.webp",
+  "beat-11-b11-one-more-step-ignition.webp",
+  "beat-12-b12-turn-before-speak.webp",
+  "beat-13-b13-low-key-high-control-1.webp",
+  "beat-14-b14-click-hush-roll-1.webp",
+  "beat-15-b15-whole-room-turn-1.webp",
+  "beat-16-b16-low-roll-floor-talks.webp",
+  "beat-17-b17-light-pop-bounce-1.webp",
+  "beat-18-b18-la-da-false-stop.webp",
+  "beat-19-b19-back-to-line-reset.webp",
+  "beat-20-b20-check-the-line.webp",
+  "beat-21-b21-clean-attack-return.webp",
+  "beat-22-b22-smooth-move.webp",
+  "beat-23-b23-circle-handoff.webp",
+  "beat-24-b24-set-the-motion-2.webp",
+  "beat-25-b25-let-it-rise-2.webp",
+  "beat-26-b26-before-speak-eye-turn.webp",
+  "beat-27-b27-second-lift-ignition.webp",
+  "beat-28-b28-high-control-return.webp",
+  "beat-29-b29-click-hush-return.webp",
+  "beat-30-b30-whole-room-turn-2.webp",
+  "beat-31-b31-low-roll-repeat-2.webp",
+  "beat-32-b32-floor-talks-metal.webp",
+  "beat-33-b33-make-it-pop-memory.webp",
+  "beat-34-b34-lights-go-quiet.webp",
+  "beat-35-b35-motion-remains.webp",
+  "beat-36-b36-fingertip-pulls-closer.webp",
+  "beat-37-b37-small-sound-still-heard.webp",
+  "beat-38-b38-final-high-control.webp",
+  "beat-39-b39-final-click-hush.webp",
+  "beat-40-b40-final-room-turn.webp",
+  "beat-41-b41-final-low-seal.webp"
+];
+
+const storyboardContactSheets: ContactSheet[] = [
+  {
+    image: `${contactSheetBasePath}/storyboards/storyboard-v2-sheet-01.webp`,
+    label: "Storyboard",
+    title: "Sheet 01"
+  },
+  {
+    image: `${contactSheetBasePath}/storyboards/storyboard-v2-sheet-02.webp`,
+    label: "Storyboard",
+    title: "Sheet 02"
+  },
+  {
+    image: `${contactSheetBasePath}/storyboards/storyboard-v2-sheet-03.webp`,
+    label: "Storyboard",
+    title: "Sheet 03"
+  },
+  {
+    image: `${contactSheetBasePath}/storyboards/storyboard-v2-sheet-04.webp`,
+    label: "Storyboard",
+    title: "Sheet 04"
+  },
+  {
+    image: `${contactSheetBasePath}/storyboards/airport-wardrobe-storyboard.webp`,
+    label: "Contact",
+    title: "Airport Wardrobe Storyboard"
+  },
+  {
+    image: `${contactSheetBasePath}/storyboards/airport-wardrobe-lock.webp`,
+    label: "Contact",
+    title: "Airport Wardrobe Lock"
+  },
+  {
+    image: `${contactSheetBasePath}/storyboards/solo-group-hook.webp`,
+    label: "Contact",
+    title: "Solo Group Hook"
+  },
+  {
+    image: `${contactSheetBasePath}/storyboards/solo-group-hook-strict-wide.webp`,
+    label: "Contact",
+    title: "Solo Group Hook Wide"
+  }
+];
+
+function titleCaseSlug(slug: string) {
+  return slug
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function getBeatContactSheet(fileName: string): ContactSheet {
+  const parts = fileName.replace(".webp", "").split("-");
+  const beatNumber = parts[1] ?? "00";
+  const beatCode = parts[2] ?? "beat";
+  const titleParts = parts.slice(3);
+
+  return {
+    image: `${contactSheetBasePath}/beats/${fileName}`,
+    label: `Beat ${beatNumber}`,
+    title: titleCaseSlug(titleParts.length > 0 ? titleParts.join("-") : beatCode)
+  };
+}
+
+const beatContactSheets = beatContactSheetFiles.map(getBeatContactSheet);
 
 function getMemberArchive(code: MemberCode): MemberArchive {
   return memberArchives.find((archive) => archive.memberCode === code) ?? memberArchives[0];
@@ -214,6 +323,36 @@ export function MembersArchivePage() {
   );
 }
 
+function StoryContactSheetGallery({
+  eyebrow,
+  sheets,
+  title
+}: {
+  eyebrow: string;
+  sheets: ContactSheet[];
+  title: string;
+}) {
+  return (
+    <section className="story-contact-section" aria-label={title}>
+      <div className="section-block-heading">
+        <p>{eyebrow}</p>
+        <h2>{title}</h2>
+      </div>
+      <div className="story-contact-grid">
+        {sheets.map((sheet) => (
+          <article className="story-contact-card" key={sheet.image}>
+            <img src={sheet.image} alt={`${sheet.label} ${sheet.title} contact sheet`} loading="lazy" />
+            <div>
+              <span>{sheet.label}</span>
+              <strong>{sheet.title}</strong>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export function StoryArchivePage() {
   const [storyIndex, setStoryIndex] = useState(0);
   const selectedImage = storyboardImages[storyIndex];
@@ -245,6 +384,12 @@ export function StoryArchivePage() {
           ))}
         </aside>
       </section>
+      <StoryContactSheetGallery eyebrow="Beat By Beat" sheets={beatContactSheets} title="Beat Contact Sheets" />
+      <StoryContactSheetGallery
+        eyebrow="Storyboard"
+        sheets={storyboardContactSheets}
+        title="Storyboard Contact Sheets"
+      />
     </SectionShell>
   );
 }

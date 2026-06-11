@@ -14,23 +14,23 @@ export function SiteHeader({ active = "home" }: SiteHeaderProps) {
         <a aria-current={active === "home" ? "page" : undefined} href="/">
           Home
         </a>
-        <a aria-current={active === "archive" ? "page" : undefined} href="/archive">
-          Archive
-        </a>
         <a aria-current={active === "members" ? "page" : undefined} href="/members">
           Members
         </a>
-        <a aria-current={active === "story" ? "page" : undefined} href="/story">
-          Story
-        </a>
         <a aria-current={active === "track" ? "page" : undefined} href="/track">
           Track
+        </a>
+        <a aria-current={active === "story" ? "page" : undefined} href="/story">
+          Story
         </a>
         <a aria-current={active === "cf" ? "page" : undefined} href="/cf">
           CF
         </a>
         <a aria-current={active === "vote" ? "page" : undefined} href="/vote">
           Vote
+        </a>
+        <a aria-current={active === "archive" ? "page" : undefined} href="/archive">
+          Archive
         </a>
       </nav>
       <div className="harne">

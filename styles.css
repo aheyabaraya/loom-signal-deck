@@ -2787,6 +2787,76 @@ img {
   filter: saturate(0.82) contrast(1.06) brightness(0.82);
 }
 
+.story-contact-section {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding: 18px;
+  border: 1px solid rgba(230, 238, 242, 0.12);
+  background:
+    linear-gradient(180deg, rgba(230, 238, 242, 0.035), transparent 42%),
+    rgba(1, 2, 3, 0.64);
+}
+
+.story-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.story-contact-card {
+  display: grid;
+  grid-template-rows: auto minmax(70px, auto);
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(230, 238, 242, 0.11);
+  background: rgba(0, 0, 0, 0.34);
+}
+
+.story-contact-card img {
+  width: 100%;
+  max-height: 360px;
+  aspect-ratio: 4 / 3;
+  padding: 10px;
+  object-fit: contain;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(145, 199, 220, 0.06), transparent 58%),
+    rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(230, 238, 242, 0.08);
+}
+
+.story-contact-card div {
+  display: grid;
+  gap: 8px;
+  align-content: center;
+  min-width: 0;
+  padding: 14px;
+}
+
+.story-contact-card span,
+.story-contact-card strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.story-contact-card span {
+  color: var(--cyan);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.story-contact-card strong {
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
 .track-page-layout {
   grid-template-columns: minmax(300px, 0.34fr) minmax(0, 0.66fr);
   align-items: center;
@@ -3909,6 +3979,14 @@ img {
     aspect-ratio: 16 / 10;
   }
 
+  .story-contact-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .story-contact-card img {
+    max-height: 320px;
+  }
+
   .track-page-layout,
   .track-vote-panel {
     grid-template-columns: 1fr;
@@ -4247,6 +4325,18 @@ img {
 
   .section-block-heading h2 {
     text-align: left;
+  }
+
+  .story-contact-section {
+    padding: 14px;
+  }
+
+  .story-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .story-contact-card img {
+    max-height: 300px;
   }
 
   .track-page-layout,
