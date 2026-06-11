@@ -9,7 +9,9 @@ import {
   type MemberCode,
   type VoteOption
 } from "../data/members";
+import { latestTracks } from "../data/tracks";
 import { SiteHeader, type SiteHeaderActive } from "./SiteHeader";
+import { TrackVideo } from "./TrackVideo";
 
 type SignalDeckProps = {
   headerActive?: SiteHeaderActive;
@@ -249,6 +251,45 @@ export function SignalDeck({
               </button>
             </div>
           </aside>
+        </section>
+
+        <section className="home-member-strip" aria-label="Member face lineup">
+          <div className="home-section-label">
+            <p>Member Faces</p>
+            <h2>Saeyan opens first</h2>
+          </div>
+          <div className="home-face-grid">
+            {members.map((member) => {
+              const active = member.code === selectedMember.code;
+
+              return (
+                <button
+                  aria-pressed={active}
+                  className={active ? "is-active" : undefined}
+                  key={member.code}
+                  onClick={() => selectMember(member)}
+                  style={{ "--node-accent": member.accent } as React.CSSProperties}
+                  type="button"
+                >
+                  <img loading="lazy" src={member.image} alt={`${member.name} face portrait`} />
+                  <span>{member.code}</span>
+                  <strong>{member.name}</strong>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="home-latest-tracks" id="tracks" aria-label="Latest track videos">
+          <div className="home-section-label">
+            <p>Latest Tracks</p>
+            <h2>Official embeds</h2>
+          </div>
+          <div className="home-track-stack">
+            {latestTracks.map((track) => (
+              <TrackVideo key={track.id} track={track} variant="home" />
+            ))}
+          </div>
         </section>
 
       </main>

@@ -60,7 +60,7 @@ export function MemberProfilePage({ archive, member }: MemberProfilePageProps) {
               Member Map <i />
             </a>
             <a className="button secondary" href="/archive#tracks">
-              Track 01 <i />
+              Track <i />
             </a>
           </div>
         </div>

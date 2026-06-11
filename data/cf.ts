@@ -19,15 +19,15 @@ export type CfCampaign = {
 
 export const cfCampaigns: CfCampaign[] = [
   {
-    id: "CF_MUSINSA_MUJINJANG_AI_AD_001",
+    id: "CF_FARE_GATE_STYLE_LOOP_001",
     title: "Fare-Gate Barcode Loop",
-    shortTitle: "Mujinjang Loop",
+    shortTitle: "Fare-Gate Loop",
     status: "founder_review",
     duration: "24s",
     memberCodes: ["M09"],
     productLane: "Fashion / AI ad",
     objective: "Brand lift",
-    memoryLine: "개찰구 안쪽, 무진장이 열린다.",
+    memoryLine: "개찰구 안쪽, 숨겨진 스타일 루프가 열린다.",
     story:
       "Aria inserts an orange barcode ticket, enters a hidden fare-gate fashion world, triggers an outfit switch, and exits transformed.",
     viewerRead:

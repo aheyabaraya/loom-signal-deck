@@ -18,8 +18,8 @@ export function SiteHeader({ active = "home" }: SiteHeaderProps) {
           Archive
         </a>
         <a href="/archive#members">Members</a>
-        <a href="/archive#media">Media</a>
-        <a href="/archive#tracks">Track 01</a>
+        <a href="/archive#storyboard">Story</a>
+        <a href="/archive#tracks">Track</a>
         <a href="/archive#cf">CF</a>
         <a aria-current={active === "vote" ? "page" : undefined} href="/vote">
           Vote

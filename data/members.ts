@@ -37,7 +37,7 @@ export type Member = {
   voteOptions: VoteOption[];
 };
 
-export const defaultMemberCode: MemberCode = "M12";
+export const defaultMemberCode: MemberCode = "M01";
 
 export const members: Member[] = [
   {

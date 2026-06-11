@@ -9,7 +9,6 @@ export function TrackVideo({ track, variant = "archive" }: TrackVideoProps) {
   return (
     <section
       className={`track-showcase track-showcase-${variant}`}
-      id="tracks"
       aria-label={track.displayTitle}
     >
       <div className="track-copy">

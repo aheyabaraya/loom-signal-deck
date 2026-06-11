@@ -11,11 +11,11 @@ import {
   type StageCut
 } from "../data/media";
 import { defaultMemberCode, getMember, members, type MemberCode } from "../data/members";
-import { rootSignalTrack } from "../data/tracks";
 import {
   nextTrackVoteCandidates,
   type NextTrackVoteCandidate
 } from "../data/trackVotes";
+import { latestTracks, tracks } from "../data/tracks";
 import { SiteHeader } from "./SiteHeader";
 
 type ArchiveMode = "track" | "storyboard" | "members" | "stage" | "cf";
@@ -34,7 +34,7 @@ const archiveModes: Array<{
     id: "track",
     label: "Track",
     title: "Root Signal",
-    description: "Official Track 01 embed and launch context."
+    description: "Official track embed and short launch context."
   },
   {
     id: "storyboard",
@@ -96,7 +96,9 @@ export function ArchiveConsole() {
   const [mode, setMode] = useState<ArchiveMode>("members");
   const [selectedCode, setSelectedCode] = useState<MemberCode>(defaultMemberCode);
   const [selectedCfId, setSelectedCfId] = useState(cfCampaigns[0].id);
+  const [selectedTrackId, setSelectedTrackId] = useState(tracks[0].id);
   const [storyIndex, setStoryIndex] = useState(0);
+  const [memberRailOpen, setMemberRailOpen] = useState(true);
   const [nextTrackBrief, setNextTrackBrief] = useState("");
   const [nextTrackVoteId, setNextTrackVoteId] = useState<string | undefined>();
   const [selectedStageId, setSelectedStageId] = useState(() => {
@@ -109,6 +111,7 @@ export function ArchiveConsole() {
   const selectedBoard = useMemo(() => getMemberBoard(selectedCode), [selectedCode]);
   const memberStageCuts = selectedArchive.stageCuts;
   const selectedCf = cfCampaigns.find((campaign) => campaign.id === selectedCfId) ?? cfCampaigns[0];
+  const selectedTrack = tracks.find((track) => track.id === selectedTrackId) ?? tracks[0];
   const selectedStage =
     memberStageCuts.find((cut) => cut.id === selectedStageId) ?? memberStageCuts[0] ?? stageCuts[0];
   const currentMode = archiveModes.find((item) => item.id === mode) ?? archiveModes[0];
@@ -123,12 +126,17 @@ export function ArchiveConsole() {
         setMode("track");
       }
 
-      if (hash === "media") {
+      if (hash === "storyboard" || hash === "story" || hash === "media") {
         setMode("storyboard");
       }
 
       if (hash === "members") {
         setMode("members");
+        setMemberRailOpen(true);
+      }
+
+      if (hash === "stage") {
+        setMode("stage");
       }
 
       if (hash === "cf") {
@@ -184,6 +192,10 @@ export function ArchiveConsole() {
   function selectMode(nextMode: ArchiveMode) {
     setMode(nextMode);
 
+    if (nextMode === "members") {
+      setMemberRailOpen(true);
+    }
+
     if (nextMode === "cf") {
       selectCfCampaign(selectedCf.id);
     }
@@ -219,27 +231,57 @@ export function ArchiveConsole() {
         </div>
 
         <div className="archive-command-grid">
-          <nav className="archive-mode-tabs" aria-label="Archive mode">
-            {archiveModes.map((item) => (
+          <aside className={`archive-left-rail${memberRailOpen ? " is-open" : " is-collapsed"}`}>
+            <nav className="archive-mode-tabs" aria-label="Archive mode">
+              {archiveModes.map((item) => (
+                <button
+                  aria-pressed={mode === item.id}
+                  className={mode === item.id ? "is-active" : undefined}
+                  key={item.id}
+                  onClick={() => selectMode(item.id)}
+                  type="button"
+                >
+                  <span>{item.label}</span>
+                  <strong>{item.title}</strong>
+                </button>
+              ))}
+            </nav>
+
+            <section className="archive-member-sidebar" id="members" aria-label="Member archive selector">
               <button
-                aria-pressed={mode === item.id}
-                className={mode === item.id ? "is-active" : undefined}
-                key={item.id}
-                onClick={() => selectMode(item.id)}
+                aria-expanded={memberRailOpen}
+                className="archive-member-toggle"
+                onClick={() => setMemberRailOpen((open) => !open)}
                 type="button"
               >
-                <span>{item.label}</span>
-                <strong>{item.title}</strong>
+                <span>Members</span>
+                <strong>{memberRailOpen ? "Collapse" : selectedMember.code}</strong>
               </button>
-            ))}
-          </nav>
+              <div className="archive-member-sidebar-list">
+                {members.map((member) => (
+                  <button
+                    aria-pressed={member.code === selectedCode}
+                    className={member.code === selectedCode ? "is-active" : undefined}
+                    key={member.code}
+                    onClick={() => selectMember(member.code)}
+                    style={{ "--node-accent": member.accent } as CSSProperties}
+                    type="button"
+                  >
+                    <img src={member.image} alt="" />
+                    <span>{member.code}</span>
+                    <strong>{member.name}</strong>
+                  </button>
+                ))}
+              </div>
+            </section>
+          </aside>
 
           <section className={`archive-viewer archive-viewer-${mode}`} aria-live="polite">
             <div className="archive-frame">
               {mode === "track" ? (
                 <iframe
-                  src={rootSignalTrack.embedUrl}
-                  title={rootSignalTrack.displayTitle}
+                  src={selectedTrack.embedUrl}
+                  title={selectedTrack.displayTitle}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 />
@@ -289,7 +331,7 @@ export function ArchiveConsole() {
             <div className="archive-viewer-caption">
               <p>{currentMode.description}</p>
               <h2>
-                {mode === "track" ? rootSignalTrack.displayTitle : null}
+                {mode === "track" ? selectedTrack.displayTitle : null}
                 {mode === "storyboard" ? `Storyboard ${String(storyIndex + 1).padStart(2, "0")}` : null}
                 {mode === "members" ? `${selectedMember.code} ${selectedMember.name}` : null}
                 {mode === "stage" ? selectedStage.subtitle : null}
@@ -387,30 +429,7 @@ export function ArchiveConsole() {
         ) : null}
       </section>
 
-      <section className="archive-member-dial" id="members" aria-label="Member archive selector">
-        <div className="archive-section-label">
-          <p>Signal Dial</p>
-          <h2>Choose member</h2>
-        </div>
-        <div className="archive-member-rail">
-          {members.map((member) => (
-            <button
-              aria-pressed={member.code === selectedCode}
-              className={member.code === selectedCode ? "is-active" : undefined}
-              key={member.code}
-              onClick={() => selectMember(member.code)}
-              style={{ "--node-accent": member.accent } as CSSProperties}
-              type="button"
-            >
-              <img src={member.image} alt="" />
-              <span>{member.code}</span>
-              <strong>{member.name}</strong>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="archive-media-rack" id="media" aria-label="Focused archive media rack">
+      <section className="archive-media-rack" id="archive-rack" aria-label="Focused archive media rack">
         <div className="archive-section-label">
           <p>Focused Rack</p>
           <h2>{currentMode.title}</h2>
@@ -418,15 +437,17 @@ export function ArchiveConsole() {
 
         <div className="archive-rack-row">
           {mode === "track"
-            ? stageCuts.slice(0, 8).map((cut) => (
-                <button key={cut.id} onClick={() => {
-                  selectMember(cut.memberCodes[0]);
-                  setSelectedStageId(cut.id);
-                  setMode("stage");
-                }} type="button">
-                  <img src={cut.image} alt={getStageTitle(cut)} />
-                  <span>{cut.sourceType}</span>
-                  <strong>{cut.subtitle}</strong>
+            ? latestTracks.map((track) => (
+                <button
+                  aria-pressed={track.id === selectedTrack.id}
+                  className={`archive-track-card${track.id === selectedTrack.id ? " is-active" : ""}`}
+                  key={track.id}
+                  onClick={() => setSelectedTrackId(track.id)}
+                  type="button"
+                >
+                  <span>{track.albumTitle}</span>
+                  <strong>{track.title}</strong>
+                  <small>{track.summary}</small>
                 </button>
               ))
             : null}

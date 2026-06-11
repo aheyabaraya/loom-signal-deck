@@ -8,9 +8,9 @@ routes, and interactions into maintainable app structure.
 
 - `app/`: Next routes for the home entry, archive deck, vote entry, and member detail URLs.
 - `components/SignalDeck.tsx`: home signal deck, member switching, and vote modal state.
-- `components/ArchiveConsole.tsx`: archive console for Track 01, storyboards, member boards, and member-filtered stage cuts.
+- `components/ArchiveConsole.tsx`: archive console for the official track, storyboards, member boards, and member-filtered stage cuts.
 - `components/MemberProfilePage.tsx`: dedicated member profile page with portrait, identity board, and member-scoped stage cuts.
-- `components/TrackVideo.tsx`: reusable YouTube embed block for `Loom Track 01 Root Signal`.
+- `components/TrackVideo.tsx`: reusable YouTube embed block for official track videos.
 - `data/members.ts`: member data, image paths, accents, map positions, and vote options.
 - `data/tracks.ts`: album/track metadata and official YouTube embed URLs.
 - `data/mediaExperience.ts`: member-to-media cue map for future synchronized media switching.
@@ -35,8 +35,8 @@ routes, and interactions into maintainable app structure.
 - Each member needs `code`, `name`, `word`, `identity`, `accent`, `position`, `role`, `image`, `votePrompt`, and `voteOptions`.
 - The circular map position is controlled by `position.x` and `position.y`.
 - The right panel and member page link are updated from React state in `SignalDeck`.
-- Public CTAs route to archive, member pages, Track 01, and the local Harne Vote prototype. No database or public vote collection is connected.
-- `Loom Track 01 Root Signal` is embedded from YouTube ID `DUyCAFHZ7X0`.
+- Public CTAs route to archive, member pages, Track, and the local Harne Vote prototype. No database or public vote collection is connected.
+- `Root Signal` is embedded from YouTube ID `DUyCAFHZ7X0`.
 - `data/mediaExperience.ts` is the planned sync layer for member-click media updates: selected member -> video cue, profile image, board image, storyboard set, and stage cut ids.
 - Member portraits, character boards, storyboards, and stage cuts are committed as web-ready assets under `public/assets/**`.
 - Album and track-specific stage cuts stay nested under `albums/code-root-signal/loom-full-code-root-signal/` instead of being mixed into base member assets.
