@@ -26,12 +26,26 @@ type NextTrackVoteState = {
 const nextTrackVoteStorageKey = "loom-next-track-vote-v1";
 const nextTrackBriefPlaceholder =
   "Paste the next album theme, song title, hook line, or rough track mood.";
-const contactSheetBasePath = "/assets/tracks/code-root-signal/contact-sheets";
+const rootSignalContactSheetBasePath = "/assets/tracks/code-root-signal/contact-sheets";
+const lowContactSheetBasePath = "/assets/tracks/low/contact-sheets";
 
 type ContactSheet = {
   image: string;
   label: string;
   title: string;
+};
+
+type ContactSheetGroup = {
+  eyebrow: string;
+  sheets: ContactSheet[];
+  title: string;
+};
+
+type TrackContactSheetGroup = {
+  groups: ContactSheetGroup[];
+  summary: string;
+  title: string;
+  trackLabel: string;
 };
 
 const beatContactSheetFiles = [
@@ -73,46 +87,82 @@ const beatContactSheetFiles = [
 
 const storyboardContactSheets: ContactSheet[] = [
   {
-    image: `${contactSheetBasePath}/storyboards/storyboard-v2-sheet-01.webp`,
+    image: `${rootSignalContactSheetBasePath}/storyboards/storyboard-v2-sheet-01.webp`,
     label: "Storyboard",
     title: "Sheet 01"
   },
   {
-    image: `${contactSheetBasePath}/storyboards/storyboard-v2-sheet-02.webp`,
+    image: `${rootSignalContactSheetBasePath}/storyboards/storyboard-v2-sheet-02.webp`,
     label: "Storyboard",
     title: "Sheet 02"
   },
   {
-    image: `${contactSheetBasePath}/storyboards/storyboard-v2-sheet-03.webp`,
+    image: `${rootSignalContactSheetBasePath}/storyboards/storyboard-v2-sheet-03.webp`,
     label: "Storyboard",
     title: "Sheet 03"
   },
   {
-    image: `${contactSheetBasePath}/storyboards/storyboard-v2-sheet-04.webp`,
+    image: `${rootSignalContactSheetBasePath}/storyboards/storyboard-v2-sheet-04.webp`,
     label: "Storyboard",
     title: "Sheet 04"
-  },
+  }
+];
+
+const lowStoryboardContactSheets: ContactSheet[] = [
   {
-    image: `${contactSheetBasePath}/storyboards/airport-wardrobe-storyboard.webp`,
-    label: "Contact",
+    image: `${lowContactSheetBasePath}/storyboards/airport-wardrobe-storyboard.webp`,
+    label: "LOW v6",
     title: "Airport Wardrobe Storyboard"
   },
   {
-    image: `${contactSheetBasePath}/storyboards/airport-wardrobe-lock.webp`,
-    label: "Contact",
+    image: `${lowContactSheetBasePath}/storyboards/airport-wardrobe-lock.webp`,
+    label: "LOW v6",
     title: "Airport Wardrobe Lock"
   },
   {
-    image: `${contactSheetBasePath}/storyboards/solo-group-hook.webp`,
-    label: "Contact",
+    image: `${lowContactSheetBasePath}/storyboards/solo-group-hook.webp`,
+    label: "LOW v7",
     title: "Solo Group Hook"
   },
   {
-    image: `${contactSheetBasePath}/storyboards/solo-group-hook-strict-wide.webp`,
-    label: "Contact",
+    image: `${lowContactSheetBasePath}/storyboards/solo-group-hook-strict-wide.webp`,
+    label: "LOW v7",
     title: "Solo Group Hook Wide"
   }
 ];
+
+const lowGroupedContactSheets: ContactSheet[] = [
+  {
+    image: `${lowContactSheetBasePath}/groups/low-duo-angle-change-two-cut-v1-all-24-founder-passed-contact-sheet.png`,
+    label: "LOW duo",
+    title: "Duo Angle Change 24"
+  },
+  {
+    image: `${lowContactSheetBasePath}/groups/low-active-5member-group-originals-overview.png`,
+    label: "LOW group",
+    title: "Active Five Member Originals"
+  },
+  {
+    image: `${lowContactSheetBasePath}/groups/low-previous-02b-keyframes-all-41-overview.png`,
+    label: "LOW 02B",
+    title: "Previous Keyframes All 41"
+  },
+  {
+    image: `${lowContactSheetBasePath}/groups/low-original-group-five-member-keyframes-overview.png`,
+    label: "LOW group",
+    title: "Original Five Member Keyframes"
+  }
+];
+
+const lowSectionContactSheets: ContactSheet[] = Array.from({ length: 15 }, (_, index) => {
+  const sectionCode = `S${String(index).padStart(2, "0")}`;
+
+  return {
+    image: `${lowContactSheetBasePath}/sections/low-latest-${sectionCode.toLowerCase()}-section-contact-sheet.png`,
+    label: "LOW section",
+    title: `${sectionCode} Latest Section`
+  };
+});
 
 function titleCaseSlug(slug: string) {
   return slug
@@ -128,13 +178,55 @@ function getBeatContactSheet(fileName: string): ContactSheet {
   const titleParts = parts.slice(3);
 
   return {
-    image: `${contactSheetBasePath}/beats/${fileName}`,
+    image: `${rootSignalContactSheetBasePath}/beats/${fileName}`,
     label: `Beat ${beatNumber}`,
     title: titleCaseSlug(titleParts.length > 0 ? titleParts.join("-") : beatCode)
   };
 }
 
 const beatContactSheets = beatContactSheetFiles.map(getBeatContactSheet);
+
+const trackContactSheetGroups: TrackContactSheetGroup[] = [
+  {
+    trackLabel: "Track 01",
+    title: "Root Signal",
+    summary: "Root Signal beat sheets and core storyboard boards grouped under the first track.",
+    groups: [
+      {
+        eyebrow: "Root Signal Beat",
+        title: "Beat Contact Sheets",
+        sheets: beatContactSheets
+      },
+      {
+        eyebrow: "Root Signal Storyboard",
+        title: "Storyboard Contact Sheets",
+        sheets: storyboardContactSheets
+      }
+    ]
+  },
+  {
+    trackLabel: "Track 02",
+    title: "LOW",
+    summary: "LOW storyboard boards, grouped source versions, and section-level contact sheets.",
+    groups: [
+      {
+        eyebrow: "LOW Storyboard",
+        title: "Storyboard Contact Sheets",
+        sheets: lowStoryboardContactSheets
+      },
+      {
+        eyebrow: "LOW Grouped Versions",
+        title: "Grouped Contact Sheets",
+        sheets: lowGroupedContactSheets
+      },
+      {
+        eyebrow: "LOW Sections",
+        title: "Latest Section Contact Sheets",
+        sheets: lowSectionContactSheets
+      }
+    ]
+  }
+];
 
 function getMemberArchive(code: MemberCode): MemberArchive {
   return memberArchives.find((archive) => archive.memberCode === code) ?? memberArchives[0];
@@ -360,6 +452,28 @@ function StoryContactSheetGallery({
   );
 }
 
+function TrackContactSheetSection({ track }: { track: TrackContactSheetGroup }) {
+  return (
+    <section className="story-track-contact-section" aria-label={`${track.trackLabel} ${track.title} contact sheets`}>
+      <div className="story-track-contact-heading">
+        <p>{track.trackLabel}</p>
+        <div>
+          <h2>{track.title}</h2>
+          <span>{track.summary}</span>
+        </div>
+      </div>
+      {track.groups.map((group) => (
+        <StoryContactSheetGallery
+          eyebrow={group.eyebrow}
+          key={`${track.trackLabel}-${group.title}`}
+          sheets={group.sheets}
+          title={group.title}
+        />
+      ))}
+    </section>
+  );
+}
+
 export function StoryArchivePage() {
   const [storyIndex, setStoryIndex] = useState(0);
   const selectedImage = storyboardImages[storyIndex];
@@ -391,12 +505,9 @@ export function StoryArchivePage() {
           ))}
         </aside>
       </section>
-      <StoryContactSheetGallery eyebrow="Beat By Beat" sheets={beatContactSheets} title="Beat Contact Sheets" />
-      <StoryContactSheetGallery
-        eyebrow="Storyboard"
-        sheets={storyboardContactSheets}
-        title="Storyboard Contact Sheets"
-      />
+      {trackContactSheetGroups.map((track) => (
+        <TrackContactSheetSection key={track.trackLabel} track={track} />
+      ))}
     </SectionShell>
   );
 }
