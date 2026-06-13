@@ -902,6 +902,34 @@ img {
   gap: 18px;
 }
 
+.home-member-tiktoks {
+  display: grid;
+  gap: clamp(18px, 2.4vw, 28px);
+  margin-top: clamp(30px, 4vw, 52px);
+  padding-top: clamp(24px, 3vw, 38px);
+  border-top: 1px solid rgba(230, 238, 242, 0.12);
+}
+
+.home-tiktok-label {
+  margin-bottom: 0;
+}
+
+.home-member-tiktok-stack {
+  display: grid;
+  gap: clamp(18px, 2.4vw, 30px);
+}
+
+.home-member-tiktok-panel {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 82% 18%, rgba(145, 199, 220, 0.09), transparent 38%),
+    rgba(5, 8, 9, 0.72);
+}
+
+.home-member-tiktok-panel .tiktok-asset-grid {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
 .track-showcase.track-showcase-home {
   margin: 0;
   padding: 26px;

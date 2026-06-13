@@ -10,7 +10,9 @@ import {
   type VoteOption
 } from "../data/members";
 import { latestTracks } from "../data/tracks";
+import { tiktokMemberAssets } from "../data/tiktokAssets";
 import { SiteHeader, type SiteHeaderActive } from "./SiteHeader";
+import { TikTokAssetGrid } from "./TikTokAssetGrid";
 import { TrackVideo } from "./TrackVideo";
 
 type SignalDeckProps = {
@@ -21,6 +23,8 @@ type SignalDeckProps = {
 
 const innerOrbitCodes: MemberCode[] = ["M01", "M09", "M07", "M05"];
 const outerOrbitCodes: MemberCode[] = ["M02", "M03", "M11", "M13", "M10", "M12", "M08", "M06", "M04"];
+const tiktokMemberCodes = new Set(tiktokMemberAssets.map((asset) => asset.memberCode));
+const membersWithTikTokAssets = members.filter((member) => tiktokMemberCodes.has(member.code));
 
 function getOrbitPath(codes: MemberCode[]) {
   const orbitMembers = codes.map((code) => getMember(code));
@@ -289,6 +293,22 @@ export function SignalDeck({
             {latestTracks.map((track) => (
               <TrackVideo key={track.id} track={track} variant="home" />
             ))}
+          </div>
+          <div className="home-member-tiktoks" aria-label="Member TikTok dance video embeds">
+            <div className="home-section-label home-tiktok-label">
+              <p>TikTok Embeds</p>
+              <h2>Member dance clips</h2>
+            </div>
+            <div className="home-member-tiktok-stack">
+              {membersWithTikTokAssets.map((member) => (
+                <TikTokAssetGrid
+                  className="member-tiktok-panel home-member-tiktok-panel"
+                  key={member.code}
+                  memberCode={member.code}
+                  memberName={member.name}
+                />
+              ))}
+            </div>
           </div>
         </section>
 
