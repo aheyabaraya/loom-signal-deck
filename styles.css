@@ -932,18 +932,33 @@ img {
 
 .home-member-tiktok-stack {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: clamp(18px, 2.4vw, 30px);
+  align-items: stretch;
 }
 
 .home-member-tiktok-panel {
+  grid-column: auto;
   margin: 0;
+  padding: 0;
+  overflow: hidden;
   background:
     radial-gradient(ellipse at 82% 18%, rgba(145, 199, 220, 0.09), transparent 38%),
     rgba(5, 8, 9, 0.72);
 }
 
 .home-member-tiktok-panel .tiktok-asset-grid {
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: 1fr;
+  height: 100%;
+}
+
+.home-member-tiktok-panel.tiktok-asset-card {
+  height: 100%;
+}
+
+.home-member-tiktok-panel .tiktok-player-frame {
+  aspect-ratio: 4 / 5;
+  max-height: none;
 }
 
 .track-showcase.track-showcase-home {
@@ -2470,6 +2485,9 @@ img {
 }
 
 .tiktok-asset-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
   overflow: hidden;
   border: 1px solid rgba(230, 238, 242, 0.16);
   background:
@@ -2478,20 +2496,125 @@ img {
 }
 
 .tiktok-player-frame {
+  position: relative;
   aspect-ratio: 9 / 16;
+  min-height: 260px;
   max-height: 650px;
+  overflow: hidden;
   background: #050606;
 }
 
 .tiktok-player-frame iframe {
   display: block;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
 }
 
+.tiktok-player-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: end;
+  justify-items: start;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  padding: clamp(14px, 2vw, 20px);
+  border: 0;
+  color: var(--text);
+  text-align: left;
+  background:
+    radial-gradient(ellipse at 72% 18%, rgba(255, 49, 89, 0.16), transparent 34%),
+    linear-gradient(135deg, rgba(36, 238, 255, 0.12), transparent 42%),
+    repeating-linear-gradient(90deg, rgba(230, 238, 242, 0.045) 0 1px, transparent 1px 64px),
+    #050606;
+  cursor: pointer;
+}
+
+.tiktok-player-placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(230, 238, 242, 0.16);
+  pointer-events: none;
+}
+
+.tiktok-player-placeholder::after {
+  content: "";
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--cyan);
+  border-left-color: var(--pink);
+  border-radius: 50%;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.tiktok-player-placeholder:hover,
+.tiktok-player-placeholder:focus-visible {
+  background:
+    radial-gradient(ellipse at 72% 18%, rgba(255, 49, 89, 0.22), transparent 34%),
+    linear-gradient(135deg, rgba(36, 238, 255, 0.18), transparent 42%),
+    repeating-linear-gradient(90deg, rgba(230, 238, 242, 0.055) 0 1px, transparent 1px 64px),
+    #06090a;
+}
+
+.tiktok-player-placeholder span,
+.tiktok-player-placeholder strong,
+.tiktok-player-placeholder em,
+.tiktok-player-placeholder b {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.tiktok-player-placeholder span {
+  color: var(--cyan);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tiktok-player-placeholder strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  font-weight: 400;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.tiktok-player-placeholder em {
+  color: rgba(230, 238, 242, 0.66);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.tiktok-player-placeholder b {
+  margin-top: 4px;
+  padding: 7px 9px;
+  color: #020303;
+  background: var(--text);
+  font-size: 0.62rem;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .tiktok-asset-meta {
   display: grid;
+  flex: 1;
+  align-content: start;
   gap: 8px;
   padding: 14px;
 }
@@ -2517,6 +2640,12 @@ img {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.tiktok-asset-meta .tiktok-member-label {
+  color: var(--cyan);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
 }
 
 .tiktok-asset-meta a {
@@ -2553,6 +2682,28 @@ img {
 
 .member-tiktok-panel .asset-heading h2 {
   font-size: clamp(1.8rem, 3vw, 3.6rem);
+}
+
+.tiktok-asset-section.is-compact .tiktok-asset-meta {
+  gap: 7px;
+  padding: 12px;
+}
+
+.tiktok-asset-section.is-compact .tiktok-player-placeholder strong {
+  font-size: clamp(1.55rem, 2.4vw, 2.25rem);
+}
+
+.home-member-tiktok-panel.member-tiktok-panel {
+  grid-column: auto;
+  padding: 0;
+}
+
+.home-member-tiktok-panel.member-tiktok-panel .tiktok-asset-grid {
+  grid-template-columns: 1fr;
+}
+
+.home-member-tiktok-panel.member-tiktok-panel .tiktok-player-placeholder strong {
+  font-size: clamp(1.55rem, 2.4vw, 2.25rem);
 }
 
 .section-shell {

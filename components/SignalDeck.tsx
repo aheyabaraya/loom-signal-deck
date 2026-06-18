@@ -17,7 +17,7 @@ import {
 } from "../data/trackVotes";
 import { tiktokMemberAssets } from "../data/tiktokAssets";
 import { SiteHeader, type SiteHeaderActive } from "./SiteHeader";
-import { TikTokAssetGrid } from "./TikTokAssetGrid";
+import { TikTokAssetGrid, TikTokFeaturedGrid } from "./TikTokAssetGrid";
 import { TrackVideo } from "./TrackVideo";
 
 type SignalDeckProps = {
@@ -578,21 +578,12 @@ export function SignalDeck({
               <TrackVideo key={track.id} track={track} variant="home" />
             ))}
           </div>
-          <div className="home-member-tiktoks" aria-label="Member TikTok dance video embeds">
+          <div className="home-member-tiktoks" aria-label="Featured member TikTok clips">
             <div className="home-section-label home-tiktok-label">
-              <p>TikTok Embeds</p>
-              <h2>Member dance clips</h2>
+              <p>TikTok Clips</p>
+              <h2>Featured member clips</h2>
             </div>
-            <div className="home-member-tiktok-stack">
-              {membersWithTikTokAssets.map((member) => (
-                <TikTokAssetGrid
-                  className="member-tiktok-panel home-member-tiktok-panel"
-                  key={member.code}
-                  memberCode={member.code}
-                  memberName={member.name}
-                />
-              ))}
-            </div>
+            <TikTokFeaturedGrid className="home-member-tiktok-stack" members={membersWithTikTokAssets} />
           </div>
         </section>
 
