@@ -497,3 +497,7 @@ export function normalizeMemberCode(code: string | undefined): MemberCode {
 export function getMember(code: MemberCode) {
   return memberByCode.get(code) ?? memberByCode.get(defaultMemberCode)!;
 }
+
+export function getMemberArchiveHref(code: MemberCode) {
+  return `/members?member=${code.toLowerCase()}`;
+}

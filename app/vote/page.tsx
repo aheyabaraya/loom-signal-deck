@@ -1,5 +1,5 @@
-import { SignalDeck } from "../../components/SignalDeck";
+import { HarneVotePage } from "../../components/HarneVotePage";
 
 export default function VotePage() {
-  return <SignalDeck headerActive="vote" openVoteOnLoad />;
+  return <HarneVotePage />;
 }

@@ -20,9 +20,9 @@ export const rootSignalMemberMediaCues: MemberMediaCue[] = memberArchives.map((a
   memberCode: archive.memberCode,
   trackId: rootSignalTrack.id,
   video: {
-    embedUrl: rootSignalTrack.embedUrl,
+    embedUrl: rootSignalTrack.embedUrl ?? "",
     label: rootSignalTrack.displayTitle,
-    youtubeId: rootSignalTrack.youtubeId
+    youtubeId: rootSignalTrack.youtubeId ?? ""
   },
   profileImage: archive.profile,
   boardImage: archive.board,

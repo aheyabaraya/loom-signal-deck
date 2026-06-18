@@ -7,16 +7,31 @@ import {
   memberArchives,
   memberBoards,
   storyboardImages,
-  type MemberArchive
+  type MemberArchive,
+  type StageCut
 } from "../data/media";
-import { defaultMemberCode, getMember, members, type MemberCode } from "../data/members";
+import {
+  defaultMemberCode,
+  getMember,
+  getMemberArchiveHref,
+  members,
+  normalizeMemberCode,
+  type MemberCode
+} from "../data/members";
 import {
   nextTrackVoteCandidates,
   type NextTrackVoteCandidate
 } from "../data/trackVotes";
-import { latestTracks, tracks } from "../data/tracks";
+import {
+  getPulsoTrackCutsForMember,
+  pulsoContactSheetGroups,
+  pulsoWardrobeSets,
+  type PulsoTrackCut
+} from "../data/pulsoAssets";
+import { latestTracks } from "../data/tracks";
 import { SiteHeader } from "./SiteHeader";
 import { TikTokAssetGrid } from "./TikTokAssetGrid";
+import { TrackVideo } from "./TrackVideo";
 
 type NextTrackVoteState = {
   brief: string;
@@ -43,9 +58,19 @@ type ContactSheetGroup = {
 
 type TrackContactSheetGroup = {
   groups: ContactSheetGroup[];
+  id?: string;
   summary: string;
   title: string;
   trackLabel: string;
+};
+
+type DisplayTrackCut = {
+  id: string;
+  image: string;
+  kind: "root-signal" | PulsoTrackCut["sourceType"];
+  sourceLabel: string;
+  subtitle: string;
+  title: string;
 };
 
 const beatContactSheetFiles = [
@@ -188,6 +213,15 @@ const beatContactSheets = beatContactSheetFiles.map(getBeatContactSheet);
 
 const trackContactSheetGroups: TrackContactSheetGroup[] = [
   {
+    id: "pulso",
+    trackLabel: "Latest",
+    title: "Pulso",
+    summary:
+      "Pulso is cleaned to the final v6 master; preview contact-sheet mirrors were removed from the web archive.",
+    groups: pulsoContactSheetGroups
+  },
+  {
+    id: "root-signal",
     trackLabel: "Track 01",
     title: "Root Signal",
     summary: "Root Signal beat sheets and core storyboard boards grouped under the first track.",
@@ -205,7 +239,8 @@ const trackContactSheetGroups: TrackContactSheetGroup[] = [
     ]
   },
   {
-    trackLabel: "Track 02",
+    id: "low",
+    trackLabel: "Legacy Preview",
     title: "LOW",
     summary: "LOW storyboard boards, grouped source versions, and section-level contact sheets.",
     groups: [
@@ -228,12 +263,53 @@ const trackContactSheetGroups: TrackContactSheetGroup[] = [
   }
 ];
 
+function getTrackContactSheetGroup(trackId: string) {
+  if (trackId === "loom-track-pulso") {
+    return trackContactSheetGroups.find((track) => track.id === "pulso") ?? null;
+  }
+
+  if (trackId === "loom-track-root-signal") {
+    return trackContactSheetGroups.find((track) => track.id === "root-signal") ?? null;
+  }
+
+  return null;
+}
+
 function getMemberArchive(code: MemberCode): MemberArchive {
   return memberArchives.find((archive) => archive.memberCode === code) ?? memberArchives[0];
 }
 
 function getMemberBoard(code: MemberCode) {
   return memberBoards.find((board) => board.memberCode === code) ?? memberBoards[0];
+}
+
+function getRootSignalCutLabel(cut: StageCut) {
+  return cut.sourceType === "duo" ? "Root Signal Duo" : "Root Signal Solo";
+}
+
+function getPulsoCutLabel(cut: PulsoTrackCut) {
+  return cut.sourceType === "pulso-face" ? "Pulso Face" : "Pulso Stagewear";
+}
+
+function getMemberTrackCuts(baseCuts: StageCut[], memberCode: MemberCode): DisplayTrackCut[] {
+  return [
+    ...baseCuts.map((cut) => ({
+      id: cut.id,
+      image: cut.image,
+      kind: "root-signal" as const,
+      sourceLabel: getRootSignalCutLabel(cut),
+      subtitle: cut.subtitle,
+      title: cut.title
+    })),
+    ...getPulsoTrackCutsForMember(memberCode).map((cut) => ({
+      id: cut.id,
+      image: cut.image,
+      kind: cut.sourceType,
+      sourceLabel: getPulsoCutLabel(cut),
+      subtitle: cut.subtitle,
+      title: cut.title
+    }))
+  ];
 }
 
 function getCandidateMemberNames(candidate: NextTrackVoteCandidate) {
@@ -292,7 +368,7 @@ export function ArchiveOverviewPage() {
       href: "/members",
       label: "Members",
       title: "Member Archive",
-      summary: "Face, board, and member-scoped stage cuts in one selected view.",
+      summary: "Face, board, and member-scoped track cuts in one selected view.",
       image: getMember(defaultMemberCode).image
     },
     {
@@ -305,8 +381,8 @@ export function ArchiveOverviewPage() {
     {
       href: "/track",
       label: "Track",
-      title: "Root Signal",
-      summary: "Official embed, track summary, and next-track planning vote.",
+      title: "Track Archive",
+      summary: "Pulso and Root Signal embeds, contact sheets, and next-track planning vote.",
       image: storyboardImages[1]
     },
     {
@@ -341,19 +417,42 @@ export function ArchiveOverviewPage() {
   );
 }
 
-export function MembersArchivePage() {
-  const [selectedCode, setSelectedCode] = useState<MemberCode>(defaultMemberCode);
+export function MembersArchivePage({ initialCode = defaultMemberCode }: { initialCode?: MemberCode }) {
+  const [selectedCode, setSelectedCode] = useState<MemberCode>(initialCode);
   const selectedMember = useMemo(() => getMember(selectedCode), [selectedCode]);
   const selectedArchive = useMemo(() => getMemberArchive(selectedCode), [selectedCode]);
   const selectedBoard = useMemo(() => getMemberBoard(selectedCode), [selectedCode]);
-  const visibleCuts = selectedArchive.stageCuts.slice(0, 6);
+  const trackCuts = useMemo(
+    () => getMemberTrackCuts(selectedArchive.stageCuts, selectedCode),
+    [selectedArchive, selectedCode]
+  );
+
+  useEffect(() => {
+    setSelectedCode(initialCode);
+  }, [initialCode]);
+
+  useEffect(() => {
+    function syncSelectedMemberFromUrl() {
+      const memberParam = new URLSearchParams(window.location.search).get("member") ?? undefined;
+      setSelectedCode(normalizeMemberCode(memberParam));
+    }
+
+    window.addEventListener("popstate", syncSelectedMemberFromUrl);
+
+    return () => window.removeEventListener("popstate", syncSelectedMemberFromUrl);
+  }, []);
+
+  function selectArchiveMember(code: MemberCode) {
+    setSelectedCode(code);
+    window.history.replaceState(null, "", getMemberArchiveHref(code));
+  }
 
   return (
     <SectionShell
       active="members"
       eyebrow="Members"
       title="Profile Archive"
-      summary="Choose one member from the side rail. The main panel keeps portraits, boards, and stage cuts at inspection-friendly sizes."
+      summary="Choose one member from the side rail. The main panel keeps portraits, boards, and track cuts at inspection-friendly sizes."
     >
       <section className="members-page-grid" aria-label="Member archive workspace">
         <aside className="members-page-rail" aria-label="Member selector">
@@ -362,7 +461,7 @@ export function MembersArchivePage() {
               aria-pressed={member.code === selectedCode}
               className={member.code === selectedCode ? "is-active" : undefined}
               key={member.code}
-              onClick={() => setSelectedCode(member.code)}
+              onClick={() => selectArchiveMember(member.code)}
               style={{ "--node-accent": member.accent } as CSSProperties}
               type="button"
             >
@@ -382,7 +481,7 @@ export function MembersArchivePage() {
             <h2>{selectedMember.name}</h2>
             <strong>{selectedMember.identity}</strong>
             <span>{selectedMember.role}</span>
-            <a href={`/member/${selectedMember.code.toLowerCase()}`}>Open Profile <i /></a>
+            <a href={getMemberArchiveHref(selectedMember.code)}>Open Profile <i /></a>
           </div>
         </section>
 
@@ -394,17 +493,17 @@ export function MembersArchivePage() {
           <img src={selectedBoard.image} alt={`${selectedBoard.title} character board`} />
         </section>
 
-        <section className="member-cut-panel" aria-label={`${selectedMember.name} stage cuts`}>
+        <section className="member-cut-panel" aria-label={`${selectedMember.name} track cuts`}>
           <div className="section-block-heading">
-            <p>Stage Cuts</p>
+            <p>Track Cuts</p>
             <h2>{selectedMember.name}</h2>
           </div>
           <div className="member-cut-grid">
-            {visibleCuts.map((cut) => (
-              <article key={cut.id}>
-                <img src={cut.image} alt={`${cut.title} ${cut.subtitle}`} />
+            {trackCuts.map((cut) => (
+              <article className={`track-cut-card track-cut-card-${cut.kind}`} key={cut.id}>
+                <img src={cut.image} alt={`${cut.title} ${cut.subtitle} track cut`} />
                 <div>
-                  <strong>{cut.sourceType}</strong>
+                  <strong>{cut.sourceLabel}</strong>
                   <span>{cut.subtitle}</span>
                 </div>
               </article>
@@ -454,7 +553,11 @@ function StoryContactSheetGallery({
 
 function TrackContactSheetSection({ track }: { track: TrackContactSheetGroup }) {
   return (
-    <section className="story-track-contact-section" aria-label={`${track.trackLabel} ${track.title} contact sheets`}>
+    <section
+      className="story-track-contact-section"
+      id={track.id}
+      aria-label={`${track.trackLabel} ${track.title} contact sheets`}
+    >
       <div className="story-track-contact-heading">
         <p>{track.trackLabel}</p>
         <div>
@@ -469,6 +572,47 @@ function TrackContactSheetSection({ track }: { track: TrackContactSheetGroup }) 
           sheets={group.sheets}
           title={group.title}
         />
+      ))}
+    </section>
+  );
+}
+
+function PulsoWardrobeArchive() {
+  if (pulsoWardrobeSets.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className="pulso-wardrobe-archive" aria-label="Pulso member wardrobe boards">
+      <div className="story-track-contact-heading">
+        <p>Pulso</p>
+        <div>
+          <h2>Member Pulso Cuts</h2>
+          <span>
+            Member-specific face paint and founder-matched stagewear cuts from the Pulso closeout.
+          </span>
+        </div>
+      </div>
+
+      {pulsoWardrobeSets.map((set) => (
+        <section className="pulso-wardrobe-set" key={set.title} aria-label={set.title}>
+          <div className="section-block-heading">
+            <p>{set.eyebrow}</p>
+            <h2>{set.title}</h2>
+          </div>
+          <p className="pulso-wardrobe-summary">{set.summary}</p>
+          <div className="pulso-wardrobe-grid">
+            {set.assets.map((asset) => (
+              <article className="pulso-wardrobe-card" key={asset.image}>
+                <img src={asset.image} alt={`${asset.label} ${asset.title}`} loading="lazy" />
+                <div>
+                  <span>{asset.label}</span>
+                  <strong>{asset.title}</strong>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
       ))}
     </section>
   );
@@ -508,6 +652,7 @@ export function StoryArchivePage() {
       {trackContactSheetGroups.map((track) => (
         <TrackContactSheetSection key={track.trackLabel} track={track} />
       ))}
+      <PulsoWardrobeArchive />
     </SectionShell>
   );
 }
@@ -557,10 +702,9 @@ function NextTrackVotePanel() {
     <section className="track-vote-panel" aria-label="Next album track vote">
       <div className="track-vote-brief">
         <p>Next Track Vote</p>
-        <h2>Who carries the next track?</h2>
+        <h2>Which name goes next?</h2>
         <span>
-          Add the album theme or song cue, then test which member or unit should carry the next
-          track direction.
+          Add the album theme or song cue, then test which member or pair should be selected next.
         </span>
         <label>
           Album / Song Cue
@@ -583,24 +727,22 @@ function NextTrackVotePanel() {
               className={active ? "is-active" : undefined}
               key={candidate.id}
               onClick={() => selectNextTrackCandidate(candidate)}
-              style={{ "--node-accent": accent } as CSSProperties}
-              type="button"
-            >
-              <span>{candidate.role}</span>
-              <strong>{candidate.label}</strong>
-              <small>{getCandidateMemberNames(candidate)}</small>
-              <em>{candidate.direction}</em>
-            </button>
-          );
-        })}
+            style={{ "--node-accent": accent } as CSSProperties}
+            type="button"
+          >
+            <strong>{getCandidateMemberNames(candidate)}</strong>
+          </button>
+        );
+      })}
       </div>
 
       <aside className={`track-vote-result${selectedNextTrackVote ? " is-filled" : ""}`}>
         <p>Local Planning Signal</p>
-        <h3>{selectedNextTrackVote?.label ?? "No carrier selected yet"}</h3>
+        <h3>{selectedNextTrackVote ? getCandidateMemberNames(selectedNextTrackVote) : "No name selected yet"}</h3>
         <span>
-          {selectedNextTrackVote?.founderUse ??
-            "Choose a member or unit lane to preview how the next album track vote could be framed."}
+          {selectedNextTrackVote
+            ? "This browser saved the selected next-track name."
+            : "Choose a member or pair name to save a local next-track signal."}
         </span>
         <dl>
           <div>
@@ -618,38 +760,50 @@ function NextTrackVotePanel() {
 }
 
 export function TrackArchivePage() {
-  const selectedTrack = latestTracks[0] ?? tracks[0];
+  const [selectedTrackId, setSelectedTrackId] = useState(latestTracks[0]?.id ?? "");
+  const selectedTrack = latestTracks.find((track) => track.id === selectedTrackId) ?? latestTracks[0];
+  const selectedTrackContactSheets = selectedTrack ? getTrackContactSheetGroup(selectedTrack.id) : null;
+  const hasTrackContactSheets = Boolean(selectedTrackContactSheets?.groups.length);
+  const showPulsoWardrobe = selectedTrack?.id === "loom-track-pulso";
 
   return (
     <SectionShell
       active="track"
       eyebrow="Track"
-      title="Root Signal"
-      summary="The track page now owns the video frame and planning vote. The embed stays 16:9 and no longer competes with member boards."
+      title="Track Index"
+      summary="Choose one track first. The selected track owns its embed, member material, contact sheets, and storyboard material in one contained view."
     >
-      <section className="track-page-layout" aria-label="Official track video">
-        <div className="track-page-copy">
-          <p>{selectedTrack.albumTitle}</p>
-          <h2>{selectedTrack.displayTitle}</h2>
-          <span>{selectedTrack.summary}</span>
-          <div>
-            {selectedTrack.credits.map((credit) => (
-              <strong key={credit}>{credit}</strong>
-            ))}
-          </div>
-          <a href={selectedTrack.youtubeUrl}>Open YouTube <i /></a>
-        </div>
-        <div className="track-page-video">
-          <iframe
-            src={selectedTrack.embedUrl}
-            title={selectedTrack.displayTitle}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+      <section className="track-browser" aria-label="Track browser">
+        <aside className="track-route-nav" aria-label="Track navigation">
+          <p>Track Navigation</p>
+          {latestTracks.map((track) => {
+            const active = track.id === selectedTrack.id;
+
+            return (
+              <button
+                aria-pressed={active}
+                className={active ? "is-active" : undefined}
+                key={track.id}
+                onClick={() => setSelectedTrackId(track.id)}
+                type="button"
+              >
+                <span>{track.trackNumber}</span>
+                <strong>{track.title}</strong>
+              </button>
+            );
+          })}
+        </aside>
+
+        <div className="track-detail-stack" aria-live="polite">
+          <TrackVideo track={selectedTrack} />
+
+          {hasTrackContactSheets && selectedTrackContactSheets ? (
+            <TrackContactSheetSection track={selectedTrackContactSheets} />
+          ) : null}
+
+          {showPulsoWardrobe ? <PulsoWardrobeArchive /> : null}
         </div>
       </section>
-
-      <NextTrackVotePanel />
     </SectionShell>
   );
 }

@@ -1,5 +1,5 @@
-import { ArchiveOverviewPage } from "../../components/ArchiveSectionPages";
+import { redirect } from "next/navigation";
 
 export default function ArchivePage() {
-  return <ArchiveOverviewPage />;
+  redirect("/members");
 }

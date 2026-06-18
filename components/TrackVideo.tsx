@@ -6,6 +6,8 @@ type TrackVideoProps = {
 };
 
 export function TrackVideo({ track, variant = "archive" }: TrackVideoProps) {
+  const hasEmbed = Boolean(track.embedUrl);
+
   return (
     <section
       className={`track-showcase track-showcase-${variant}`}
@@ -23,12 +25,20 @@ export function TrackVideo({ track, variant = "archive" }: TrackVideoProps) {
         </div>
       </div>
       <div className="track-video-frame">
-        <iframe
-          src={track.embedUrl}
-          title={track.displayTitle}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        />
+        {hasEmbed ? (
+          <iframe
+            src={track.embedUrl}
+            title={track.displayTitle}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        ) : (
+          <div className="track-video-placeholder">
+            <p>{track.archiveStatus ?? "Embed pending"}</p>
+            <strong>{track.title}</strong>
+            <span>Contact sheets and member boards are live in the archive.</span>
+          </div>
+        )}
       </div>
     </section>
   );

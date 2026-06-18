@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import type { MemberArchive } from "../data/media";
-import type { Member } from "../data/members";
+import { getMemberArchiveHref, type Member } from "../data/members";
+import { getPulsoTrackCutsForMember } from "../data/pulsoAssets";
 import { rootSignalTrack } from "../data/tracks";
 import { SiteHeader } from "./SiteHeader";
 import { TikTokAssetGrid } from "./TikTokAssetGrid";
@@ -16,7 +17,24 @@ function getSignalName(member: Member) {
 
 export function MemberProfilePage({ archive, member }: MemberProfilePageProps) {
   const portrait = archive?.profile ?? member.image;
-  const stageCuts = archive?.stageCuts ?? [];
+  const trackCuts = [
+    ...(archive?.stageCuts ?? []).map((cut) => ({
+      id: cut.id,
+      image: cut.image,
+      kind: "root-signal",
+      sourceLabel: cut.sourceType === "duo" ? "Root Signal Duo" : "Root Signal Solo",
+      subtitle: cut.subtitle,
+      title: cut.title
+    })),
+    ...getPulsoTrackCutsForMember(member.code).map((cut) => ({
+      id: cut.id,
+      image: cut.image,
+      kind: cut.sourceType,
+      sourceLabel: cut.sourceType === "pulso-face" ? "Pulso Face" : "Pulso Stagewear",
+      subtitle: cut.subtitle,
+      title: cut.title
+    }))
+  ];
 
   return (
     <main
@@ -57,7 +75,7 @@ export function MemberProfilePage({ archive, member }: MemberProfilePageProps) {
             </div>
           </dl>
           <div className="cta-row">
-            <a className="button primary" href="/members">
+            <a className="button primary" href={getMemberArchiveHref(member.code)}>
               Member Map <i />
             </a>
             <a className="button secondary" href="/track">
@@ -77,17 +95,17 @@ export function MemberProfilePage({ archive, member }: MemberProfilePageProps) {
         </section>
       ) : null}
 
-      <section className="asset-section member-stage-section" aria-label={`${member.name} stage cuts`}>
+      <section className="asset-section member-stage-section" aria-label={`${member.name} track cuts`}>
         <div className="asset-heading">
-          <p>Stage Archive</p>
+          <p>Track Archive</p>
           <h2>{member.name} cuts</h2>
         </div>
         <div className="stage-gallery">
-          {stageCuts.map((cut) => (
-            <article key={cut.id}>
-              <img loading="lazy" src={cut.image} alt={`${cut.title} ${cut.subtitle} stage cut`} />
+          {trackCuts.map((cut) => (
+            <article className={`track-cut-card track-cut-card-${cut.kind}`} key={cut.id}>
+              <img loading="lazy" src={cut.image} alt={`${cut.title} ${cut.subtitle} track cut`} />
               <div>
-                <strong>{cut.title}</strong>
+                <strong>{cut.sourceLabel}</strong>
                 <span>{cut.subtitle}</span>
               </div>
             </article>

@@ -10,15 +10,16 @@ routes, and interactions into maintainable app structure.
 - `components/SignalDeck.tsx`: home signal deck, member switching, and vote modal state.
 - `components/ArchiveSectionPages.tsx`: separated archive section pages with focused member, story, track, and CF views.
 - `components/ArchiveConsole.tsx`: legacy archive console retained for reference.
-- `components/MemberProfilePage.tsx`: dedicated member profile page with portrait, identity board, and member-scoped stage cuts.
+- `components/MemberProfilePage.tsx`: dedicated member profile page with portrait, identity board, and member-scoped track cuts.
 - `components/TrackVideo.tsx`: reusable YouTube embed block for official track videos.
 - `data/members.ts`: member data, image paths, accents, map positions, and vote options.
 - `data/tracks.ts`: album/track metadata and official YouTube embed URLs.
 - `data/mediaExperience.ts`: member-to-media cue map for future synchronized media switching.
 - `styles.css`: global visual system, responsive layout, stage map, and panel treatment.
-- `data/media.ts`: generated storyboard, member board, and stage cut image index.
-- `public/assets/members/Mxx/`: optimized member archive with profile, character board, and member-scoped stage cuts.
-- `public/assets/members/duos/`: optimized duo stage cuts, still separated by album and track.
+- `data/media.ts`: generated storyboard, member board, and track cut image index.
+- `data/pulsoAssets.ts`: Pulso face-paint and stagewear track cut data shared by member and track pages.
+- `public/assets/members/Mxx/`: optimized member archive with profile, character board, and member-scoped track cuts.
+- `public/assets/members/duos/`: optimized duo track cuts, still separated by album and track.
 - `public/assets/tracks/`: optimized track-level assets such as storyboard previews.
 - `assets/`: original web-owned source asset snapshot.
 - `docs/loom-final-homepage-target.png`: locked visual direction reference for this prototype.
@@ -38,9 +39,9 @@ routes, and interactions into maintainable app structure.
 - The right panel and member page link are updated from React state in `SignalDeck`.
 - Public CTAs route to archive, members, story, track, member pages, and the local Harne Vote prototype. No database or public vote collection is connected.
 - `Root Signal` is embedded from YouTube ID `DUyCAFHZ7X0`.
-- `data/mediaExperience.ts` is the planned sync layer for member-click media updates: selected member -> video cue, profile image, board image, storyboard set, and stage cut ids.
-- Member portraits, character boards, storyboards, and stage cuts are committed as web-ready assets under `public/assets/**`.
-- Album and track-specific stage cuts stay nested under `albums/code-root-signal/loom-full-code-root-signal/` instead of being mixed into base member assets.
+- `data/mediaExperience.ts` is the planned sync layer for member-click media updates: selected member -> video cue, profile image, board image, storyboard set, and track cut ids.
+- Member portraits, character boards, storyboards, and track cuts are committed as web-ready assets under `public/assets/**`.
+- Album and track-specific track cuts stay nested under `albums/code-root-signal/loom-full-code-root-signal/` instead of being mixed into base member assets.
 
 ## Current Scope
 

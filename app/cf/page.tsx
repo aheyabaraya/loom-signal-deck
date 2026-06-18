@@ -1,5 +1,5 @@
-import { CfArchivePage } from "../../components/ArchiveSectionPages";
+import { redirect } from "next/navigation";
 
 export default function CfPage() {
-  return <CfArchivePage />;
+  redirect("/");
 }

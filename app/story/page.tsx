@@ -1,5 +1,5 @@
-import { StoryArchivePage } from "../../components/ArchiveSectionPages";
+import { redirect } from "next/navigation";
 
 export default function StoryPage() {
-  return <StoryArchivePage />;
+  redirect("/track");
 }

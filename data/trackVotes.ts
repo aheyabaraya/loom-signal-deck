@@ -13,7 +13,7 @@ export type NextTrackVoteCandidate = {
 export const nextTrackVoteCandidates: NextTrackVoteCandidate[] = [
   {
     id: "aria-hook-carrier",
-    label: "Aria Hook Carrier",
+    label: "Aria",
     memberCodes: ["M09"],
     role: "Hook ignition",
     direction:
@@ -23,7 +23,7 @@ export const nextTrackVoteCandidates: NextTrackVoteCandidate[] = [
   },
   {
     id: "seira-compass-carrier",
-    label: "Seira Compass Carrier",
+    label: "Seira",
     memberCodes: ["M12"],
     role: "Direction lock",
     direction:
@@ -33,7 +33,7 @@ export const nextTrackVoteCandidates: NextTrackVoteCandidate[] = [
   },
   {
     id: "rena-command-center",
-    label: "Rena Command Center",
+    label: "Rena",
     memberCodes: ["M07"],
     role: "Album axis",
     direction:
@@ -43,7 +43,7 @@ export const nextTrackVoteCandidates: NextTrackVoteCandidate[] = [
   },
   {
     id: "faye-vocal-lift",
-    label: "Faye Vocal Lift",
+    label: "Faye",
     memberCodes: ["M05"],
     role: "Chorus clarity",
     direction:
@@ -53,7 +53,7 @@ export const nextTrackVoteCandidates: NextTrackVoteCandidate[] = [
   },
   {
     id: "saeyan-shion-frame",
-    label: "Saeyan / Shion Frame",
+    label: "Saeyan / Shion",
     memberCodes: ["M01", "M13"],
     role: "Open and seal",
     direction:
@@ -63,7 +63,7 @@ export const nextTrackVoteCandidates: NextTrackVoteCandidate[] = [
   },
   {
     id: "eryn-karin-impact-unit",
-    label: "Eryn / Karin Impact",
+    label: "Eryn / Karin",
     memberCodes: ["M06", "M10"],
     role: "Performance impact",
     direction:

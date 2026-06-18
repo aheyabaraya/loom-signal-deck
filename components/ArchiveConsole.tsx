@@ -10,7 +10,7 @@ import {
   storyboardImages,
   type StageCut
 } from "../data/media";
-import { defaultMemberCode, getMember, members, type MemberCode } from "../data/members";
+import { defaultMemberCode, getMember, getMemberArchiveHref, members, type MemberCode } from "../data/members";
 import {
   nextTrackVoteCandidates,
   type NextTrackVoteCandidate
@@ -50,8 +50,8 @@ const archiveModes: Array<{
   },
   {
     id: "stage",
-    label: "Stage",
-    title: "Stage Cut Index",
+    label: "Cuts",
+    title: "Track Cut Index",
     description: "Member-filtered performance stills, not one long wall."
   },
   {
@@ -225,7 +225,7 @@ export function ArchiveConsole() {
         <div className="archive-hero-copy">
           <h1>Archive Console</h1>
           <p>
-            Track, storyboard, identity boards, and stage cuts stay in one focused viewer.
+            Track, storyboard, identity boards, and track cuts stay in one focused viewer.
             Choose a signal, then inspect the matching material without falling into a feed.
           </p>
         </div>
@@ -359,7 +359,7 @@ export function ArchiveConsole() {
                 <dd>{mode === "cf" ? "CF RUN" : stageCuts.length}</dd>
               </div>
             </dl>
-            <a href={`/member/${selectedMember.code.toLowerCase()}`}>
+            <a href={getMemberArchiveHref(selectedMember.code)}>
               {mode === "cf" ? "Open Cast" : "Open Profile"} <i />
             </a>
           </aside>
@@ -369,10 +369,10 @@ export function ArchiveConsole() {
           <section className="next-track-vote" id="next-track-vote" aria-label="Next album track vote">
             <div className="next-track-brief">
               <p>Next Track Vote</p>
-              <h2>Who carries the next album track?</h2>
+              <h2>Which name goes next?</h2>
               <span>
                 Add the album theme or song cue, then collect a local Harne signal for which member
-                or unit should lead the next track direction. No audio is uploaded here.
+                or pair should be tested next. No audio is uploaded here.
               </span>
               <label>
                 Album / Song Cue
@@ -384,7 +384,7 @@ export function ArchiveConsole() {
               </label>
             </div>
 
-            <div className="next-track-candidates" aria-label="Next track carrier candidates">
+            <div className="next-track-candidates" aria-label="Next track name candidates">
               {nextTrackVoteCandidates.map((candidate) => {
                 const active = candidate.id === nextTrackVoteId;
                 const accent = getMember(candidate.memberCodes[0]).accent;
@@ -398,10 +398,7 @@ export function ArchiveConsole() {
                     style={{ "--node-accent": accent } as CSSProperties}
                     type="button"
                   >
-                    <span>{candidate.role}</span>
-                    <strong>{candidate.label}</strong>
-                    <small>{getCandidateMemberNames(candidate)}</small>
-                    <em>{candidate.direction}</em>
+                    <strong>{getCandidateMemberNames(candidate)}</strong>
                   </button>
                 );
               })}
@@ -409,10 +406,11 @@ export function ArchiveConsole() {
 
             <aside className={`next-track-result${selectedNextTrackVote ? " is-filled" : ""}`}>
               <p>Local Planning Signal</p>
-              <h3>{selectedNextTrackVote?.label ?? "No carrier selected yet"}</h3>
+              <h3>{selectedNextTrackVote ? getCandidateMemberNames(selectedNextTrackVote) : "No name selected yet"}</h3>
               <span>
-                {selectedNextTrackVote?.founderUse ??
-                  "Choose a member or unit lane to preview how the next album track vote could be framed."}
+                {selectedNextTrackVote
+                  ? "This browser saved the selected next-track name."
+                  : "Choose a member or pair name to save a local next-track signal."}
               </span>
               <dl>
                 <div>
