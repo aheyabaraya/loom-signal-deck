@@ -7,6 +7,7 @@ type TrackVideoProps = {
 
 export function TrackVideo({ track, variant = "archive" }: TrackVideoProps) {
   const hasEmbed = Boolean(track.embedUrl);
+  const description = track.embedDescription ?? track.summary;
 
   return (
     <section
@@ -17,12 +18,17 @@ export function TrackVideo({ track, variant = "archive" }: TrackVideoProps) {
         <p>{track.albumTitle}</p>
         <h2>{track.title}</h2>
         <span>{track.displayTitle}</span>
-        <p>{track.summary}</p>
+        <p className="track-description">{description}</p>
         <div className="track-credits" aria-label="Track archive tags">
           {track.credits.map((credit) => (
             <strong key={credit}>{credit}</strong>
           ))}
         </div>
+        {track.youtubeUrl ? (
+          <a className="track-link" href={track.youtubeUrl} rel="noreferrer" target="_blank">
+            Open YouTube
+          </a>
+        ) : null}
       </div>
       <div className="track-video-frame">
         {hasEmbed ? (

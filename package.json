@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit -p tsconfig.typecheck.json"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "next": "16.2.6",
     "react": "19.2.6",
     "react-dom": "19.2.6"

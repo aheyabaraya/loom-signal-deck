@@ -1004,6 +1004,7 @@ img {
 }
 
 .track-copy {
+  container-type: inline-size;
   min-width: 0;
 }
 
@@ -1019,9 +1020,10 @@ img {
 .track-copy h2 {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(3.2rem, 6vw, 7.6rem);
+  font-size: clamp(2rem, 12cqw, 7.6rem);
   font-weight: 400;
   line-height: 0.86;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -1041,6 +1043,10 @@ img {
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.62;
+}
+
+.track-copy .track-description {
+  white-space: pre-line;
 }
 
 .track-credits {
@@ -1069,6 +1075,27 @@ img {
   background: var(--cyan);
   box-shadow: 0 0 12px var(--cyan);
   vertical-align: 1px;
+}
+
+.track-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  margin-top: 26px;
+  padding: 0 16px;
+  border: 1px solid rgba(145, 199, 220, 0.4);
+  color: #e8f7fb;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: rgba(145, 199, 220, 0.08);
+}
+
+.track-link:hover {
+  border-color: rgba(145, 199, 220, 0.76);
+  background: rgba(145, 199, 220, 0.16);
 }
 
 .track-video-frame {
@@ -1132,9 +1159,10 @@ img {
 
 .track-video-placeholder strong {
   font-family: var(--display);
-  font-size: clamp(3rem, 7vw, 7.4rem);
+  font-size: clamp(2rem, 12cqw, 7.4rem);
   font-weight: 400;
   line-height: 0.84;
+  white-space: nowrap;
 }
 
 .track-video-placeholder span {
@@ -1170,6 +1198,7 @@ img {
 }
 
 .archive-hero-copy {
+  container-type: inline-size;
   display: grid;
   grid-template-columns: minmax(320px, 0.9fr) minmax(360px, 0.72fr);
   gap: clamp(22px, 4vw, 72px);
@@ -1180,10 +1209,11 @@ img {
 .archive-hero-copy h1 {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(4.6rem, 9.8vw, 10.8rem);
+  font-size: clamp(2.4rem, 10cqw, 10.8rem);
   font-weight: 400;
   line-height: 0.82;
   letter-spacing: 0;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -1617,6 +1647,7 @@ img {
 }
 
 .archive-viewer-caption {
+  container-type: inline-size;
   display: grid;
   grid-template-columns: minmax(0, 0.62fr) minmax(220px, 0.38fr);
   gap: 24px;
@@ -1634,16 +1665,18 @@ img {
 .archive-viewer-caption h2 {
   margin: 0;
   color: var(--text);
-  font-size: clamp(1.25rem, 2.2vw, 2.2rem);
+  font-size: clamp(0.92rem, 4cqw, 2.2rem);
   font-weight: 800;
   line-height: 1.05;
   text-align: right;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
 .archive-inspector {
   position: relative;
   z-index: 1;
+  container-type: inline-size;
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -1666,9 +1699,10 @@ img {
 .archive-inspector h2 {
   margin: 22px 0 4px;
   font-family: var(--display);
-  font-size: clamp(2.8rem, 5vw, 5.4rem);
+  font-size: clamp(1.35rem, 15cqw, 5.4rem);
   font-weight: 400;
   line-height: 0.86;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -1964,6 +1998,7 @@ img {
 }
 
 .next-track-brief {
+  container-type: inline-size;
   display: grid;
   align-content: start;
   gap: 16px;
@@ -1982,12 +2017,13 @@ img {
 }
 
 .next-track-brief h2 {
-  max-width: 13ch;
+  max-width: none;
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(2.8rem, 3.8vw, 4.8rem);
+  font-size: clamp(1.35rem, 9cqw, 4.8rem);
   font-weight: 400;
   line-height: 0.9;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -2432,6 +2468,7 @@ img {
 }
 
 .member-profile-panel {
+  container-type: inline-size;
   max-width: 760px;
   padding: clamp(26px, 4vw, 56px) 0;
   border-top: 1px solid rgba(230, 238, 242, 0.18);
@@ -2450,9 +2487,10 @@ img {
 .member-profile-panel h1 {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(4.8rem, 9vw, 9rem);
+  font-size: clamp(2.4rem, 16cqw, 9rem);
   font-weight: 400;
   line-height: 0.84;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -2764,6 +2802,7 @@ img {
 }
 
 .section-hero {
+  container-type: inline-size;
   position: relative;
   z-index: 2;
   display: grid;
@@ -2792,7 +2831,7 @@ img {
 .section-hero h1 {
   margin: 8px 0 0;
   font-family: var(--display);
-  font-size: clamp(3.2rem, 5vw, 6rem);
+  font-size: clamp(2rem, 9cqw, 6rem);
   font-weight: 400;
   line-height: 0.82;
   text-transform: uppercase;
@@ -2846,6 +2885,7 @@ img {
 .archive-overview-grid div {
   position: absolute;
   inset: auto 0 0;
+  container-type: inline-size;
   display: grid;
   gap: 10px;
   padding: 90px 18px 20px;
@@ -2855,9 +2895,10 @@ img {
 .archive-overview-grid h2 {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(2.4rem, 4vw, 5.2rem);
+  font-size: clamp(1.35rem, 12cqw, 5.2rem);
   font-weight: 400;
   line-height: 0.88;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -3007,6 +3048,7 @@ img {
 }
 
 .member-focus-copy {
+  container-type: inline-size;
   display: grid;
   gap: 8px;
   padding: 14px 20px 18px;
@@ -3015,9 +3057,10 @@ img {
 .member-focus-copy h2 {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(2.6rem, 4.1vw, 4.8rem);
+  font-size: clamp(1.6rem, 15cqw, 4.8rem);
   font-weight: 400;
   line-height: 0.9;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -3221,6 +3264,7 @@ img {
 }
 
 .story-track-contact-heading {
+  container-type: inline-size;
   display: grid;
   grid-template-columns: minmax(120px, auto) minmax(0, 1fr);
   gap: 22px;
@@ -3245,9 +3289,10 @@ img {
 
 .story-track-contact-heading h2 {
   font-family: var(--display);
-  font-size: clamp(2.4rem, 4vw, 5rem);
+  font-size: clamp(1.5rem, 6cqw, 5rem);
   font-weight: 400;
   line-height: 0.9;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -3529,6 +3574,7 @@ img {
 }
 
 .track-page-copy {
+  container-type: inline-size;
   display: grid;
   align-content: center;
   gap: 18px;
@@ -3538,9 +3584,10 @@ img {
 .track-page-copy h2 {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(3.6rem, 7vw, 8rem);
+  font-size: clamp(2rem, 12cqw, 8rem);
   font-weight: 400;
   line-height: 0.84;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -3590,18 +3637,20 @@ img {
 
 .track-vote-brief,
 .track-vote-result {
+  container-type: inline-size;
   display: grid;
   align-content: start;
   gap: 14px;
 }
 
 .track-vote-brief h2 {
-  max-width: 14ch;
+  max-width: none;
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(2.8rem, 4.6vw, 5.2rem);
+  font-size: clamp(1.35rem, 8.4cqw, 5.2rem);
   font-weight: 400;
   line-height: 0.88;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -3893,12 +3942,13 @@ img {
 }
 
 .vote-section-heading h2 {
-  max-width: 18ch;
+  max-width: none;
   margin: 0;
   font-family: var(--display);
-  font-size: 3.15rem;
+  font-size: clamp(1.6rem, 6cqw, 3.15rem);
   font-weight: 400;
   line-height: 0.92;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -4752,10 +4802,11 @@ img {
 }
 
 .vote-track-brief h3 {
-  max-width: 13ch;
+  max-width: none;
   font-family: var(--display);
-  font-size: clamp(2.1rem, 4.2vw, 3.4rem);
+  font-size: clamp(1.2rem, 8cqw, 3.4rem);
   font-weight: 400;
+  white-space: nowrap;
 }
 
 .vote-track-brief > span,
@@ -4939,7 +4990,7 @@ img {
 
   .archive-inspector h2 {
     margin: 0;
-    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    font-size: clamp(1.35rem, 15cqw, 4.4rem);
   }
 
   .archive-inspector dl {
@@ -4956,7 +5007,7 @@ img {
   }
 
   .next-track-brief h2 {
-    max-width: 14ch;
+    max-width: none;
   }
 
   .archive-overview-grid {
@@ -5088,7 +5139,7 @@ img {
   }
 
   .track-copy h2 {
-    font-size: clamp(3.4rem, 12vw, 6rem);
+    font-size: clamp(2rem, 12cqw, 6rem);
   }
 
   .track-video-frame {
@@ -5169,7 +5220,7 @@ img {
   }
 
   .archive-hero-copy h1 {
-    font-size: clamp(4.2rem, 16vw, 7.6rem);
+    font-size: clamp(2.4rem, 10cqw, 7.6rem);
   }
 
   .archive-command-grid {
@@ -5289,7 +5340,7 @@ img {
   }
 
   .section-hero h1 {
-    font-size: clamp(2.7rem, 7.2vw, 4.8rem);
+    font-size: clamp(2rem, 9cqw, 4.8rem);
   }
 
   .archive-overview-grid,
@@ -5397,7 +5448,7 @@ img {
   }
 
   .vote-section-heading h2 {
-    font-size: 2.6rem;
+    font-size: clamp(1.6rem, 6cqw, 2.6rem);
   }
 
   .cf-detail-panel {
@@ -5481,7 +5532,7 @@ img {
   }
 
   .track-copy h2 {
-    font-size: clamp(3.1rem, 17vw, 4.9rem);
+    font-size: clamp(2rem, 12cqw, 4.9rem);
   }
 
   .track-copy > span {
@@ -5620,7 +5671,7 @@ img {
   }
 
   .member-profile-panel h1 {
-    font-size: clamp(4rem, 20vw, 5.8rem);
+    font-size: clamp(2.4rem, 16cqw, 5.8rem);
   }
 
   .member-profile-panel .cta-row {
@@ -5640,7 +5691,7 @@ img {
   }
 
   .archive-hero-copy h1 {
-    font-size: clamp(3.4rem, 18vw, 5.6rem);
+    font-size: clamp(2.4rem, 10cqw, 5.6rem);
   }
 
   .archive-hero-copy p {
@@ -5701,7 +5752,7 @@ img {
   }
 
   .archive-inspector h2 {
-    font-size: clamp(2.4rem, 14vw, 3.8rem);
+    font-size: clamp(1.35rem, 15cqw, 3.8rem);
   }
 
   .archive-media-rack {
@@ -5717,7 +5768,7 @@ img {
   }
 
   .section-hero h1 {
-    font-size: clamp(2.05rem, 8.8vw, 3.2rem);
+    font-size: clamp(2rem, 9cqw, 3.2rem);
   }
 
   .section-hero > span {
@@ -5729,7 +5780,7 @@ img {
   }
 
   .archive-overview-grid h2 {
-    font-size: clamp(2.2rem, 14vw, 4.4rem);
+    font-size: clamp(1.35rem, 12cqw, 4.4rem);
   }
 
   .members-page-rail,
@@ -5747,7 +5798,7 @@ img {
   }
 
   .member-focus-copy h2 {
-    font-size: clamp(3.4rem, 18vw, 5rem);
+    font-size: clamp(1.6rem, 15cqw, 5rem);
   }
 
   .member-cut-grid {
@@ -5772,7 +5823,7 @@ img {
   }
 
   .story-track-contact-heading h2 {
-    font-size: clamp(2rem, 16vw, 3.8rem);
+    font-size: clamp(1.5rem, 6cqw, 3.8rem);
   }
 
   .story-contact-grid {
@@ -5803,7 +5854,7 @@ img {
 
   .track-page-copy h2,
   .track-vote-brief h2 {
-    font-size: clamp(2.9rem, 16vw, 4.6rem);
+    font-size: clamp(1.35rem, 8.4cqw, 4.6rem);
   }
 
   .cf-detail-panel {
@@ -5811,7 +5862,7 @@ img {
   }
 
   .vote-section-heading h2 {
-    font-size: 2.45rem;
+    font-size: clamp(1.6rem, 6cqw, 2.45rem);
   }
 
   .track-browser,

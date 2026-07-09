@@ -3,6 +3,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { cfCampaigns } from "../data/cf";
+import { inkContactSheetGroups } from "../data/inkAssets";
 import {
   memberArchives,
   memberBoards,
@@ -28,7 +29,7 @@ import {
   pulsoWardrobeSets,
   type PulsoTrackCut
 } from "../data/pulsoAssets";
-import { latestTracks } from "../data/tracks";
+import { inkFinalMasterTrack, latestTracks } from "../data/tracks";
 import { SiteHeader } from "./SiteHeader";
 import { TikTokAssetGrid } from "./TikTokAssetGrid";
 import { TrackVideo } from "./TrackVideo";
@@ -213,6 +214,14 @@ const beatContactSheets = beatContactSheetFiles.map(getBeatContactSheet);
 
 const trackContactSheetGroups: TrackContactSheetGroup[] = [
   {
+    id: "ink",
+    trackLabel: "Latest",
+    title: "Ink",
+    summary:
+      "Ink final master with section-level contact sheets only. Preview embeds and non-section frame boards are not listed.",
+    groups: inkContactSheetGroups
+  },
+  {
     id: "pulso",
     trackLabel: "Latest",
     title: "Pulso",
@@ -264,6 +273,10 @@ const trackContactSheetGroups: TrackContactSheetGroup[] = [
 ];
 
 function getTrackContactSheetGroup(trackId: string) {
+  if (trackId === inkFinalMasterTrack.id) {
+    return trackContactSheetGroups.find((track) => track.id === "ink") ?? null;
+  }
+
   if (trackId === "loom-track-pulso") {
     return trackContactSheetGroups.find((track) => track.id === "pulso") ?? null;
   }
