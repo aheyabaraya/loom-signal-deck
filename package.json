@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "type-check": "tsc --noEmit -p tsconfig.typecheck.json"
+    "type-check": "tsc --noEmit -p tsconfig.typecheck.json",
+    "deploy:preview": "node scripts/deploy-safe.mjs",
+    "deploy:prod": "node scripts/deploy-safe.mjs --prod"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

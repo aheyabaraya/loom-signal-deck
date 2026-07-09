@@ -30,6 +30,8 @@ routes, and interactions into maintainable app structure.
 - `pnpm dev`: run the local Next dev server.
 - `pnpm type-check`: validate TypeScript.
 - `pnpm build`: create a production build.
+- `pnpm deploy:preview`: deploy through the safe 80MB-capped Vercel staging path.
+- `pnpm deploy:prod`: deploy production through the same safe staging path.
 
 ## Maintenance Notes
 
@@ -42,6 +44,7 @@ routes, and interactions into maintainable app structure.
 - `data/mediaExperience.ts` is the planned sync layer for member-click media updates: selected member -> video cue, profile image, board image, storyboard set, and track cut ids.
 - Member portraits, character boards, storyboards, and track cuts are committed as web-ready assets under `public/assets/**`.
 - Album and track-specific track cuts stay nested under `albums/code-root-signal/loom-full-code-root-signal/` instead of being mixed into base member assets.
+- Vercel deploys should use `pnpm deploy:preview` or `pnpm deploy:prod`; the script stages only the `web` app files under `/tmp/loom-signal-deck-vercel-stage` and aborts before upload if the package grows past 80MB.
 
 ## Current Scope
 

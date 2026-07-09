@@ -486,6 +486,14 @@ export const members: Member[] = [
 
 export const memberByCode = new Map(members.map((member) => [member.code, member]));
 
+export const homeExcludedMemberCodes: MemberCode[] = [];
+
+const homeExcludedMemberCodeSet = new Set<MemberCode>(homeExcludedMemberCodes);
+
+export const homeMembers = members.filter((member) => !homeExcludedMemberCodeSet.has(member.code));
+export const homeMemberCodes = homeMembers.map((member) => member.code);
+export const homeMemberByCode = new Map(homeMembers.map((member) => [member.code, member]));
+
 export function normalizeMemberCode(code: string | undefined): MemberCode {
   const normalized = code?.toUpperCase();
 

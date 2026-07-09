@@ -5,7 +5,8 @@ import {
   defaultMemberCode,
   getMember,
   getMemberArchiveHref,
-  members,
+  homeMemberByCode,
+  homeMembers,
   type Member,
   type MemberCode,
   type VoteOption
@@ -41,7 +42,10 @@ type NextTrackVoteState = {
 const innerOrbitCodes: MemberCode[] = ["M01", "M09", "M07", "M05"];
 const outerOrbitCodes: MemberCode[] = ["M02", "M03", "M11", "M13", "M10", "M12", "M08", "M06", "M04"];
 const tiktokMemberCodes = new Set(tiktokMemberAssets.map((asset) => asset.memberCode));
-const membersWithTikTokAssets = members.filter((member) => tiktokMemberCodes.has(member.code));
+const membersWithTikTokAssets = homeMembers.filter((member) => tiktokMemberCodes.has(member.code));
+const homeNextTrackVoteCandidates = nextTrackVoteCandidates.filter((candidate) =>
+  candidate.memberCodes.every((code) => homeMemberByCode.has(code))
+);
 
 function getOrbitPath(codes: MemberCode[]) {
   const orbitMembers = codes.map((code) => getMember(code));
@@ -92,7 +96,7 @@ function parseStoredChats(value: string) {
   const parsed = JSON.parse(value) as Partial<Record<MemberCode, MemberChatMessage[]>>;
   const nextChats: Partial<Record<MemberCode, MemberChatMessage[]>> = {};
 
-  members.forEach((member) => {
+  homeMembers.forEach((member) => {
     const messages = parsed[member.code];
 
     if (!Array.isArray(messages)) {
@@ -130,7 +134,8 @@ export function SignalDeck({
   initialCode = defaultMemberCode,
   openVoteOnLoad = false
 }: SignalDeckProps) {
-  const [selectedCode, setSelectedCode] = useState<MemberCode>(initialCode);
+  const initialHomeCode = homeMemberByCode.has(initialCode) ? initialCode : defaultMemberCode;
+  const [selectedCode, setSelectedCode] = useState<MemberCode>(initialHomeCode);
   const [isChanging, setIsChanging] = useState(false);
   const [receipt, setReceipt] = useState(emptyVoteReceipt);
   const [localVotes, setLocalVotes] = useState<Partial<Record<MemberCode, string>>>({});
@@ -138,7 +143,7 @@ export function SignalDeck({
   const [chatDrafts, setChatDrafts] = useState<Partial<Record<MemberCode, string>>>({});
   const [chatLoaded, setChatLoaded] = useState(false);
   const [isChatDockOpen, setIsChatDockOpen] = useState(false);
-  const [chatMemberCode, setChatMemberCode] = useState<MemberCode>(initialCode);
+  const [chatMemberCode, setChatMemberCode] = useState<MemberCode>(initialHomeCode);
   const [sendingMemberCode, setSendingMemberCode] = useState<MemberCode | null>(null);
   const [chatStatus, setChatStatus] = useState("Vote to unlock a short member chat.");
   const [nextTrackBrief, setNextTrackBrief] = useState("");
@@ -159,7 +164,7 @@ export function SignalDeck({
     [chatMember, chatVoteId]
   );
   const savedSignalCount = useMemo(
-    () => members.filter((member) => Boolean(localVotes[member.code])).length,
+    () => homeMembers.filter((member) => Boolean(localVotes[member.code])).length,
     [localVotes]
   );
   const chatMessages = chatByMember[chatMember.code] ?? [];
@@ -168,7 +173,7 @@ export function SignalDeck({
   const chatLimitReached = chatUserCount >= memberChatTurnLimit;
   const isSendingChat = sendingMemberCode === chatMember.code;
   const selectedNextTrackVote = useMemo(
-    () => nextTrackVoteCandidates.find((candidate) => candidate.id === nextTrackVoteId) ?? null,
+    () => homeNextTrackVoteCandidates.find((candidate) => candidate.id === nextTrackVoteId) ?? null,
     [nextTrackVoteId]
   );
 
@@ -218,7 +223,7 @@ export function SignalDeck({
       const parsed = JSON.parse(storedVote) as NextTrackVoteState;
       setNextTrackBrief(typeof parsed.brief === "string" ? parsed.brief : "");
       setNextTrackVoteId(
-        nextTrackVoteCandidates.some((candidate) => candidate.id === parsed.selectedCandidateId)
+        homeNextTrackVoteCandidates.some((candidate) => candidate.id === parsed.selectedCandidateId)
           ? parsed.selectedCandidateId
           : undefined
       );
@@ -241,7 +246,7 @@ export function SignalDeck({
   }, [chatByMember, chatLoaded]);
 
   useEffect(() => {
-    members.forEach((member) => {
+    homeMembers.forEach((member) => {
       const teaser = new Image();
       teaser.src = member.image;
     });
@@ -462,7 +467,7 @@ export function SignalDeck({
               preserveAspectRatio="none"
               aria-hidden="true"
             >
-              {members.map((member) => (
+              {homeMembers.map((member) => (
                 <line
                   className={member.code === selectedMember.code ? "is-active" : undefined}
                   key={`${member.code}-spoke`}
@@ -482,7 +487,7 @@ export function SignalDeck({
               <span>M</span>
             </div>
             <div className="nodes">
-              {members.map((member) => {
+              {homeMembers.map((member) => {
                 const active = member.code === selectedMember.code;
 
                 return (
@@ -547,7 +552,7 @@ export function SignalDeck({
             <h2>Saeyan opens first</h2>
           </div>
           <div className="home-face-grid">
-            {members.map((member) => {
+            {homeMembers.map((member) => {
               const active = member.code === selectedMember.code;
 
               return (
@@ -618,7 +623,7 @@ export function SignalDeck({
             </div>
 
             <div className="member-chat-member-rail" aria-label="Select chat member">
-              {members.map((member) => {
+              {homeMembers.map((member) => {
                 const active = member.code === chatMember.code;
                 const hasSignal = Boolean(localVotes[member.code]);
 
@@ -733,7 +738,7 @@ export function SignalDeck({
         </div>
 
         <div className="vote-member-rail" aria-label="Select member for identity vote">
-          {members.map((member) => {
+          {homeMembers.map((member) => {
             const active = member.code === selectedMember.code;
             const hasSignal = Boolean(localVotes[member.code]);
 
@@ -794,7 +799,7 @@ export function SignalDeck({
                   "Pick one identity thread above. Real public collection still needs founder approval."}
               </span>
               <small>
-                {savedSignalCount}/13 member signals saved locally. {receipt}
+                {savedSignalCount}/{homeMembers.length} member signals saved locally. {receipt}
               </small>
             </section>
 
@@ -826,7 +831,7 @@ export function SignalDeck({
           </div>
 
           <div className="vote-track-options" aria-label="Next track name candidates">
-            {nextTrackVoteCandidates.map((candidate) => {
+            {homeNextTrackVoteCandidates.map((candidate) => {
               const active = candidate.id === nextTrackVoteId;
               const accent = getMember(candidate.memberCodes[0]).accent;
 
