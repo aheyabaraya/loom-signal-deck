@@ -4,7 +4,7 @@ export type CfCampaign = {
   id: string;
   title: string;
   shortTitle: string;
-  status: "founder_review" | "draft";
+  status: "final" | "founder_review" | "draft";
   duration: string;
   memberCodes: MemberCode[];
   productLane: string;
@@ -15,9 +15,41 @@ export type CfCampaign = {
   proof: string[];
   locks: string[];
   image: string;
+  instagramUrl?: string;
+  instagramEmbedUrl?: string;
 };
 
 export const cfCampaigns: CfCampaign[] = [
+  {
+    id: "CF_COCA_COLA_WORLD_RULE_ENGINE_001",
+    title: "Coca-Cola World Rule Engine",
+    shortTitle: "Coca-Cola Memory",
+    status: "final",
+    duration: "18s",
+    memberCodes: ["M12"],
+    productLane: "Beverage / spec commercial",
+    objective: "Portfolio showcase",
+    memoryLine: "A cola that brings back a memory.",
+    story:
+      "A small spec concept experiment about a cola that brings back a memory. Seira lies on a glass Coca-Cola vending machine laid flat across wet pavement. As the camera moves toward her glasses, the soft red cola light catches in her eyes and opens into floating memory cards.",
+    viewerRead:
+      "The idea is simple: one familiar red glow from a cola can turns the city around her into a place where memories return.",
+    proof: [
+      "Horizontal glass vending machine",
+      "Coca-Cola can and red button system",
+      "Soft red glasses glint",
+      "Memory-card world expansion"
+    ],
+    locks: [
+      "Spec commercial, not an official brand claim",
+      "Seira cast lock",
+      "Black/red/cyan grade",
+      "No mixed preview versions"
+    ],
+    image: "/assets/cf/coca-cola-world-rule-engine/poster-final-frame.jpg",
+    instagramUrl: "https://www.instagram.com/reel/DakEtMMpycX/",
+    instagramEmbedUrl: "https://www.instagram.com/reel/DakEtMMpycX/embed"
+  },
   {
     id: "CF_FARE_GATE_STYLE_LOOP_001",
     title: "Fare-Gate Barcode Loop",

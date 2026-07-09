@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { cfCampaigns } from "../data/cf";
 import type { MemberArchive } from "../data/media";
 import { getMemberArchiveHref, type Member } from "../data/members";
 import { getPulsoTrackCutsForMember } from "../data/pulsoAssets";
@@ -35,6 +36,7 @@ export function MemberProfilePage({ archive, member }: MemberProfilePageProps) {
       title: cut.title
     }))
   ];
+  const cfCuts = cfCampaigns.filter((campaign) => campaign.memberCodes.includes(member.code));
 
   return (
     <main
@@ -112,6 +114,28 @@ export function MemberProfilePage({ archive, member }: MemberProfilePageProps) {
           ))}
         </div>
       </section>
+
+      {cfCuts.length > 0 ? (
+        <section className="asset-section member-cf-section" aria-label={`${member.name} CF archive`}>
+          <div className="asset-heading">
+            <p>CF Archive</p>
+            <h2>{member.name} commercial cuts</h2>
+          </div>
+          <div className="stage-gallery member-cf-gallery">
+            {cfCuts.map((campaign) => (
+              <article className="track-cut-card track-cut-card-cf" key={campaign.id}>
+                <a href="/cf">
+                  <img loading="lazy" src={campaign.image} alt={`${campaign.title} CF cut`} />
+                  <div>
+                    <strong>{campaign.shortTitle}</strong>
+                    <span>{campaign.productLane} / {campaign.duration} / {campaign.status}</span>
+                  </div>
+                </a>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <TikTokAssetGrid
         className="asset-section member-tiktok-section"

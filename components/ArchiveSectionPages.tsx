@@ -837,19 +837,35 @@ export function CfArchivePage() {
         </aside>
 
         <article className="cf-detail-panel">
-          <div className="cf-detail-image">
-            <img src={selectedCf.image} alt={`${selectedCf.shortTitle} CF visual anchor`} />
+          <div className={`cf-detail-image${selectedCf.instagramEmbedUrl ? " cf-detail-instagram" : ""}`}>
+            {selectedCf.instagramEmbedUrl ? (
+              <iframe
+                src={selectedCf.instagramEmbedUrl}
+                title={`${selectedCf.shortTitle} Instagram reel`}
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                allowFullScreen
+                loading="lazy"
+              />
+            ) : (
+              <img src={selectedCf.image} alt={`${selectedCf.shortTitle} CF visual anchor`} />
+            )}
           </div>
           <div className="cf-detail-copy">
             <p>{selectedCf.productLane}</p>
             <h2>{selectedCf.title}</h2>
             <strong>{selectedCf.memoryLine}</strong>
             <span>{selectedCf.story}</span>
+            <span>{selectedCf.viewerRead}</span>
             <ul>
               {selectedCf.proof.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
+            {selectedCf.instagramUrl ? (
+              <a className="cf-instagram-link" href={selectedCf.instagramUrl} target="_blank" rel="noreferrer">
+                Open Instagram Reel <i />
+              </a>
+            ) : null}
           </div>
         </article>
       </section>

@@ -301,13 +301,24 @@ export function ArchiveConsole() {
 
               {mode === "cf" ? (
                 <article className="cf-showcase">
-                  <div className="cf-showcase-image">
-                    <img src={selectedCf.image} alt={`${selectedCf.shortTitle} CF visual anchor`} />
+                  <div className={`cf-showcase-image${selectedCf.instagramEmbedUrl ? " cf-showcase-instagram" : ""}`}>
+                    {selectedCf.instagramEmbedUrl ? (
+                      <iframe
+                        src={selectedCf.instagramEmbedUrl}
+                        title={`${selectedCf.shortTitle} Instagram reel`}
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                        allowFullScreen
+                        loading="lazy"
+                      />
+                    ) : (
+                      <img src={selectedCf.image} alt={`${selectedCf.shortTitle} CF visual anchor`} />
+                    )}
                   </div>
                   <div className="cf-showcase-copy">
                     <p>{selectedCf.productLane}</p>
                     <h3>{selectedCf.title}</h3>
                     <span>{selectedCf.memoryLine}</span>
+                    <span>{selectedCf.viewerRead}</span>
                     <dl>
                       <div>
                         <dt>Duration</dt>
@@ -323,6 +334,11 @@ export function ArchiveConsole() {
                         <li key={item}>{item}</li>
                       ))}
                     </ul>
+                    {selectedCf.instagramUrl ? (
+                      <a className="cf-instagram-link" href={selectedCf.instagramUrl} target="_blank" rel="noreferrer">
+                        Open Instagram Reel <i />
+                      </a>
+                    ) : null}
                   </div>
                 </article>
               ) : null}
