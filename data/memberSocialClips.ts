@@ -1,5 +1,6 @@
 import type { MemberCode } from "./members";
 import { cfCampaigns } from "./cf";
+import { tiktokVideoShareUrl } from "./publicChannels";
 import { tiktokMemberAssets } from "./tiktokAssets";
 
 /**
@@ -85,7 +86,7 @@ function buildClip(memberCode: MemberCode, input: ManualClipInput): MemberSocial
     publishedAt: input.publishedAt,
     shareUrl:
       input.shareUrl ??
-      (isYoutube ? youtubeShortsShareUrl(input.videoId) : `https://www.tiktok.com/@loom_mm/video/${input.videoId}`),
+      (isYoutube ? youtubeShortsShareUrl(input.videoId) : tiktokVideoShareUrl(input.videoId)),
     playerUrl:
       input.playerUrl ??
       (isYoutube ? youtubeShortsPlayerUrl(input.videoId) : tiktokPlayerUrl(input.videoId)),

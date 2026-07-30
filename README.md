@@ -17,6 +17,7 @@ routes, and interactions into maintainable app structure.
 - `data/mediaExperience.ts`: member-to-media cue map for future synchronized media switching.
 - `styles.css`: global visual system, responsive layout, stage map, and panel treatment.
 - `data/media.ts`: generated storyboard, member board, and track cut image index.
+- `data/publicChannels.ts`: public SNS constants for TikTok / Instagram / YouTube (**not X**). Unified handle `loom_m` (hyphen `loom-m` is invalid on IG/TT usernames). Live renames happen in each app; this file only keeps share URLs consistent.
 - `data/memberSocialClips.ts`: **single embed registry** for home Featured + member Social Proof (TikTok + YouTube Shorts). Manage new uploads under `manualClipsByMember` by member code with accurate `publishedAt`, then redeploy. Ordering is always newest-first; no platform preference. `featuredMemberClips.ts` is a thin re-export only.
 - `data/memberTrackCuts.ts`: member **Track Cuts** assembly for profile + `/members` archive. Newest track package first (Pulso before Root Signal); update `TRACK_CUT_RELEASED_AT` when a new package lands.
 - `data/tiktokAssets.ts`: legacy TikTok seed catalog still folded into `memberSocialClips`; prefer writing new clips only in `memberSocialClips.ts`.
