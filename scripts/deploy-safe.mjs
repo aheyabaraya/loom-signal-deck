@@ -24,13 +24,9 @@ const maxSizeBytes = maxSizeMb * 1024 * 1024;
 
 const includeEntries = [
   "app",
-  "assets",
   "components",
   "data",
-  "docs",
   "public",
-  "scripts",
-  "README.md",
   "next.config.mjs",
   "next-env.d.ts",
   "package.json",
@@ -74,6 +70,24 @@ if (!Number.isFinite(maxSizeMb) || maxSizeMb <= 0) {
 if (!existsSync(projectConfigPath)) {
   console.error(`Missing Vercel project config: ${projectConfigPath}`);
   process.exit(1);
+}
+
+const imageValidation = spawnSync(
+  process.execPath,
+  [join(scriptDir, "validate-public-images.mjs")],
+  {
+    cwd: appDir,
+    stdio: "inherit",
+  },
+);
+
+if (imageValidation.error) {
+  console.error(imageValidation.error.message);
+  process.exit(1);
+}
+
+if (imageValidation.status !== 0) {
+  process.exit(imageValidation.status ?? 1);
 }
 
 rmSync(stageRoot, { recursive: true, force: true });

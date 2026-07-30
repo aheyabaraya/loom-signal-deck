@@ -34,8 +34,8 @@ routes, and interactions into maintainable app structure.
 - `public/assets/members/Mxx/`: optimized member archive with profile, character board, and member-scoped track cuts.
 - `public/assets/members/duos/`: optimized duo track cuts, still separated by album and track.
 - `public/assets/tracks/`: optimized track-level assets such as storyboard previews.
-- `assets/`: original web-owned source asset snapshot.
-- `docs/loom-final-homepage-target.png`: locked visual direction reference for this prototype.
+- `assets/`: original web-owned source asset snapshot; preserved locally and excluded from deployment.
+- `docs/loom-final-homepage-target.png`: locked visual direction reference; preserved locally and excluded from deployment.
 
 ## Commands
 
@@ -43,6 +43,7 @@ routes, and interactions into maintainable app structure.
 - `pnpm dev`: run the local Next dev server.
 - `pnpm type-check`: validate TypeScript.
 - `pnpm validate:member-assets`: check all member portraits, boards, Pulso images, and member/unit catalog files plus duplicate catalog IDs.
+- `pnpm validate:public-images`: reject any deployable raster asset that is not WebP.
 - `pnpm build`: create a production build.
 - `pnpm deploy:preview`: deploy through the safe 80MB-capped Vercel staging path.
 - `pnpm deploy:prod`: deploy production through the same safe staging path.
@@ -63,10 +64,11 @@ routes, and interactions into maintainable app structure.
 - `Root Signal` is embedded from YouTube ID `DUyCAFHZ7X0`.
 - `data/mediaExperience.ts` is the planned sync layer for member-click media updates: selected member -> video cue, profile image, board image, storyboard set, and track cut ids.
 - Member portraits, character boards, storyboards, and track cuts are committed as web-ready assets under `public/assets/**`.
+- Keep deployable raster images under `public/**` in WebP. SVG remains suitable for vector-only assets such as the favicon.
 - Album and track-specific track cuts stay nested under `albums/code-root-signal/loom-full-code-root-signal/` instead of being mixed into base member assets.
 - Core heading and label sizes are named in the `:root` typography tokens at the top of `styles/00-foundations-home.css`; responsive overrides stay in `styles/90-responsive.css`.
 - Keep `styles.css` as imports only and preserve its order. Add new rules to the matching role file so the cascade remains predictable.
-- Vercel deploys should use `pnpm deploy:preview` or `pnpm deploy:prod`; the script stages only the `web` app files under `/tmp/loom-signal-deck-vercel-stage` and aborts before upload if the package grows past 80MB.
+- Vercel deploys should use `pnpm deploy:preview` or `pnpm deploy:prod`; the script validates public image formats, excludes source/reference folders, stages only runtime web files under `/tmp/loom-signal-deck-vercel-stage`, and aborts before upload if the package grows past 80MB.
 
 ## Current Scope
 

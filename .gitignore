@@ -11,3 +11,4 @@ output/
 scripts/*
 !scripts/deploy-safe.mjs
 !scripts/validate-member-assets.mjs
+!scripts/validate-public-images.mjs

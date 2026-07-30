@@ -110,7 +110,7 @@ export const cfCampaigns: CfCampaign[] = [
       "Black/red/cyan grade",
       "No mixed preview versions"
     ],
-    image: "/assets/cf/coca-cola-world-rule-engine/poster-final-frame.jpg",
+    image: "/assets/cf/coca-cola-world-rule-engine/poster-final-frame.webp",
     videoUrl: "https://www.instagram.com/reel/DakEtMMpycX/",
     videoEmbedUrl: "https://www.instagram.com/reel/DakEtMMpycX/embed",
     videoPlatform: "instagram_reels"
