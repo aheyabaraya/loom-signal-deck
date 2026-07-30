@@ -2,10 +2,10 @@ import type { CSSProperties } from "react";
 import { cfCampaigns } from "../data/cf";
 import type { MemberArchive } from "../data/media";
 import { getMemberArchiveHref, type Member } from "../data/members";
-import { getPulsoTrackCutsForMember } from "../data/pulsoAssets";
+import { getMemberDisplayTrackCuts } from "../data/memberTrackCuts";
 import { rootSignalTrack } from "../data/tracks";
 import { SiteHeader } from "./SiteHeader";
-import { TikTokAssetGrid } from "./TikTokAssetGrid";
+import { SocialProofGrid } from "./TikTokAssetGrid";
 
 type MemberProfilePageProps = {
   archive?: MemberArchive;
@@ -18,24 +18,7 @@ function getSignalName(member: Member) {
 
 export function MemberProfilePage({ archive, member }: MemberProfilePageProps) {
   const portrait = archive?.profile ?? member.image;
-  const trackCuts = [
-    ...(archive?.stageCuts ?? []).map((cut) => ({
-      id: cut.id,
-      image: cut.image,
-      kind: "root-signal",
-      sourceLabel: cut.sourceType === "duo" ? "Root Signal Duo" : "Root Signal Solo",
-      subtitle: cut.subtitle,
-      title: cut.title
-    })),
-    ...getPulsoTrackCutsForMember(member.code).map((cut) => ({
-      id: cut.id,
-      image: cut.image,
-      kind: cut.sourceType,
-      sourceLabel: cut.sourceType === "pulso-face" ? "Pulso Face" : "Pulso Stagewear",
-      subtitle: cut.subtitle,
-      title: cut.title
-    }))
-  ];
+  const trackCuts = getMemberDisplayTrackCuts(member.code, archive?.stageCuts ?? []);
   const cfCuts = cfCampaigns.filter((campaign) => campaign.memberCodes.includes(member.code));
 
   return (
@@ -116,28 +99,56 @@ export function MemberProfilePage({ archive, member }: MemberProfilePageProps) {
       </section>
 
       {cfCuts.length > 0 ? (
-        <section className="asset-section member-cf-section" aria-label={`${member.name} CF archive`}>
+        <section className="asset-section member-cf-section" aria-label={`${member.name} unofficial commercial cuts`}>
           <div className="asset-heading">
-            <p>CF Archive</p>
-            <h2>{member.name} commercial cuts</h2>
+            <p>Unofficial · 비공식 CF</p>
+            <h2>비공식 {member.name} commercial cuts</h2>
           </div>
           <div className="stage-gallery member-cf-gallery">
-            {cfCuts.map((campaign) => (
-              <article className="track-cut-card track-cut-card-cf" key={campaign.id}>
-                <a href="/cf">
-                  <img loading="lazy" src={campaign.image} alt={`${campaign.title} CF cut`} />
-                  <div>
-                    <strong>{campaign.shortTitle}</strong>
-                    <span>{campaign.productLane} / {campaign.duration} / {campaign.status}</span>
-                  </div>
-                </a>
-              </article>
-            ))}
+            {cfCuts.map((campaign) => {
+              const videoPlatformLabel =
+                campaign.videoPlatform === "youtube_shorts" ? "YouTube Shorts" : "Instagram Reel";
+
+              return (
+                <article
+                  className={`track-cut-card track-cut-card-cf${campaign.videoEmbedUrl ? " member-cf-embed-card" : ""}`}
+                  key={campaign.id}
+                >
+                  {campaign.videoEmbedUrl ? (
+                    <>
+                      <iframe
+                        className="member-cf-embed"
+                        src={campaign.videoEmbedUrl}
+                        title={`${campaign.shortTitle} ${videoPlatformLabel}`}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        loading="lazy"
+                      />
+                      <div>
+                        <strong>{campaign.shortTitle}</strong>
+                        <span>{campaign.productLane} / {campaign.duration} / {campaign.status}</span>
+                        <a href={campaign.videoUrl} target="_blank" rel="noreferrer">
+                          Open {videoPlatformLabel}
+                        </a>
+                      </div>
+                    </>
+                  ) : (
+                    <a href="/cf">
+                      <img loading="lazy" src={campaign.image} alt={`${campaign.title} CF cut`} />
+                      <div>
+                        <strong>{campaign.shortTitle}</strong>
+                        <span>{campaign.productLane} / {campaign.duration} / {campaign.status}</span>
+                      </div>
+                    </a>
+                  )}
+                </article>
+              );
+            })}
           </div>
         </section>
       ) : null}
 
-      <TikTokAssetGrid
+      <SocialProofGrid
         className="asset-section member-tiktok-section"
         memberCode={member.code}
         memberName={member.name}

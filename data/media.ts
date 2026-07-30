@@ -349,6 +349,54 @@ export const stageCuts: StageCut[] = [
     "sourceType": "solo"
   },
   {
+    "id": "stage-47",
+    "memberCode": "M07",
+    "memberCodes": [
+      "M07"
+    ],
+    "title": "M07 Rena",
+    "subtitle": "CF cosmetic morning · profile apply",
+    "image": "/assets/members/M07/albums/cf-cosmetic-morning-luma/images/rena-profile-apply-side.webp",
+    "sourceType": "solo"
+  },
+  {
+    "id": "stage-gm-temple-a",
+    "memberCode": "M07",
+    "memberCodes": ["M07"],
+    "title": "M07 · Bouquet key visual A",
+    "subtitle": "Gentle Monster temple face-lock A",
+    "image": "/assets/members/M07/albums/cf-gentle-monster-bouquet/images/temple-a.webp",
+    "sourceType": "solo"
+  },
+  {
+    "id": "stage-gm-temple-b",
+    "memberCode": "M07",
+    "memberCodes": ["M07"],
+    "title": "M07 · Bouquet key visual B",
+    "subtitle": "Gentle Monster temple face-lock B",
+    "image": "/assets/members/M07/albums/cf-gentle-monster-bouquet/images/temple-b.webp",
+    "sourceType": "solo"
+  },
+  {
+    "id": "stage-gm-temple-c",
+    "memberCode": "M07",
+    "memberCodes": ["M07"],
+    "title": "M07 · Bouquet key visual C",
+    "subtitle": "Gentle Monster temple face-lock C",
+    "image": "/assets/members/M07/albums/cf-gentle-monster-bouquet/images/temple-c.webp",
+    "sourceType": "solo"
+  },
+  {
+    "id": "stage-gm-temple-d",
+    "memberCode": "M07",
+    "memberCodes": ["M07"],
+    "title": "M07 · Bouquet key visual D",
+    "subtitle": "Gentle Monster temple face-lock D",
+    "image": "/assets/members/M07/albums/cf-gentle-monster-bouquet/images/temple-d.webp",
+    "sourceType": "solo"
+  },
+
+  {
     "id": "stage-21",
     "memberCode": "M08",
     "memberCodes": [
@@ -1003,6 +1051,53 @@ export const memberArchives: MemberArchive[] = [
         "title": "M07",
         "subtitle": "R22 M07 2-33-2-39",
         "image": "/assets/members/M07/albums/code-root-signal/loom-full-code-root-signal/images/20-r22-m07-2-33-2-39-solo-backdancers.webp",
+        "sourceType": "solo"
+      },
+      {
+        "id": "stage-47",
+        "memberCode": "M07",
+        "memberCodes": [
+          "M07"
+        ],
+        "title": "M07 Rena",
+        "subtitle": "CF cosmetic morning · profile apply",
+        "image": "/assets/members/M07/albums/cf-cosmetic-morning-luma/images/rena-profile-apply-side.webp",
+        "sourceType": "solo"
+      },
+      {
+        "id": "stage-gm-temple-a",
+        "memberCode": "M07",
+        "memberCodes": ["M07"],
+        "title": "M07 · Bouquet key visual A",
+        "subtitle": "Gentle Monster temple face-lock A",
+        "image": "/assets/members/M07/albums/cf-gentle-monster-bouquet/images/temple-a.webp",
+        "sourceType": "solo"
+      },
+      {
+        "id": "stage-gm-temple-b",
+        "memberCode": "M07",
+        "memberCodes": ["M07"],
+        "title": "M07 · Bouquet key visual B",
+        "subtitle": "Gentle Monster temple face-lock B",
+        "image": "/assets/members/M07/albums/cf-gentle-monster-bouquet/images/temple-b.webp",
+        "sourceType": "solo"
+      },
+      {
+        "id": "stage-gm-temple-c",
+        "memberCode": "M07",
+        "memberCodes": ["M07"],
+        "title": "M07 · Bouquet key visual C",
+        "subtitle": "Gentle Monster temple face-lock C",
+        "image": "/assets/members/M07/albums/cf-gentle-monster-bouquet/images/temple-c.webp",
+        "sourceType": "solo"
+      },
+      {
+        "id": "stage-gm-temple-d",
+        "memberCode": "M07",
+        "memberCodes": ["M07"],
+        "title": "M07 · Bouquet key visual D",
+        "subtitle": "Gentle Monster temple face-lock D",
+        "image": "/assets/members/M07/albums/cf-gentle-monster-bouquet/images/temple-d.webp",
         "sourceType": "solo"
       },
       {

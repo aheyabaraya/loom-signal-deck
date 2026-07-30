@@ -16,9 +16,8 @@ import {
   nextTrackVoteCandidates,
   type NextTrackVoteCandidate
 } from "../data/trackVotes";
-import { tiktokMemberAssets } from "../data/tiktokAssets";
 import { SiteHeader, type SiteHeaderActive } from "./SiteHeader";
-import { TikTokAssetGrid, TikTokFeaturedGrid } from "./TikTokAssetGrid";
+import { FeaturedMemberClipsGrid } from "./TikTokAssetGrid";
 import { TrackVideo } from "./TrackVideo";
 
 type SignalDeckProps = {
@@ -41,8 +40,6 @@ type NextTrackVoteState = {
 
 const innerOrbitCodes: MemberCode[] = ["M01", "M09", "M07", "M05"];
 const outerOrbitCodes: MemberCode[] = ["M02", "M03", "M11", "M13", "M10", "M12", "M08", "M06", "M04"];
-const tiktokMemberCodes = new Set(tiktokMemberAssets.map((asset) => asset.memberCode));
-const membersWithTikTokAssets = homeMembers.filter((member) => tiktokMemberCodes.has(member.code));
 const homeNextTrackVoteCandidates = nextTrackVoteCandidates.filter((candidate) =>
   candidate.memberCodes.every((code) => homeMemberByCode.has(code))
 );
@@ -583,12 +580,12 @@ export function SignalDeck({
               <TrackVideo key={track.id} track={track} variant="home" />
             ))}
           </div>
-          <div className="home-member-tiktoks" aria-label="Featured member TikTok clips">
+          <div className="home-member-tiktoks" aria-label="Featured member clips from TikTok and YouTube Shorts, newest first">
             <div className="home-section-label home-tiktok-label">
-              <p>TikTok Clips</p>
+              <p>Social · newest first</p>
               <h2>Featured member clips</h2>
             </div>
-            <TikTokFeaturedGrid className="home-member-tiktok-stack" members={membersWithTikTokAssets} />
+            <FeaturedMemberClipsGrid className="home-member-tiktok-stack" />
           </div>
         </section>
 

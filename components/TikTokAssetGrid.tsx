@@ -1,27 +1,28 @@
 "use client";
 
 import { useEffect, useRef, useState, type RefObject } from "react";
-import type { TikTokMemberAsset } from "../data/tiktokAssets";
-import type { MemberCode } from "../data/members";
-import { getTikTokAssetsForMember } from "../data/tiktokAssets";
+import {
+  getFeaturedHomeClips,
+  getSocialClipsForMember,
+  platformLabel,
+  type MemberSocialClip
+} from "../data/memberSocialClips";
+import { getMember, homeMemberCodes, type MemberCode } from "../data/members";
 
-type TikTokLoadMode = "click" | "viewport" | "row";
-type FeaturedTikTokMember = {
-  code: MemberCode;
-  name: string;
-};
+type ClipLoadMode = "click" | "viewport" | "row";
 
-type TikTokAssetGridProps = {
+type SocialProofGridProps = {
   className?: string;
   compact?: boolean;
-  loadMode?: TikTokLoadMode;
+  loadMode?: ClipLoadMode;
   limit?: number;
   memberCode: MemberCode;
   memberName: string;
   showHeading?: boolean;
 };
 
-export function TikTokAssetGrid({
+/** Member-page social proof: all TikTok + YouTube embeds for one member, newest first. */
+export function SocialProofGrid({
   className,
   compact = false,
   loadMode = "row",
@@ -29,42 +30,42 @@ export function TikTokAssetGrid({
   memberCode,
   memberName,
   showHeading = true
-}: TikTokAssetGridProps) {
-  const assets = getTikTokAssetsForMember(memberCode).slice(0, limit);
+}: SocialProofGridProps) {
+  const clips = getSocialClipsForMember(memberCode).slice(0, limit);
   const gridRef = useRef<HTMLDivElement | null>(null);
   const { loadedRowCount, rowIndexById } = useRowLoadQueue(
     gridRef,
-    assets.map((asset) => asset.id),
+    clips.map((clip) => clip.id),
     loadMode === "row"
   );
 
-  if (!assets.length) {
+  if (!clips.length) {
     return null;
   }
 
   return (
     <section
-      className={["tiktok-asset-section", compact ? "is-compact" : "", className]
+      className={["tiktok-asset-section", "social-proof-section", compact ? "is-compact" : "", className]
         .filter(Boolean)
         .join(" ")}
-      aria-label={`${memberName} TikTok assets`}
+      aria-label={`${memberName} social proof clips`}
     >
       {showHeading ? (
         <div className="asset-heading tiktok-asset-heading">
-          <p>TikTok Proof</p>
-          <h2>{memberName} TikTok clips</h2>
+          <p>Social Proof</p>
+          <h2>{memberName} social clips</h2>
         </div>
       ) : null}
 
       <div className="tiktok-asset-grid" ref={gridRef}>
-        {assets.map((asset, index) => (
-          <TikTokAssetCard
-            asset={asset}
+        {clips.map((clip, index) => (
+          <SocialClipCard
+            clip={clip}
             forceLoadPlayer={
-              loadMode === "row" && (rowIndexById[asset.id] ?? Number.POSITIVE_INFINITY) < loadedRowCount
+              loadMode === "row" && (rowIndexById[clip.id] ?? Number.POSITIVE_INFINITY) < loadedRowCount
             }
             index={index}
-            key={asset.id}
+            key={clip.id}
             loadMode={loadMode}
             memberCode={memberCode}
             memberName={memberName}
@@ -75,69 +76,86 @@ export function TikTokAssetGrid({
   );
 }
 
-type TikTokFeaturedGridProps = {
+/** @deprecated Prefer SocialProofGrid — same component, legacy name. */
+export const TikTokAssetGrid = SocialProofGrid;
+
+type FeaturedMemberClipsGridProps = {
   className?: string;
-  members: FeaturedTikTokMember[];
 };
 
-export function TikTokFeaturedGrid({ className, members }: TikTokFeaturedGridProps) {
-  const featuredAssets = members
-    .map((member) => ({
-      asset: getTikTokAssetsForMember(member.code)[0],
-      member
-    }))
-    .filter((item): item is { asset: TikTokMemberAsset; member: FeaturedTikTokMember } => Boolean(item.asset));
+/**
+ * Home Featured: one latest clip per member, ordered by that clip's
+ * publishedAt (newest first). Platform is not a sort key.
+ */
+export function FeaturedMemberClipsGrid({ className }: FeaturedMemberClipsGridProps) {
+  const featuredClips = getFeaturedHomeClips(homeMemberCodes);
   const gridRef = useRef<HTMLDivElement | null>(null);
   const { loadedRowCount, rowIndexById } = useRowLoadQueue(
     gridRef,
-    featuredAssets.map(({ asset }) => asset.id),
+    featuredClips.map((clip) => clip.id),
     true
   );
 
-  if (!featuredAssets.length) {
+  if (!featuredClips.length) {
     return null;
   }
 
   return (
     <div className={className} ref={gridRef}>
-      {featuredAssets.map(({ asset, member }, index) => (
-        <TikTokAssetCard
-          asset={asset}
-          cardClassName="member-tiktok-panel home-member-tiktok-panel"
-          forceLoadPlayer={(rowIndexById[asset.id] ?? Number.POSITIVE_INFINITY) < loadedRowCount}
-          index={index}
-          key={asset.id}
-          loadMode="row"
-          memberCode={member.code}
-          memberName={member.name}
-        />
-      ))}
+      {featuredClips.map((clip, index) => {
+        const member = getMember(clip.memberCode);
+        return (
+          <SocialClipCard
+            clip={clip}
+            cardClassName="member-tiktok-panel home-member-tiktok-panel"
+            forceLoadPlayer={(rowIndexById[clip.id] ?? Number.POSITIVE_INFINITY) < loadedRowCount}
+            index={index}
+            key={clip.id}
+            loadMode="row"
+            memberCode={member.code}
+            memberName={member.name}
+          />
+        );
+      })}
     </div>
   );
 }
 
-type TikTokAssetCardProps = {
-  asset: TikTokMemberAsset;
+/** @deprecated Prefer FeaturedMemberClipsGrid. */
+export function TikTokFeaturedGrid({
+  className
+}: {
+  className?: string;
+  /** Ignored — order is publishedAt newest-first from the social registry. */
+  members?: Array<{ code: MemberCode; name: string }>;
+}) {
+  return <FeaturedMemberClipsGrid className={className} />;
+}
+
+type SocialClipCardProps = {
+  clip: MemberSocialClip;
   cardClassName?: string;
   forceLoadPlayer?: boolean;
   index: number;
-  loadMode: TikTokLoadMode;
+  loadMode: ClipLoadMode;
   memberCode: MemberCode;
   memberName: string;
 };
 
-function TikTokAssetCard({
-  asset,
+function SocialClipCard({
+  clip,
   cardClassName,
   forceLoadPlayer = false,
   index,
   loadMode,
   memberCode,
   memberName
-}: TikTokAssetCardProps) {
+}: SocialClipCardProps) {
   const cardRef = useRef<HTMLElement | null>(null);
   const [shouldLoadPlayer, setShouldLoadPlayer] = useState(false);
   const [frameLoaded, setFrameLoaded] = useState(false);
+  const platformName = platformLabel(clip.platform);
+  const isYoutube = clip.platform === "youtube_shorts";
 
   useEffect(() => {
     if (forceLoadPlayer && !shouldLoadPlayer) {
@@ -189,48 +207,51 @@ function TikTokAssetCard({
     <article
       className={[
         "tiktok-asset-card",
+        isYoutube ? "is-youtube-clip" : "is-tiktok-clip",
         cardClassName,
         shouldLoadPlayer ? "is-player-requested" : "",
         frameLoaded ? "is-player-loaded" : ""
       ]
         .filter(Boolean)
         .join(" ")}
-      data-tiktok-card-id={asset.id}
+      data-tiktok-card-id={clip.id}
       ref={cardRef}
     >
       <div className="tiktok-player-frame">
         {shouldLoadPlayer ? (
           <iframe
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             loading="lazy"
             onLoad={() => setFrameLoaded(true)}
-            src={asset.playerUrl}
-            title={`${memberName} TikTok clip: ${asset.title}`}
+            src={clip.playerUrl}
+            title={`${memberName} ${platformName} clip: ${clip.title}`}
           />
         ) : null}
         {!frameLoaded ? (
           <button
-            aria-label={`Load ${memberName} TikTok preview`}
+            aria-label={`Load ${memberName} ${platformName} preview`}
             className="tiktok-player-placeholder"
             onClick={() => setShouldLoadPlayer(true)}
             type="button"
           >
-            <span>{memberCode}</span>
+            <span>
+              {memberCode} · {platformName}
+            </span>
             <strong>{memberName}</strong>
-            <em>{asset.title}</em>
+            <em>{clip.title}</em>
             <b>{getPlaceholderLabel(loadMode, shouldLoadPlayer)}</b>
           </button>
         ) : null}
       </div>
       <div className="tiktok-asset-meta">
         <span className="tiktok-member-label">
-          {memberCode} {memberName}
+          {memberCode} {memberName} · {platformName}
         </span>
-        <strong>{asset.title}</strong>
-        <span>{formatTikTokMetrics(asset)}</span>
-        <a href={asset.shareUrl} rel="noreferrer" target="_blank">
-          Open TikTok <i />
+        <strong>{clip.title}</strong>
+        <span>{formatClipMetrics(clip)}</span>
+        <a href={clip.shareUrl} rel="noreferrer" target="_blank">
+          Open {platformName} <i />
         </a>
       </div>
     </article>
@@ -331,7 +352,7 @@ function useRowLoadQueue(
   return { loadedRowCount, rowIndexById };
 }
 
-function getPlaceholderLabel(loadMode: TikTokLoadMode, shouldLoadPlayer: boolean) {
+function getPlaceholderLabel(loadMode: ClipLoadMode, shouldLoadPlayer: boolean) {
   if (shouldLoadPlayer) {
     return "Loading Preview";
   }
@@ -339,11 +360,14 @@ function getPlaceholderLabel(loadMode: TikTokLoadMode, shouldLoadPlayer: boolean
   return loadMode === "click" ? "Load Preview" : "Queued By Row";
 }
 
-function formatTikTokMetrics(asset: TikTokMemberAsset) {
+function formatClipMetrics(clip: Pick<MemberSocialClip, "views" | "likes" | "duration" | "platform">) {
   return [
-    `${asset.views.toLocaleString()} views`,
-    asset.likes === null ? null : `${asset.likes.toLocaleString()} likes`,
-    asset.duration === null ? null : `${asset.duration}s`
+    clip.views === null ? null : `${clip.views.toLocaleString()} views`,
+    clip.likes === null ? null : `${clip.likes.toLocaleString()} likes`,
+    clip.duration === null ? null : `${clip.duration}s`,
+    clip.views === null && clip.likes === null && clip.duration === null
+      ? platformLabel(clip.platform)
+      : null
   ]
     .filter(Boolean)
     .join(" / ");

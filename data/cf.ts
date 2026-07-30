@@ -15,11 +15,74 @@ export type CfCampaign = {
   proof: string[];
   locks: string[];
   image: string;
-  instagramUrl?: string;
-  instagramEmbedUrl?: string;
+  videoUrl?: string;
+  videoEmbedUrl?: string;
+  videoPlatform?: "instagram_reels" | "youtube_shorts";
 };
 
 export const cfCampaigns: CfCampaign[] = [
+  {
+    id: "CF_GENTLEMONSTER_BOUQUET_001",
+    title: "Bouquet · Dual Gaze Brand Film",
+    shortTitle: "Bouquet Gaze",
+    status: "final",
+    duration: "19s",
+    memberCodes: ["M07"],
+    productLane: "Fashion / clear eyewear · floral-bead temple",
+    objective: "Harness sample · portfolio brand film",
+    memoryLine: "Different gazes meet — and a new sense completes.",
+    story:
+      "A Loom production-harness brand film study: dual glass-corridor gazes, pocket-to-temple bead proof, and a four-contact eyeline finish. Framed as a spec fashion film, not an official brand campaign.",
+    viewerRead:
+      "Two incomplete views resolve when temple-bead construction locks a shared sense of space.",
+    proof: [
+      "Split stair and dual corridor gazes",
+      "Pocket bead reveal",
+      "Temple A/B/C/D face-lock key visuals",
+      "Mutual eyeline landing"
+    ],
+    locks: [
+      "Spec concept, not an official brand campaign",
+      "Key visual lock: temple A/B/C/D face-lock set",
+      "Music bed: Suno",
+      "Edit on Grok Build · no logo, price, or retailer claim"
+    ],
+    image: "/assets/cf/gentle-monster-bouquet/poster-temple-a.webp",
+    videoUrl: "https://youtube.com/shorts/br8NKQIHjOQ",
+    videoEmbedUrl: "https://www.youtube.com/embed/br8NKQIHjOQ?playsinline=1&rel=0",
+    videoPlatform: "youtube_shorts"
+  },
+  {
+    id: "CF_COSMETIC_TARGET_DISCOVERY_001",
+    title: "Morning Color · Test Lipstick CF",
+    shortTitle: "Morning Lipstick",
+    status: "final",
+    duration: "8s",
+    memberCodes: ["M07"],
+    productLane: "Beauty / test lipstick CF",
+    objective: "Harness sample · portfolio study",
+    memoryLine: "One chosen color starts the day.",
+    story:
+      "A short morning cosmetic study with Rena: water, light, product motion, and a quiet lip finish. Framed as a Loom production-harness sample rather than a finished brand film.",
+    viewerRead:
+      "One color choice can feel like the start of the day — visible from object to face.",
+    proof: [
+      "Bare-foot water open",
+      "Curtain cold light",
+      "Shadow-driven product roll",
+      "Profile apply and frontal hold"
+    ],
+    locks: [
+      "Spec concept, not an official brand campaign",
+      "Rena (M07) cast lock",
+      "Sound-off master v15",
+      "No logo, efficacy, price, or retailer claim"
+    ],
+    image: "/assets/cf/cosmetic-morning-luma/rena-profile-apply-side.webp",
+    videoUrl: "https://youtube.com/shorts/rxwn61IROQc?si=Kz4np2epgWft57Tb",
+    videoEmbedUrl: "https://www.youtube.com/embed/rxwn61IROQc?playsinline=1&rel=0",
+    videoPlatform: "youtube_shorts"
+  },
   {
     id: "CF_COCA_COLA_WORLD_RULE_ENGINE_001",
     title: "Coca-Cola World Rule Engine",
@@ -47,8 +110,9 @@ export const cfCampaigns: CfCampaign[] = [
       "No mixed preview versions"
     ],
     image: "/assets/cf/coca-cola-world-rule-engine/poster-final-frame.jpg",
-    instagramUrl: "https://www.instagram.com/reel/DakEtMMpycX/",
-    instagramEmbedUrl: "https://www.instagram.com/reel/DakEtMMpycX/embed"
+    videoUrl: "https://www.instagram.com/reel/DakEtMMpycX/",
+    videoEmbedUrl: "https://www.instagram.com/reel/DakEtMMpycX/embed",
+    videoPlatform: "instagram_reels"
   },
   {
     id: "CF_FARE_GATE_STYLE_LOOP_001",

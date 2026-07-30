@@ -8,8 +8,7 @@ import {
   memberArchives,
   memberBoards,
   storyboardImages,
-  type MemberArchive,
-  type StageCut
+  type MemberArchive
 } from "../data/media";
 import {
   defaultMemberCode,
@@ -19,19 +18,18 @@ import {
   normalizeMemberCode,
   type MemberCode
 } from "../data/members";
+import { getMemberDisplayTrackCuts } from "../data/memberTrackCuts";
 import {
   nextTrackVoteCandidates,
   type NextTrackVoteCandidate
 } from "../data/trackVotes";
 import {
-  getPulsoTrackCutsForMember,
   pulsoContactSheetGroups,
-  pulsoWardrobeSets,
-  type PulsoTrackCut
+  pulsoWardrobeSets
 } from "../data/pulsoAssets";
 import { inkFinalMasterTrack, latestTracks } from "../data/tracks";
 import { SiteHeader } from "./SiteHeader";
-import { TikTokAssetGrid } from "./TikTokAssetGrid";
+import { SocialProofGrid } from "./TikTokAssetGrid";
 import { TrackVideo } from "./TrackVideo";
 
 type NextTrackVoteState = {
@@ -65,14 +63,6 @@ type TrackContactSheetGroup = {
   trackLabel: string;
 };
 
-type DisplayTrackCut = {
-  id: string;
-  image: string;
-  kind: "root-signal" | PulsoTrackCut["sourceType"];
-  sourceLabel: string;
-  subtitle: string;
-  title: string;
-};
 
 const beatContactSheetFiles = [
   "beat-03-b03-bassline-walk.webp",
@@ -296,35 +286,6 @@ function getMemberBoard(code: MemberCode) {
   return memberBoards.find((board) => board.memberCode === code) ?? memberBoards[0];
 }
 
-function getRootSignalCutLabel(cut: StageCut) {
-  return cut.sourceType === "duo" ? "Root Signal Duo" : "Root Signal Solo";
-}
-
-function getPulsoCutLabel(cut: PulsoTrackCut) {
-  return cut.sourceType === "pulso-face" ? "Pulso Face" : "Pulso Stagewear";
-}
-
-function getMemberTrackCuts(baseCuts: StageCut[], memberCode: MemberCode): DisplayTrackCut[] {
-  return [
-    ...baseCuts.map((cut) => ({
-      id: cut.id,
-      image: cut.image,
-      kind: "root-signal" as const,
-      sourceLabel: getRootSignalCutLabel(cut),
-      subtitle: cut.subtitle,
-      title: cut.title
-    })),
-    ...getPulsoTrackCutsForMember(memberCode).map((cut) => ({
-      id: cut.id,
-      image: cut.image,
-      kind: cut.sourceType,
-      sourceLabel: getPulsoCutLabel(cut),
-      subtitle: cut.subtitle,
-      title: cut.title
-    }))
-  ];
-}
-
 function getCandidateMemberNames(candidate: NextTrackVoteCandidate) {
   return candidate.memberCodes.map((code) => getMember(code).name).join(" / ");
 }
@@ -436,7 +397,7 @@ export function MembersArchivePage({ initialCode = defaultMemberCode }: { initia
   const selectedArchive = useMemo(() => getMemberArchive(selectedCode), [selectedCode]);
   const selectedBoard = useMemo(() => getMemberBoard(selectedCode), [selectedCode]);
   const trackCuts = useMemo(
-    () => getMemberTrackCuts(selectedArchive.stageCuts, selectedCode),
+    () => getMemberDisplayTrackCuts(selectedCode, selectedArchive.stageCuts),
     [selectedArchive, selectedCode]
   );
 
@@ -524,7 +485,7 @@ export function MembersArchivePage({ initialCode = defaultMemberCode }: { initia
           </div>
         </section>
 
-        <TikTokAssetGrid
+        <SocialProofGrid
           className="member-tiktok-panel"
           memberCode={selectedMember.code}
           memberName={selectedMember.name}
@@ -824,6 +785,7 @@ export function TrackArchivePage() {
 export function CfArchivePage() {
   const [selectedCfId, setSelectedCfId] = useState(cfCampaigns[0].id);
   const selectedCf = cfCampaigns.find((campaign) => campaign.id === selectedCfId) ?? cfCampaigns[0];
+  const videoPlatformLabel = selectedCf.videoPlatform === "youtube_shorts" ? "YouTube Shorts" : "Instagram Reel";
 
   return (
     <SectionShell
@@ -850,12 +812,12 @@ export function CfArchivePage() {
         </aside>
 
         <article className="cf-detail-panel">
-          <div className={`cf-detail-image${selectedCf.instagramEmbedUrl ? " cf-detail-instagram" : ""}`}>
-            {selectedCf.instagramEmbedUrl ? (
+          <div className={`cf-detail-image${selectedCf.videoEmbedUrl ? " cf-detail-video" : ""}`}>
+            {selectedCf.videoEmbedUrl ? (
               <iframe
-                src={selectedCf.instagramEmbedUrl}
-                title={`${selectedCf.shortTitle} Instagram reel`}
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                src={selectedCf.videoEmbedUrl}
+                title={`${selectedCf.shortTitle} ${videoPlatformLabel}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
                 loading="lazy"
               />
@@ -874,9 +836,9 @@ export function CfArchivePage() {
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            {selectedCf.instagramUrl ? (
-              <a className="cf-instagram-link" href={selectedCf.instagramUrl} target="_blank" rel="noreferrer">
-                Open Instagram Reel <i />
+            {selectedCf.videoUrl ? (
+              <a className="cf-video-link" href={selectedCf.videoUrl} target="_blank" rel="noreferrer">
+                Open {videoPlatformLabel} <i />
               </a>
             ) : null}
           </div>

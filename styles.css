@@ -1536,7 +1536,7 @@ img {
   background: #000;
 }
 
-.cf-showcase-instagram {
+.cf-showcase-video {
   aspect-ratio: 9 / 16;
   min-height: min(72svh, 680px);
 }
@@ -1627,7 +1627,7 @@ img {
   transform: rotate(45deg);
 }
 
-.cf-instagram-link {
+.cf-video-link {
   display: inline-flex;
   width: fit-content;
   align-items: center;
@@ -1640,7 +1640,7 @@ img {
   text-transform: uppercase;
 }
 
-.cf-instagram-link i {
+.cf-video-link i {
   width: 28px;
   height: 1px;
   background: rgba(145, 199, 220, 0.86);
@@ -2270,10 +2270,11 @@ img {
 
 .asset-heading {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 28px;
   margin-bottom: 24px;
+  overflow: visible;
 }
 
 .asset-heading p {
@@ -2283,16 +2284,22 @@ img {
   font-weight: 900;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  flex: 0 0 auto;
 }
 
 .asset-heading h2 {
   margin: 0;
+  padding-block: 0.08em;
+  max-width: min(100%, 18ch);
   font-family: var(--display);
-  font-size: clamp(2.2rem, 3.5vw, 4.8rem);
+  font-size: clamp(1.7rem, 3.1vw, 3.8rem);
   font-weight: 400;
-  line-height: 0.92;
+  line-height: 1.12;
   text-align: right;
   text-transform: uppercase;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  hyphens: manual;
 }
 
 .board-gallery,
@@ -2352,6 +2359,9 @@ img {
   aspect-ratio: 16 / 10;
 }
 
+/* Member track cuts: never hard-crop faces/boards; letterbox instead. */
+.member-stage-section .stage-gallery img,
+.stage-gallery .track-cut-card-root-signal img,
 .stage-gallery .track-cut-card-pulso-face img,
 .stage-gallery .track-cut-card-pulso-stagewear img {
   height: auto;
@@ -2406,12 +2416,49 @@ img {
   letter-spacing: 0.08em;
 }
 
+.stage-gallery .member-cf-embed-card {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.stage-gallery iframe.member-cf-embed {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border: 0;
+  background: #000;
+}
+
+.stage-gallery .member-cf-embed-card > div {
+  position: static;
+  display: grid;
+  gap: 5px;
+  padding: 14px;
+  background: rgba(3, 5, 6, 0.98);
+}
+
+.stage-gallery .member-cf-embed-card > div a {
+  width: fit-content;
+  margin-top: 4px;
+  color: var(--cyan);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
 .stage-section {
   padding-top: 0;
 }
 
 .stage-gallery {
   grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+}
+
+.member-cf-gallery {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 400px));
+  justify-content: start;
 }
 
 .member-page {
@@ -2531,16 +2578,20 @@ img {
   margin: 0 calc(var(--page-pad) * -1);
   padding: 58px var(--page-pad) 72px;
   border-top: 1px solid rgba(230, 238, 242, 0.12);
+  overflow: visible;
   background:
     linear-gradient(180deg, rgba(1, 2, 3, 0.92), rgba(3, 5, 6, 0.98)),
     repeating-linear-gradient(90deg, rgba(230, 238, 242, 0.035) 0 1px, transparent 1px 120px);
 }
 
 .member-board-feature img {
-  width: min(100%, 1180px);
-  max-height: 78svh;
-  object-fit: cover;
-  object-position: center;
+  display: block;
+  width: min(100%, 720px);
+  max-width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  object-position: center top;
   border: 1px solid rgba(230, 238, 242, 0.17);
   filter: saturate(0.88) contrast(1.05) brightness(0.9);
 }
@@ -2591,6 +2642,23 @@ img {
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+.tiktok-player-frame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 40px;
+  background: #050606;
+  pointer-events: none;
+}
+
+/* YouTube embeds already fill the frame; hide the TikTok chrome mask. */
+.tiktok-asset-card.is-youtube-clip .tiktok-player-frame::after {
+  display: none;
 }
 
 .tiktok-player-placeholder {
@@ -2784,6 +2852,27 @@ img {
 
 .home-member-tiktok-panel.member-tiktok-panel .tiktok-player-placeholder strong {
   font-size: clamp(1.55rem, 2.4vw, 2.25rem);
+}
+
+.home-member-tiktok-panel .tiktok-asset-meta {
+  gap: 4px;
+  padding: 7px;
+}
+
+.home-member-tiktok-panel .tiktok-asset-meta .tiktok-member-label {
+  font-size: 0.31rem;
+}
+
+.home-member-tiktok-panel .tiktok-asset-meta > strong {
+  font-size: 0.39rem;
+}
+
+.home-member-tiktok-panel .tiktok-asset-meta > span:not(.tiktok-member-label) {
+  font-size: 0.34rem;
+}
+
+.home-member-tiktok-panel .tiktok-asset-meta > a {
+  margin-top: 4px;
 }
 
 .section-shell {
@@ -3161,19 +3250,18 @@ img {
   background: rgba(0, 0, 0, 0.32);
 }
 
-.member-cut-grid img {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  filter: saturate(0.86) contrast(1.06) brightness(0.82);
-}
-
+/* Archive Track Cuts: never hard-crop — letterbox all sources (root-signal + pulso). */
+.member-cut-grid img,
+.member-cut-grid .track-cut-card-root-signal img,
 .member-cut-grid .track-cut-card-pulso-face img,
 .member-cut-grid .track-cut-card-pulso-stagewear img {
+  width: 100%;
+  height: auto;
   aspect-ratio: 4 / 5;
   padding: 8px;
   object-fit: contain;
   object-position: center;
+  filter: saturate(0.86) contrast(1.06) brightness(0.82);
   background:
     radial-gradient(ellipse at 50% 36%, rgba(145, 199, 220, 0.09), transparent 58%),
     rgba(0, 0, 0, 0.62);
@@ -3842,7 +3930,7 @@ img {
   background: #000;
 }
 
-.cf-detail-instagram {
+.cf-detail-video {
   aspect-ratio: 9 / 16;
   align-self: start;
   width: 100%;
@@ -5286,7 +5374,7 @@ img {
     min-height: 320px;
   }
 
-  .cf-showcase-instagram {
+  .cf-showcase-video {
     min-height: 560px;
   }
 
@@ -5460,7 +5548,7 @@ img {
     min-height: 0;
   }
 
-  .cf-detail-instagram {
+  .cf-detail-video {
     min-height: 0;
   }
 }
@@ -5679,7 +5767,21 @@ img {
   }
 
   .member-board-feature img {
+    width: 100%;
     max-height: none;
+  }
+
+  .asset-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .asset-heading h2 {
+    max-width: 100%;
+    text-align: left;
+    font-size: clamp(1.55rem, 7.2vw, 2.6rem);
+    line-height: 1.14;
   }
 
   .archive-console {
@@ -5735,7 +5837,7 @@ img {
     min-height: 250px;
   }
 
-  .cf-showcase-instagram {
+  .cf-showcase-video {
     min-height: 520px;
   }
 
@@ -5886,7 +5988,7 @@ img {
     min-height: 340px;
   }
 
-  .cf-detail-instagram {
+  .cf-detail-video {
     min-height: 0;
   }
 }

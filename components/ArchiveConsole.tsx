@@ -301,12 +301,14 @@ export function ArchiveConsole() {
 
               {mode === "cf" ? (
                 <article className="cf-showcase">
-                  <div className={`cf-showcase-image${selectedCf.instagramEmbedUrl ? " cf-showcase-instagram" : ""}`}>
-                    {selectedCf.instagramEmbedUrl ? (
+                  <div className={`cf-showcase-image${selectedCf.videoEmbedUrl ? " cf-showcase-video" : ""}`}>
+                    {selectedCf.videoEmbedUrl ? (
                       <iframe
-                        src={selectedCf.instagramEmbedUrl}
-                        title={`${selectedCf.shortTitle} Instagram reel`}
-                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                        src={selectedCf.videoEmbedUrl}
+                        title={`${selectedCf.shortTitle} ${
+                          selectedCf.videoPlatform === "youtube_shorts" ? "YouTube Shorts" : "Instagram Reel"
+                        }`}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen
                         loading="lazy"
                       />
@@ -334,9 +336,9 @@ export function ArchiveConsole() {
                         <li key={item}>{item}</li>
                       ))}
                     </ul>
-                    {selectedCf.instagramUrl ? (
-                      <a className="cf-instagram-link" href={selectedCf.instagramUrl} target="_blank" rel="noreferrer">
-                        Open Instagram Reel <i />
+                    {selectedCf.videoUrl ? (
+                      <a className="cf-video-link" href={selectedCf.videoUrl} target="_blank" rel="noreferrer">
+                        Open {selectedCf.videoPlatform === "youtube_shorts" ? "YouTube Shorts" : "Instagram Reel"} <i />
                       </a>
                     ) : null}
                   </div>
