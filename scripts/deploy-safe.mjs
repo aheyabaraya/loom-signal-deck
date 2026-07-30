@@ -35,6 +35,7 @@ const includeEntries = [
   "next-env.d.ts",
   "package.json",
   "pnpm-lock.yaml",
+  "styles",
   "styles.css",
   "tsconfig.json",
   "tsconfig.typecheck.json",
