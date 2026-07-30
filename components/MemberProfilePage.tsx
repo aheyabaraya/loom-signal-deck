@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { cfCampaigns } from "../data/cf";
+import { MEDIA_IFRAME_ALLOW } from "../data/embedSources";
 import type { MemberArchive } from "../data/media";
 import { getMemberArchiveHref, type Member } from "../data/members";
 import { getMemberDisplayTrackCuts } from "../data/memberTrackCuts";
@@ -120,7 +121,7 @@ export function MemberProfilePage({ archive, member }: MemberProfilePageProps) {
                         className="member-cf-embed"
                         src={campaign.videoEmbedUrl}
                         title={`${campaign.shortTitle} ${videoPlatformLabel}`}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allow={MEDIA_IFRAME_ALLOW}
                         allowFullScreen
                         loading="lazy"
                       />

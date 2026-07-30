@@ -1,8 +1,10 @@
-import type { MemberCode } from "./members";
-import type { StageCut } from "./media";
+import type { MemberCode } from "./memberAssets";
+import type { StageCut } from "./memberTrackAssets";
 import { getPulsoTrackCutsForMember, type PulsoTrackCut } from "./pulsoAssets";
 
-export type DisplayTrackCutKind = "root-signal" | "pulso-face" | "pulso-stagewear";
+type BuiltInTrackCutKind = "root-signal" | "pulso-face" | "pulso-stagewear";
+
+export type DisplayTrackCutKind = BuiltInTrackCutKind | (string & {});
 
 export type DisplayTrackCut = {
   id: string;
@@ -19,7 +21,7 @@ export type DisplayTrackCut = {
  * Project release dates for track-cut ordering.
  * Newer track packages surface first on member Track Cuts grids.
  */
-const TRACK_CUT_RELEASED_AT: Record<DisplayTrackCutKind, string> = {
+const TRACK_CUT_RELEASED_AT: Record<BuiltInTrackCutKind, string> = {
   // World Cup Pulso visual package (face + stagewear)
   "pulso-face": "2026-06-18T12:00:00+09:00",
   "pulso-stagewear": "2026-06-18T12:30:00+09:00",
@@ -52,11 +54,11 @@ export function getMemberDisplayTrackCuts(
   const rootCuts: DisplayTrackCut[] = rootSignalCuts.map((cut) => ({
     id: cut.id,
     image: cut.image,
-    kind: "root-signal",
-    sourceLabel: rootSignalLabel(cut),
+    kind: cut.display?.kind ?? "root-signal",
+    sourceLabel: cut.display?.sourceLabel ?? rootSignalLabel(cut),
     subtitle: cut.subtitle,
     title: cut.title,
-    releasedAt: TRACK_CUT_RELEASED_AT["root-signal"]
+    releasedAt: cut.display?.releasedAt ?? TRACK_CUT_RELEASED_AT["root-signal"]
   }));
 
   const pulsoCuts: DisplayTrackCut[] = getPulsoTrackCutsForMember(memberCode).map((cut) => ({

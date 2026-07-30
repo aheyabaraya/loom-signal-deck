@@ -2,9 +2,12 @@
 node_modules/
 tsconfig.tsbuildinfo
 .vercel/
+.playwright-cli/
+output/
 .DS_Store
 .env
 .env.*
 !.env.example
 scripts/*
 !scripts/deploy-safe.mjs
+!scripts/validate-member-assets.mjs

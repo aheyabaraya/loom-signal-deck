@@ -1,4 +1,5 @@
 import type { MemberCode } from "./members";
+import { tiktokPlayerUrl } from "./embedSources";
 
 export type TikTokMemberAsset = {
   id: string;
@@ -19,7 +20,7 @@ const profileCapturedAt = "2026-06-18T11:24:15+09:00";
 const pulsoProfileCapturedAt = "2026-06-18T12:39:00+09:00";
 
 function playerUrl(id: string) {
-  return `https://www.tiktok.com/player/v1/${id}?music_info=0&description=0&controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0&closed_caption=0&native_context_menu=0&autoplay=0&loop=0&rel=0`;
+  return tiktokPlayerUrl(id);
 }
 
 export const tiktokMemberAssets: TikTokMemberAsset[] = [

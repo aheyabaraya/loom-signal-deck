@@ -7,6 +7,7 @@ import {
   platformLabel,
   type MemberSocialClip
 } from "../data/memberSocialClips";
+import { MEDIA_IFRAME_ALLOW } from "../data/embedSources";
 import { getMember, homeMemberCodes, type MemberCode } from "../data/members";
 
 type ClipLoadMode = "click" | "viewport" | "row";
@@ -220,7 +221,7 @@ function SocialClipCard({
       <div className="tiktok-player-frame">
         {shouldLoadPlayer ? (
           <iframe
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allow={MEDIA_IFRAME_ALLOW}
             allowFullScreen
             loading="lazy"
             onLoad={() => setFrameLoaded(true)}

@@ -1,4 +1,5 @@
 import type { Track } from "../data/tracks";
+import { MEDIA_IFRAME_ALLOW } from "../data/embedSources";
 
 type TrackVideoProps = {
   track: Track;
@@ -35,7 +36,7 @@ export function TrackVideo({ track, variant = "archive" }: TrackVideoProps) {
           <iframe
             src={track.embedUrl}
             title={track.displayTitle}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allow={MEDIA_IFRAME_ALLOW}
             allowFullScreen
           />
         ) : (

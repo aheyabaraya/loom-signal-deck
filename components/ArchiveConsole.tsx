@@ -11,6 +11,7 @@ import {
   type StageCut
 } from "../data/media";
 import { defaultMemberCode, getMember, getMemberArchiveHref, members, type MemberCode } from "../data/members";
+import { MEDIA_IFRAME_ALLOW } from "../data/embedSources";
 import {
   nextTrackVoteCandidates,
   type NextTrackVoteCandidate
@@ -282,7 +283,7 @@ export function ArchiveConsole() {
                 <iframe
                   src={selectedTrack.embedUrl}
                   title={selectedTrack.displayTitle}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allow={MEDIA_IFRAME_ALLOW}
                   allowFullScreen
                 />
               ) : null}
@@ -308,7 +309,7 @@ export function ArchiveConsole() {
                         title={`${selectedCf.shortTitle} ${
                           selectedCf.videoPlatform === "youtube_shorts" ? "YouTube Shorts" : "Instagram Reel"
                         }`}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allow={MEDIA_IFRAME_ALLOW}
                         allowFullScreen
                         loading="lazy"
                       />

@@ -1,4 +1,4 @@
-import type { MemberCode } from "./members";
+import type { MemberCode } from "./memberAssets";
 
 export type PulsoVisualAsset = {
   image: string;

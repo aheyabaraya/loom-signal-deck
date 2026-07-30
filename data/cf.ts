@@ -1,4 +1,5 @@
-import type { MemberCode } from "./members";
+import { youtubeEmbedUrl } from "./embedSources";
+import { getMemberAssets, type MemberCode } from "./memberAssets";
 
 export type CfCampaign = {
   id: string;
@@ -49,7 +50,7 @@ export const cfCampaigns: CfCampaign[] = [
     ],
     image: "/assets/cf/gentle-monster-bouquet/poster-temple-a.webp",
     videoUrl: "https://youtube.com/shorts/br8NKQIHjOQ",
-    videoEmbedUrl: "https://www.youtube.com/embed/br8NKQIHjOQ?playsinline=1&rel=0",
+    videoEmbedUrl: youtubeEmbedUrl("br8NKQIHjOQ", "playsinline=1&rel=0"),
     videoPlatform: "youtube_shorts"
   },
   {
@@ -80,7 +81,7 @@ export const cfCampaigns: CfCampaign[] = [
     ],
     image: "/assets/cf/cosmetic-morning-luma/rena-profile-apply-side.webp",
     videoUrl: "https://youtube.com/shorts/rxwn61IROQc?si=Kz4np2epgWft57Tb",
-    videoEmbedUrl: "https://www.youtube.com/embed/rxwn61IROQc?playsinline=1&rel=0",
+    videoEmbedUrl: youtubeEmbedUrl("rxwn61IROQc", "playsinline=1&rel=0"),
     videoPlatform: "youtube_shorts"
   },
   {
@@ -130,7 +131,7 @@ export const cfCampaigns: CfCampaign[] = [
       "The whole transformation should feel like it happened inside the subway gate system.",
     proof: ["Orange barcode ticket", "Muted barcode threshold", "Black/orange train interior", "Outfit switch"],
     locks: ["Start and end at the fare gate", "No fake transit partnership", "Barcode bite reads as a fashion-tag hold"],
-    image: "/assets/members/M09/character-board.webp"
+    image: getMemberAssets("M09").characterBoard
   },
   {
     id: "CF_SAEYAN_PRISM_TINT_001",
@@ -148,7 +149,7 @@ export const cfCampaigns: CfCampaign[] = [
       "This must read as a product-led K-beauty tint moment, not just styling or a portrait.",
     proof: ["Applicator before swipe", "One-swipe color bloom", "Visible glass finish", "Clean product-memory packshot"],
     locks: ["No real brand logo or packshot", "Tasteful beauty close-up", "Product action before performance"],
-    image: "/assets/members/M01/character-board.webp"
+    image: getMemberAssets("M01").characterBoard
   },
   {
     id: "CF_ARIA_SPARK_DRINK_001",
@@ -166,6 +167,6 @@ export const cfCampaigns: CfCampaign[] = [
       "The drink should trigger Aria's hook energy while staying refreshment-led, not health or energy-claim led.",
     proof: ["Can crack in first 2s", "Condensation and fizz", "One sip", "Can remains visible through the hook"],
     locks: ["No real soda or energy brand resemblance", "No health or caffeine claim", "Product stays in final frame"],
-    image: "/assets/members/M09/profile.webp"
+    image: getMemberAssets("M09").profile
   }
 ];

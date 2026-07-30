@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "type-check": "tsc --noEmit -p tsconfig.typecheck.json",
+    "validate:member-assets": "node scripts/validate-member-assets.mjs",
     "deploy:preview": "node scripts/deploy-safe.mjs",
     "deploy:prod": "node scripts/deploy-safe.mjs --prod"
   },

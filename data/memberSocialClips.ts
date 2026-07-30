@@ -1,5 +1,10 @@
 import type { MemberCode } from "./members";
 import { cfCampaigns } from "./cf";
+import {
+  tiktokPlayerUrl,
+  youtubeEmbedUrl,
+  youtubeShortsShareUrl
+} from "./embedSources";
 import { tiktokVideoShareUrl } from "./publicChannels";
 import { tiktokMemberAssets } from "./tiktokAssets";
 
@@ -43,16 +48,8 @@ type ManualClipInput = {
   duration?: number | null;
 };
 
-function tiktokPlayerUrl(id: string) {
-  return `https://www.tiktok.com/player/v1/${id}?music_info=0&description=0&controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0&closed_caption=0&native_context_menu=0&autoplay=0&loop=0&rel=0`;
-}
-
 function youtubeShortsPlayerUrl(id: string) {
-  return `https://www.youtube.com/embed/${id}?playsinline=1&rel=0`;
-}
-
-function youtubeShortsShareUrl(id: string) {
-  return `https://youtube.com/shorts/${id}`;
+  return youtubeEmbedUrl(id, "playsinline=1&rel=0");
 }
 
 function extractYoutubeId(url: string | undefined): string | null {

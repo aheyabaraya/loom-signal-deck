@@ -1,17 +1,6 @@
-export type MemberCode =
-  | "M01"
-  | "M02"
-  | "M03"
-  | "M04"
-  | "M05"
-  | "M06"
-  | "M07"
-  | "M08"
-  | "M09"
-  | "M10"
-  | "M11"
-  | "M12"
-  | "M13";
+import { getMemberAssets, type MemberCode } from "./memberAssets";
+
+export type { MemberCode } from "./memberAssets";
 
 export type VoteOption = {
   id: string;
@@ -48,7 +37,7 @@ export const members: Member[] = [
     accent: "#7cc7d8",
     position: { x: 50, y: 30 },
     role: "Loom's first signal.",
-    image: "/assets/members/M01/profile.webp",
+    image: getMemberAssets("M01").profile,
     votePrompt: "Which thread does Saeyan open first?",
     voteOptions: [
       {
@@ -82,7 +71,7 @@ export const members: Member[] = [
     accent: "#d8dce2",
     position: { x: 36, y: 12 },
     role: "Reads the stage through precision.",
-    image: "/assets/members/M02/profile.webp",
+    image: getMemberAssets("M02").profile,
     votePrompt: "What does Seorin's mirror line reveal?",
     voteOptions: [
       {
@@ -116,7 +105,7 @@ export const members: Member[] = [
     accent: "#2f7fc2",
     position: { x: 64, y: 12 },
     role: "Anchors rhythm and balance.",
-    image: "/assets/members/M03/profile.webp",
+    image: getMemberAssets("M03").profile,
     votePrompt: "Where does Yeul's rhythm settle?",
     voteOptions: [
       {
@@ -150,7 +139,7 @@ export const members: Member[] = [
     accent: "#b7a0cf",
     position: { x: 15, y: 30 },
     role: "Turns the stage into emotion.",
-    image: "/assets/members/M04/profile.webp",
+    image: getMemberAssets("M04").profile,
     votePrompt: "What moonlit feeling does Lua leave?",
     voteOptions: [
       {
@@ -184,7 +173,7 @@ export const members: Member[] = [
     accent: "#e7dcc4",
     position: { x: 30, y: 50 },
     role: "Lifts the chorus into clarity.",
-    image: "/assets/members/M05/profile.webp",
+    image: getMemberAssets("M05").profile,
     votePrompt: "What does Faye lift into the room?",
     voteOptions: [
       {
@@ -218,7 +207,7 @@ export const members: Member[] = [
     accent: "#aeb4bd",
     position: { x: 10, y: 57 },
     role: "Cuts the formation with command.",
-    image: "/assets/members/M06/profile.webp",
+    image: getMemberAssets("M06").profile,
     votePrompt: "What edge does Eryn cut?",
     voteOptions: [
       {
@@ -252,7 +241,7 @@ export const members: Member[] = [
     accent: "#eadfc8",
     position: { x: 50, y: 70 },
     role: "Holds the vertical axis.",
-    image: "/assets/members/M07/profile.webp",
+    image: getMemberAssets("M07").profile,
     votePrompt: "What axis does Rena command?",
     voteOptions: [
       {
@@ -286,7 +275,7 @@ export const members: Member[] = [
     accent: "#7e8897",
     position: { x: 24, y: 81 },
     role: "Pulls focus through shadow.",
-    image: "/assets/members/M08/profile.webp",
+    image: getMemberAssets("M08").profile,
     votePrompt: "What hides inside Natsu's veil?",
     voteOptions: [
       {
@@ -320,7 +309,7 @@ export const members: Member[] = [
     accent: "#c6a15b",
     position: { x: 70, y: 50 },
     role: "Drives the hook forward.",
-    image: "/assets/members/M09/profile.webp",
+    image: getMemberAssets("M09").profile,
     votePrompt: "What hook does Aria spark first?",
     voteOptions: [
       {
@@ -354,7 +343,7 @@ export const members: Member[] = [
     accent: "#4a8bf0",
     position: { x: 76, y: 81 },
     role: "Lands the performance impact.",
-    image: "/assets/members/M10/profile.webp",
+    image: getMemberAssets("M10").profile,
     votePrompt: "What force does Karin land?",
     voteOptions: [
       {
@@ -388,7 +377,7 @@ export const members: Member[] = [
     accent: "#5ec0a3",
     position: { x: 86, y: 30 },
     role: "Pulls the crowd into motion.",
-    image: "/assets/members/M11/profile.webp",
+    image: getMemberAssets("M11").profile,
     votePrompt: "What loop does Yuzu pull from the crowd?",
     voteOptions: [
       {
@@ -422,7 +411,7 @@ export const members: Member[] = [
     accent: "#b8bec6",
     position: { x: 50, y: 91 },
     role: "Turns the stage with a cool cue.",
-    image: "/assets/members/M12/profile.webp",
+    image: getMemberAssets("M12").profile,
     votePrompt: "What direction does Seira's ash compass turn?",
     voteOptions: [
       {
@@ -456,7 +445,7 @@ export const members: Member[] = [
     accent: "#d6ad57",
     position: { x: 90, y: 57 },
     role: "Seals the final identity thread.",
-    image: "/assets/members/M13/profile.webp",
+    image: getMemberAssets("M13").profile,
     votePrompt: "What seal does Shion leave behind?",
     voteOptions: [
       {
