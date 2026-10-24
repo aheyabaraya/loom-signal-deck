@@ -1,4 +1,5 @@
 import type { MemberCode } from "./memberAssets";
+import { pulsoTrack } from "./tracks";
 
 export type PulsoVisualAsset = {
   image: string;
@@ -16,6 +17,7 @@ export type PulsoTrackCut = {
   sourceType: "pulso-face" | "pulso-stagewear";
   subtitle: string;
   title: string;
+  trackId: string;
 };
 
 export type PulsoVisualGroup = {
@@ -187,7 +189,8 @@ export const pulsoTrackCuts: PulsoTrackCut[] = pulsoMemberLooks.flatMap((look) =
     memberCodes: [look.memberCode],
     sourceType: "pulso-face",
     subtitle: `${look.country} minimal face paint`,
-    title: `${look.memberCode} ${look.memberName}`
+    title: `${look.memberCode} ${look.memberName}`,
+    trackId: pulsoTrack.id
   },
   {
     id: `pulso-${look.memberCode.toLowerCase()}-stagewear`,
@@ -196,7 +199,8 @@ export const pulsoTrackCuts: PulsoTrackCut[] = pulsoMemberLooks.flatMap((look) =
     memberCodes: [look.memberCode],
     sourceType: "pulso-stagewear",
     subtitle: look.stagewearTitle,
-    title: `${look.memberCode} ${look.memberName}`
+    title: `${look.memberCode} ${look.memberName}`,
+    trackId: pulsoTrack.id
   }
 ]);
 

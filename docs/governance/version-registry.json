@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "loom-web-version-registry.v1",
+  "productVersion": "0.2.1-dev.2",
+  "releaseState": "development",
+  "owner": "web",
+  "updatedAt": "2026-10-24",
+  "validator": "scripts/validate-web-governance.mjs",
+  "contracts": [
+    {
+      "id": "product-governance",
+      "version": "1.0.2",
+      "status": "local_verified",
+      "owner": "web-product",
+      "artifacts": [
+        {
+          "path": "docs/README.md",
+          "sha256": "37f0948d7a2b20f395b01fcb7de5c30dcf50dd6a8090e43e6b78b6e75e3126d2"
+        },
+        {
+          "path": "docs/adr/0001-web-owned-governance.md",
+          "sha256": "8a538fca278933932ccc43eacd27a65b4be190f2c39e8a336a1c0b45654f0107"
+        }
+      ]
+    },
+    {
+      "id": "business-marketing-platform",
+      "version": "1.0.0",
+      "status": "local_verified",
+      "owner": "web-product",
+      "artifacts": [
+        {
+          "path": "docs/architecture/business-marketing-platform.md",
+          "sha256": "a7f188abfa7e6dcabad088a6832325a12ebbe8cbe82e4fdfb58a4e28d69fe095"
+        },
+        {
+          "path": "data/marketingCampaigns.json",
+          "sha256": "6c758c00cb332c08b1031dcf541cf7e5b9d265e88a205cb27bb7b42057777e9e"
+        }
+      ]
+    },
+    {
+      "id": "marketing-data",
+      "version": "1.0.0",
+      "status": "local_verified",
+      "owner": "web-data",
+      "artifacts": [
+        {
+          "path": "docs/architecture/data-and-security.md",
+          "sha256": "ceb25fb34997ec2ee94f10c8ba2e8e3a9567b3a069f856bf6badd24b8c6daf73"
+        },
+        {
+          "path": "supabase/migrations/20260809132835_loom_marketing_platform.sql",
+          "sha256": "d61f3f5137c8d3f860856f0faf06300842ca8758795fa4cc07d03513871922a4"
+        }
+      ]
+    },
+    {
+      "id": "marketing-events",
+      "version": "1.0.0",
+      "status": "local_verified",
+      "owner": "web-growth",
+      "artifacts": [
+        {
+          "path": "docs/adr/0002-consented-first-party-signals.md",
+          "sha256": "0e276323fc827400885db165fe82bea8a13907f23f4d963348af74cb5a421d0f"
+        },
+        {
+          "path": "lib/marketing/contracts.ts",
+          "sha256": "83b357e69002cae97c7f02fe82e5b8e7b31940e9cc33c130e6f4dfb7ef37df40"
+        }
+      ]
+    },
+    {
+      "id": "release-gates",
+      "version": "1.0.2",
+      "status": "development",
+      "owner": "web-release",
+      "artifacts": [
+        {
+          "path": "docs/architecture/testing-and-release.md",
+          "sha256": "eac5387f9fc6fcac0f3468cb4b6eff8f47b6421d53265db63d79788d653bf7d5"
+        },
+        {
+          "path": "docs/governance/release-ledger.jsonl",
+          "sha256": "29a3671df868b43597c2e3fc62f769350f9b425b354eb97a0a11c6d6ee2f6163"
+        }
+      ]
+    },
+    {
+      "id": "membership-scaffold",
+      "version": "1.0.0",
+      "status": "local_verified",
+      "owner": "web-product",
+      "artifacts": [
+        {
+          "path": "docs/adr/0003-membership-payment-boundary.md",
+          "sha256": "6d901407627a599852946debc32b47a4f9945d2fb67bf004cb23b162b9d1354f"
+        },
+        {
+          "path": "data/membershipPlans.json",
+          "sha256": "d66eb51eed451729bcc302a8cc406ac9d3a4d843130ebaf15b6488cc0d71df39"
+        },
+        {
+          "path": "app/api/membership/checkout/route.ts",
+          "sha256": "58b0a27db460125c7e2af6a041ac2756cb99626fbe976ef6bef201f4dd8842b7"
+        }
+      ]
+    },
+    {
+      "id": "harne-chat-accounting",
+      "version": "2.0.0",
+      "status": "development",
+      "owner": "web-data",
+      "artifacts": [
+        {
+          "path": "docs/architecture/harne-chat-security.md",
+          "sha256": "18179490646fb2ab4b6d014c55be5368ba4ba53e87c0d551a75af224cb0b9b20"
+        },
+        {
+          "path": "supabase/migrations/20260914233742_harne_chat_server_budget.sql",
+          "sha256": "1dbb8db3260882d8669a1f7d5df19c7d82812b7392d42379e24348fef649bdef"
+        },
+        {
+          "path": "app/api/harne/chat/messages/route.ts",
+          "sha256": "1d2de4280435c298012f2b0a426f6ef8d80c51efb5435e56efcc3583c2f87173"
+        },
+        {
+          "path": "lib/harne/admin.ts",
+          "sha256": "3940158e30f1081649a0debaec696cdf1d1cca5a942ebfadf303c2e0f08c49a5"
+        },
+        {
+          "path": "lib/harne/openai.ts",
+          "sha256": "b7ddf83668af9a9f1d5a8e08985cdca89bc0d7d43cec61b828eaf4060924f8a6"
+        },
+        {
+          "path": "lib/harne/client.ts",
+          "sha256": "bac1360dabdaad57f4a6cab7eb22a3d280edaca7bac7bb2b4d7d5e1fa8cdf8df"
+        },
+        {
+          "path": "scripts/test-harne-chat-security.mjs",
+          "sha256": "36ae4d5ff32233d3b44034f5406ff0c1ccf85ca74c3ec0c303c735ed45c070a6"
+        },
+        {
+          "path": "scripts/test-harne-chat-db.py",
+          "sha256": "c319e76f9641d76cee2bc8a1a977359ab36bddaf53afdc93a43bb3e5498d90a9"
+        },
+        {
+          "path": "docs/HARNE_VOTE_CHAT.md",
+          "sha256": "e837a5046632f0a4294e48abfee09cd20bbea2f3d6d154bde864641028e455b8"
+        },
+        {
+          "path": "docs/vote-chat-activation-spec.md",
+          "sha256": "c307d9ac4fcc6e3a7a04abfd69652b17cd4bae932f45452868140e88824b8ec2"
+        }
+      ]
+    },
+    {
+      "id": "harne-vote-accounting",
+      "version": "1.0.0",
+      "status": "development",
+      "owner": "web-data",
+      "artifacts": [
+        {
+          "path": "docs/architecture/harne-vote-security.md",
+          "sha256": "25e8d491754a083e1c23d4753d8ab35cd379c84a221256c6a4559261753b7d0e"
+        },
+        {
+          "path": "supabase/migrations/20260915111309_harne_vote_server_requests.sql",
+          "sha256": "10b4284dd70e528c5c9a76ce6ca11c1ab372f887a476a9ddbf6e5466ebf630df"
+        },
+        {
+          "path": "app/api/harne/votes/route.ts",
+          "sha256": "07e460e6ffdeb04e05f3b4b904fd244714b4c3c9fb40274d4989d7cc4e3e07ca"
+        },
+        {
+          "path": "app/api/harne/chat/threads/[memberCode]/route.ts",
+          "sha256": "d956f65e0d57d4a062b1eb1ef599edfc6a1fb15ecffe55546029031ebfa05aae"
+        },
+        {
+          "path": "lib/harne/server.ts",
+          "sha256": "abf9a1e1ec04aa92560c8866a13d372567514b542945012e51353d6a7abc0765"
+        },
+        {
+          "path": "lib/harne/contracts.ts",
+          "sha256": "6f1f10678888c8f78ff51b39c0a18fbbdc653e790059cf103f9e62a4974f2498"
+        },
+        {
+          "path": "lib/harne/config.ts",
+          "sha256": "da57165369a6bc92ad77620ccf91ae12c976891e194283fbba32361de91cdc3d"
+        },
+        {
+          "path": "components/HarneVotePage.tsx",
+          "sha256": "034f4d5f3b9b299c87126484578cbe6fca60500b754e718fca0e3921caed0f85"
+        },
+        {
+          "path": "scripts/test-harne-vote-security.mjs",
+          "sha256": "45754746c2bc7265830dde4d68661bb2bd0b3ab982d13a4d522beb7f40d4c016"
+        },
+        {
+          "path": "scripts/test-harne-actor-binding.mjs",
+          "sha256": "b8e4b13584f230800bd40589add894bf2c2b6e8d43c4435275c66f93f2d82d84"
+        },
+        {
+          "path": "scripts/test-harne-ui-state.mjs",
+          "sha256": "209542a7789dcfd456fb8d9b4ed743dd585d6a2d7181c8b1a48ed43731c0fef8"
+        },
+        {
+          "path": "next.config.mjs",
+          "sha256": "3a1a2362a2504b10d91ed1391ce60d3da00b63aa69a88a74208445623cb28e5f"
+        },
+        {
+          "path": "styles/90-responsive.css",
+          "sha256": "048b91613572c47ca7fddb87e48dce45cb89a46f749b06f78645d94043ebf35f"
+        },
+        {
+          "path": "scripts/test-harne-vote-db.py",
+          "sha256": "e82300716fb4cae4d65324fc7901a62cc6af8a7e69bc076f2496d0b1d62afe7b"
+        }
+      ]
+    }
+  ]
+}

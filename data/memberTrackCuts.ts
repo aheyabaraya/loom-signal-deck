@@ -1,6 +1,10 @@
 import type { MemberCode } from "./memberAssets";
 import type { StageCut } from "./memberTrackAssets";
 import { getPulsoTrackCutsForMember, type PulsoTrackCut } from "./pulsoAssets";
+import {
+  getSignalDeckVisualsForMember,
+  signalDeckPlatformLabel
+} from "./signalDeckPublications";
 
 type BuiltInTrackCutKind = "root-signal" | "pulso-face" | "pulso-stagewear";
 
@@ -13,6 +17,7 @@ export type DisplayTrackCut = {
   sourceLabel: string;
   subtitle: string;
   title: string;
+  trackId?: string;
   /** ISO date used for newest-first ordering. */
   releasedAt: string;
 };
@@ -49,16 +54,17 @@ function byNewest(a: DisplayTrackCut, b: DisplayTrackCut) {
 /** Member Track Cuts for profile + archive pages, newest package first. */
 export function getMemberDisplayTrackCuts(
   memberCode: MemberCode,
-  rootSignalCuts: StageCut[] = []
+  catalogCuts: StageCut[] = []
 ): DisplayTrackCut[] {
-  const rootCuts: DisplayTrackCut[] = rootSignalCuts.map((cut) => ({
+  const rootCuts: DisplayTrackCut[] = catalogCuts.map((cut) => ({
     id: cut.id,
     image: cut.image,
     kind: cut.display?.kind ?? "root-signal",
     sourceLabel: cut.display?.sourceLabel ?? rootSignalLabel(cut),
     subtitle: cut.subtitle,
     title: cut.title,
-    releasedAt: cut.display?.releasedAt ?? TRACK_CUT_RELEASED_AT["root-signal"]
+    releasedAt: cut.display?.releasedAt ?? TRACK_CUT_RELEASED_AT["root-signal"],
+    trackId: cut.trackId
   }));
 
   const pulsoCuts: DisplayTrackCut[] = getPulsoTrackCutsForMember(memberCode).map((cut) => ({
@@ -68,8 +74,22 @@ export function getMemberDisplayTrackCuts(
     sourceLabel: pulsoLabel(cut),
     subtitle: cut.subtitle,
     title: cut.title,
-    releasedAt: TRACK_CUT_RELEASED_AT[cut.sourceType]
+    releasedAt: TRACK_CUT_RELEASED_AT[cut.sourceType],
+    trackId: cut.trackId
   }));
 
-  return [...rootCuts, ...pulsoCuts].sort(byNewest);
+  const publishedVisuals: DisplayTrackCut[] = getSignalDeckVisualsForMember(memberCode).map(
+    ({ publication, visual }) => ({
+      id: `public-${publication.post_id}-${visual.id}-${memberCode}`,
+      image: visual.src,
+      kind: "public-social",
+      sourceLabel: `${publication.content_label} · ${signalDeckPlatformLabel(publication.platform)}`,
+      subtitle: publication.content_kind === "mv" ? "Published track visual" : "Published CF visual",
+      title: publication.title,
+      releasedAt: publication.published_at,
+      trackId: publication.track_id
+    })
+  );
+
+  return [...rootCuts, ...pulsoCuts, ...publishedVisuals].sort(byNewest);
 }

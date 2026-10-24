@@ -4,6 +4,7 @@ import {
   memberCodes,
   type MemberCode
 } from "./memberAssets";
+import { rootSignalTrack } from "./tracks";
 
 export type MemberTrackAsset = {
   id: string;
@@ -13,12 +14,15 @@ export type MemberTrackAsset = {
   subtitle: string;
   image: string;
   sourceType: "solo" | "duo";
+  trackId: string;
   display?: {
     kind: string;
     releasedAt: string;
     sourceLabel: string;
   };
 };
+
+type MemberTrackAssetInput = Omit<MemberTrackAsset, "trackId">;
 
 /** Backwards-compatible view type used by existing gallery components. */
 export type StageCut = MemberTrackAsset;
@@ -37,7 +41,7 @@ function memberUnitAlbumImage(unitCode: string, packageSlug: string, relativePat
  * Add new solo or unit images here. The derived memberTrackAssetsByCode index
  * automatically makes every asset available on each linked member page.
  */
-export const memberTrackAssets: MemberTrackAsset[] = [
+const rootSignalMemberTrackAssets: MemberTrackAssetInput[] = [
   {
     "id": "stage-01",
     "memberCode": "M01",
@@ -807,6 +811,11 @@ export const memberTrackAssets: MemberTrackAsset[] = [
     "sourceType": "duo"
   }
 ];
+
+export const memberTrackAssets: MemberTrackAsset[] = rootSignalMemberTrackAssets.map((asset) => ({
+  ...asset,
+  trackId: rootSignalTrack.id
+}));
 
 /** Backwards-compatible flat catalog name used by existing archive components. */
 export const stageCuts = memberTrackAssets;

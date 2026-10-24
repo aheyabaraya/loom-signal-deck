@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
 import {
   getFeaturedHomeClips,
+  getSocialClipsForCf,
   getSocialClipsForMember,
+  getSocialClipsForTrack,
   platformLabel,
   type MemberSocialClip
 } from "../data/memberSocialClips";
@@ -68,7 +70,6 @@ export function SocialProofGrid({
             index={index}
             key={clip.id}
             loadMode={loadMode}
-            memberCode={memberCode}
             memberName={memberName}
           />
         ))}
@@ -79,6 +80,69 @@ export function SocialProofGrid({
 
 /** @deprecated Prefer SocialProofGrid — same component, legacy name. */
 export const TikTokAssetGrid = SocialProofGrid;
+
+function ContentSocialProofGrid({
+  clips,
+  contentTitle
+}: {
+  clips: MemberSocialClip[];
+  contentTitle: string;
+}) {
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  const { loadedRowCount, rowIndexById } = useRowLoadQueue(
+    gridRef,
+    clips.map((clip) => clip.id),
+    true
+  );
+
+  if (!clips.length) return null;
+
+  return (
+    <section
+      className="tiktok-asset-section track-social-proof-section"
+      aria-label={`${contentTitle} public social clips`}
+    >
+      <div className="asset-heading tiktok-asset-heading">
+        <p>Public Social</p>
+        <h2>{contentTitle} clips</h2>
+      </div>
+      <div className="tiktok-asset-grid" ref={gridRef}>
+        {clips.map((clip, index) => {
+          const member = clip.memberCode ? getMember(clip.memberCode) : null;
+          return (
+            <SocialClipCard
+              clip={clip}
+              forceLoadPlayer={(rowIndexById[clip.id] ?? Number.POSITIVE_INFINITY) < loadedRowCount}
+              index={index}
+              key={clip.id}
+              loadMode="row"
+              memberName={member?.name ?? "Loom"}
+            />
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+export function TrackSocialProofGrid({
+  trackId,
+  trackTitle
+}: {
+  trackId: string;
+  trackTitle: string;
+}) {
+  return (
+    <ContentSocialProofGrid
+      clips={getSocialClipsForTrack(trackId)}
+      contentTitle={trackTitle}
+    />
+  );
+}
+
+export function CfSocialProofGrid({ cfId, cfTitle }: { cfId: string; cfTitle: string }) {
+  return <ContentSocialProofGrid clips={getSocialClipsForCf(cfId)} contentTitle={cfTitle} />;
+}
 
 type FeaturedMemberClipsGridProps = {
   className?: string;
@@ -104,6 +168,7 @@ export function FeaturedMemberClipsGrid({ className }: FeaturedMemberClipsGridPr
   return (
     <div className={className} ref={gridRef}>
       {featuredClips.map((clip, index) => {
+        if (!clip.memberCode) return null;
         const member = getMember(clip.memberCode);
         return (
           <SocialClipCard
@@ -113,7 +178,6 @@ export function FeaturedMemberClipsGrid({ className }: FeaturedMemberClipsGridPr
             index={index}
             key={clip.id}
             loadMode="row"
-            memberCode={member.code}
             memberName={member.name}
           />
         );
@@ -139,7 +203,6 @@ type SocialClipCardProps = {
   forceLoadPlayer?: boolean;
   index: number;
   loadMode: ClipLoadMode;
-  memberCode: MemberCode;
   memberName: string;
 };
 
@@ -149,14 +212,20 @@ function SocialClipCard({
   forceLoadPlayer = false,
   index,
   loadMode,
-  memberCode,
   memberName
 }: SocialClipCardProps) {
   const cardRef = useRef<HTMLElement | null>(null);
   const [shouldLoadPlayer, setShouldLoadPlayer] = useState(false);
   const [frameLoaded, setFrameLoaded] = useState(false);
   const platformName = platformLabel(clip.platform);
-  const isYoutube = clip.platform === "youtube_shorts";
+  const isYoutube = clip.platform === "youtube" || clip.platform === "youtube_shorts";
+  const isWide = clip.platform === "youtube";
+  const memberLine = clip.memberCodes
+    .map((code) => {
+      const member = getMember(code);
+      return `${member.code} ${member.name}`;
+    })
+    .join(" / ") || "Loom";
 
   useEffect(() => {
     if (forceLoadPlayer && !shouldLoadPlayer) {
@@ -209,6 +278,7 @@ function SocialClipCard({
       className={[
         "tiktok-asset-card",
         isYoutube ? "is-youtube-clip" : "is-tiktok-clip",
+        isWide ? "is-wide-clip" : "",
         cardClassName,
         shouldLoadPlayer ? "is-player-requested" : "",
         frameLoaded ? "is-player-loaded" : ""
@@ -236,8 +306,15 @@ function SocialClipCard({
             onClick={() => setShouldLoadPlayer(true)}
             type="button"
           >
+            {clip.visual ? (
+              <img
+                alt={clip.visual.alt}
+                className="tiktok-player-placeholder-visual"
+                src={clip.visual.src}
+              />
+            ) : null}
             <span>
-              {memberCode} · {platformName}
+              {memberLine} · {platformName}
             </span>
             <strong>{memberName}</strong>
             <em>{clip.title}</em>
@@ -247,9 +324,10 @@ function SocialClipCard({
       </div>
       <div className="tiktok-asset-meta">
         <span className="tiktok-member-label">
-          {memberCode} {memberName} · {platformName}
+          {memberLine} · {platformName}
         </span>
         <strong>{clip.title}</strong>
+        {clip.contentLabel ? <span>{clip.contentLabel}</span> : null}
         <span>{formatClipMetrics(clip)}</span>
         <a href={clip.shareUrl} rel="noreferrer" target="_blank">
           Open {platformName} <i />

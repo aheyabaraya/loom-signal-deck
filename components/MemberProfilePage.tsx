@@ -4,6 +4,7 @@ import { MEDIA_IFRAME_ALLOW } from "../data/embedSources";
 import type { MemberArchive } from "../data/media";
 import { getMemberArchiveHref, type Member } from "../data/members";
 import { getMemberDisplayTrackCuts } from "../data/memberTrackCuts";
+import { signalDeckPlatformLabel } from "../data/signalDeckPublications";
 import { rootSignalTrack } from "../data/tracks";
 import { SiteHeader } from "./SiteHeader";
 import { SocialProofGrid } from "./TikTokAssetGrid";
@@ -107,8 +108,9 @@ export function MemberProfilePage({ archive, member }: MemberProfilePageProps) {
           </div>
           <div className="stage-gallery member-cf-gallery">
             {cfCuts.map((campaign) => {
-              const videoPlatformLabel =
-                campaign.videoPlatform === "youtube_shorts" ? "YouTube Shorts" : "Instagram Reel";
+              const videoPlatformLabel = campaign.videoPlatform
+                ? signalDeckPlatformLabel(campaign.videoPlatform)
+                : "Public video";
 
               return (
                 <article

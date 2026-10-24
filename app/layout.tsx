@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/next";
+import { MarketingSignalProvider } from "../components/marketing/MarketingSignalProvider";
 import "../styles.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://loom-signal-deck.vercel.app"),
   title: "Loom Signal Deck",
-  description: "Loom member signal deck prototype.",
+  description: "Loom member, track, CF, Harne, fan, campaign, and business signal deck.",
   icons: {
     icon: "/favicon.svg"
   }
@@ -18,8 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
-        <Analytics />
+        <MarketingSignalProvider analyticsProviderEnabled={process.env.VERCEL === "1"}>
+          {children}
+        </MarketingSignalProvider>
       </body>
     </html>
   );

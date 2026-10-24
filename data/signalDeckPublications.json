@@ -1,0 +1,138 @@
+{
+  "schema_version": "idol_signal_deck_publication.v1",
+  "status": "active",
+  "publications": [
+    {
+      "post_id": "CF_CANTALOP_BRAND_FOUNDATION_001-YS-20260731-001",
+      "content_id": "CF_CANTALOP_BRAND_FOUNDATION_001",
+      "content_kind": "cf",
+      "content_label": "Cable Box · Quiet Window CF",
+      "platform": "youtube_shorts",
+      "platform_post_id": "vvw8DdTrFtA",
+      "published_url": "https://youtube.com/shorts/vvw8DdTrFtA",
+      "embed_url": "https://www.youtube.com/embed/vvw8DdTrFtA?playsinline=1&rel=0",
+      "published_at": "2026-07-31T22:20:00+09:00",
+      "title": "One Quiet Click",
+      "member_visibility": "none",
+      "member_codes": [],
+      "duration": 12.125,
+      "views": null,
+      "likes": null,
+      "visuals": [
+        {
+          "id": "cantalop-w03-product-end-stack",
+          "member_codes": [],
+          "src": "/assets/cf/cantalop-cable-box/product-end-stack.webp",
+          "alt": "Woven cable box inside a stack of quiet interior windows",
+          "source_path": "cf/runs/CF_CANTALOP_BRAND_FOUNDATION_001/generations/cf-code/package/final-delivery/archive/final-used-images-webp/W03_product-end-stack.webp",
+          "source_sha256": "9b5597379d4aff39ef6758a973e9c0b52c408d059ce49d274c2358eb7cb0b662",
+          "web_path": "web/public/assets/cf/cantalop-cable-box/product-end-stack.webp",
+          "web_sha256": "9b5597379d4aff39ef6758a973e9c0b52c408d059ce49d274c2358eb7cb0b662",
+          "lineage_mode": "exact_copy"
+        }
+      ],
+      "cf_id": "CF_CANTALOP_BRAND_FOUNDATION_001"
+    },
+    {
+      "post_id": "CF_CANTALOP_BRAND_FOUNDATION_001-TT-20260731-002",
+      "content_id": "CF_CANTALOP_BRAND_FOUNDATION_001",
+      "content_kind": "cf",
+      "content_label": "Cable Box · Quiet Window CF",
+      "platform": "tiktok",
+      "platform_post_id": "7668688515911208212",
+      "published_url": "https://www.tiktok.com/@loom_idol_m/video/7668688515911208212",
+      "embed_url": "https://www.tiktok.com/player/v1/7668688515911208212?music_info=0&description=0&controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0&closed_caption=0&native_context_menu=0&autoplay=0&loop=0&rel=0",
+      "published_at": "2026-07-31T22:20:00+09:00",
+      "title": "One Quiet Click",
+      "member_visibility": "none",
+      "member_codes": [],
+      "duration": 12.125,
+      "views": null,
+      "likes": null,
+      "visuals": [
+        {
+          "id": "cantalop-w03-product-end-stack",
+          "member_codes": [],
+          "src": "/assets/cf/cantalop-cable-box/product-end-stack.webp",
+          "alt": "Woven cable box inside a stack of quiet interior windows",
+          "source_path": "cf/runs/CF_CANTALOP_BRAND_FOUNDATION_001/generations/cf-code/package/final-delivery/archive/final-used-images-webp/W03_product-end-stack.webp",
+          "source_sha256": "9b5597379d4aff39ef6758a973e9c0b52c408d059ce49d274c2358eb7cb0b662",
+          "web_path": "web/public/assets/cf/cantalop-cable-box/product-end-stack.webp",
+          "web_sha256": "9b5597379d4aff39ef6758a973e9c0b52c408d059ce49d274c2358eb7cb0b662",
+          "lineage_mode": "exact_copy"
+        }
+      ],
+      "cf_id": "CF_CANTALOP_BRAND_FOUNDATION_001"
+    },
+    {
+      "post_id": "CF_GENTLEMONSTER_BOUQUET_001-YS-20260730-FULL",
+      "content_id": "CF_GENTLEMONSTER_BOUQUET_001",
+      "content_kind": "cf",
+      "content_label": "Bouquet Gaze",
+      "platform": "youtube_shorts",
+      "platform_post_id": "br8NKQIHjOQ",
+      "published_url": "https://youtube.com/shorts/br8NKQIHjOQ",
+      "embed_url": "https://www.youtube.com/embed/br8NKQIHjOQ?playsinline=1&rel=0",
+      "published_at": "2026-07-30T17:08:00+09:00",
+      "title": "Bouquet Gaze · full brand film",
+      "member_visibility": "visible",
+      "member_codes": [
+        "M07"
+      ],
+      "cf_id": "CF_GENTLEMONSTER_BOUQUET_001",
+      "duration": 19,
+      "views": null,
+      "likes": null,
+      "visuals": [
+        {
+          "id": "bouquet-temple-a",
+          "member_codes": [
+            "M07"
+          ],
+          "src": "/assets/cf/gentle-monster-bouquet/poster-temple-a.webp",
+          "alt": "Rena in the Bouquet Gaze temple visual",
+          "source_path": "cf/runs/CF_GENTLEMONSTER_BOUQUET_001/generations/cf-code/video-generation/FINAL_DELIVERY_GM_BOUQUET/02_source-frames-webp/TEMPLE_A_CF_OUT_218_face-lock-v4.webp",
+          "source_sha256": "486e25748d11268c0212d2900187406efb9f5df9b4b951f5d7b261fe531f39f6",
+          "web_path": "web/public/assets/cf/gentle-monster-bouquet/poster-temple-a.webp",
+          "web_sha256": "486e25748d11268c0212d2900187406efb9f5df9b4b951f5d7b261fe531f39f6",
+          "lineage_mode": "exact_copy"
+        }
+      ]
+    },
+    {
+      "post_id": "CF_GENTLEMONSTER_BOUQUET_001-YS-20260730-001",
+      "content_id": "CF_GENTLEMONSTER_BOUQUET_001",
+      "content_kind": "cf",
+      "content_label": "Bouquet Gaze",
+      "platform": "youtube_shorts",
+      "platform_post_id": "xNfAkfhipSE",
+      "published_url": "https://youtube.com/shorts/xNfAkfhipSE",
+      "embed_url": "https://www.youtube.com/embed/xNfAkfhipSE?playsinline=1&rel=0",
+      "published_at": "2026-07-30T16:52:00+09:00",
+      "title": "Bouquet Gaze · mutual eyeline cut",
+      "member_visibility": "visible",
+      "member_codes": [
+        "M07"
+      ],
+      "cf_id": "CF_GENTLEMONSTER_BOUQUET_001",
+      "duration": 4,
+      "views": null,
+      "likes": null,
+      "visuals": [
+        {
+          "id": "bouquet-pair-ab-eyeline",
+          "member_codes": [
+            "M07"
+          ],
+          "src": "/assets/cf/gentle-monster-bouquet/pair-ab-eyeline.webp",
+          "alt": "Bouquet Gaze mutual eyeline visual with Rena",
+          "source_path": "cf/runs/CF_GENTLEMONSTER_BOUQUET_001/generations/cf-code/video-generation/FINAL_DELIVERY_GM_BOUQUET/02_source-frames-webp/FINAL_PAIR_AB_eyeline.webp",
+          "source_sha256": "abeb5f91a90dc2dcac5227545b4923a5ff33ac21f81b0f40cab3e064ddb3bead",
+          "web_path": "web/public/assets/cf/gentle-monster-bouquet/pair-ab-eyeline.webp",
+          "web_sha256": "abeb5f91a90dc2dcac5227545b4923a5ff33ac21f81b0f40cab3e064ddb3bead",
+          "lineage_mode": "exact_copy"
+        }
+      ]
+    }
+  ]
+}

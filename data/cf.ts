@@ -1,5 +1,9 @@
 import { youtubeEmbedUrl } from "./embedSources";
 import { getMemberAssets, type MemberCode } from "./memberAssets";
+import {
+  getLatestSignalDeckPublicationForCf,
+  type SignalDeckPublicationPlatform
+} from "./signalDeckPublications";
 
 export type CfCampaign = {
   id: string;
@@ -18,10 +22,38 @@ export type CfCampaign = {
   image: string;
   videoUrl?: string;
   videoEmbedUrl?: string;
-  videoPlatform?: "instagram_reels" | "youtube_shorts";
+  videoPlatform?: SignalDeckPublicationPlatform;
 };
 
-export const cfCampaigns: CfCampaign[] = [
+const baseCfCampaigns: CfCampaign[] = [
+  {
+    id: "CF_CANTALOP_BRAND_FOUNDATION_001",
+    title: "One Quiet Click · Cable Box Window Film",
+    shortTitle: "One Quiet Click",
+    status: "final",
+    duration: "12s",
+    memberCodes: [],
+    productLane: "Home / woven cable-management box · spec CF",
+    objective: "Harness sample · product-world transition study",
+    memoryLine: "One quiet click — closed weave, open proof.",
+    story:
+      "A desk click opens a stack of interior windows: the woven cable box moves from a closed object to visible routing proof, then settles into a quiet room memory.",
+    viewerRead:
+      "The product does not control the room; the window choreography turns hidden cable organization into a visible before-and-after experience.",
+    proof: [
+      "Closed woven box on the desk",
+      "Click-triggered window cascade",
+      "Open product and visible cable route",
+      "Interior-stack product afterimage"
+    ],
+    locks: [
+      "Spec concept, not an official brand campaign",
+      "No smart-home control claim",
+      "Final visual master: v5 early-window cut",
+      "No member appears in this product-only film"
+    ],
+    image: "/assets/cf/cantalop-cable-box/product-end-stack.webp"
+  },
   {
     id: "CF_GENTLEMONSTER_BOUQUET_001",
     title: "Bouquet · Dual Gaze Brand Film",
@@ -170,3 +202,21 @@ export const cfCampaigns: CfCampaign[] = [
     image: getMemberAssets("M09").profile
   }
 ];
+
+/**
+ * Public closeout media is projected over the creative CF catalog. The CF row
+ * keeps story/proof truth; the publication registry owns observed public URLs,
+ * embeds, dates, member placement, and the exact web-ready visual.
+ */
+export const cfCampaigns: CfCampaign[] = baseCfCampaigns.map((campaign) => {
+  const publication = getLatestSignalDeckPublicationForCf(campaign.id);
+  if (!publication) return campaign;
+
+  return {
+    ...campaign,
+    image: publication.visuals[0]?.src ?? campaign.image,
+    videoUrl: publication.published_url,
+    videoEmbedUrl: publication.embed_url,
+    videoPlatform: publication.platform
+  };
+});

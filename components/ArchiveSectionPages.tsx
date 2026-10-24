@@ -3,7 +3,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { cfCampaigns } from "../data/cf";
-import { MEDIA_IFRAME_ALLOW } from "../data/embedSources";
 import {
   memberArchives,
   memberBoards,
@@ -30,9 +29,10 @@ import {
   type TrackContactSheetGroup
 } from "../data/trackContactSheets";
 import { pulsoWardrobeSets } from "../data/pulsoAssets";
+import { signalDeckPlatformLabel } from "../data/signalDeckPublications";
 import { latestTracks, pulsoTrack } from "../data/tracks";
 import { SiteHeader } from "./SiteHeader";
-import { SocialProofGrid } from "./TikTokAssetGrid";
+import { CfSocialProofGrid, SocialProofGrid, TrackSocialProofGrid } from "./TikTokAssetGrid";
 import { TrackVideo } from "./TrackVideo";
 
 type NextTrackVoteState = {
@@ -101,6 +101,7 @@ function SectionShell({
   );
 }
 
+/** @deprecated `/archive` redirects to `/members`; do not add active content here. */
 export function ArchiveOverviewPage() {
   const overviewItems = [
     {
@@ -357,6 +358,7 @@ function PulsoWardrobeArchive() {
   );
 }
 
+/** @deprecated `/story` redirects to `/track`; do not add active content here. */
 export function StoryArchivePage() {
   const [storyIndex, setStoryIndex] = useState(0);
   const selectedImage = storyboardImages[storyIndex];
@@ -536,6 +538,8 @@ export function TrackArchivePage() {
         <div className="track-detail-stack" aria-live="polite">
           <TrackVideo track={selectedTrack} />
 
+          <TrackSocialProofGrid trackId={selectedTrack.id} trackTitle={selectedTrack.title} />
+
           {hasTrackContactSheets && selectedTrackContactSheets ? (
             <TrackContactSheetSection track={selectedTrackContactSheets} />
           ) : null}
@@ -550,7 +554,9 @@ export function TrackArchivePage() {
 export function CfArchivePage() {
   const [selectedCfId, setSelectedCfId] = useState(cfCampaigns[0].id);
   const selectedCf = cfCampaigns.find((campaign) => campaign.id === selectedCfId) ?? cfCampaigns[0];
-  const videoPlatformLabel = selectedCf.videoPlatform === "youtube_shorts" ? "YouTube Shorts" : "Instagram Reel";
+  const videoPlatformLabel = selectedCf.videoPlatform
+    ? signalDeckPlatformLabel(selectedCf.videoPlatform)
+    : "Public video";
 
   return (
     <SectionShell
@@ -577,18 +583,8 @@ export function CfArchivePage() {
         </aside>
 
         <article className="cf-detail-panel">
-          <div className={`cf-detail-image${selectedCf.videoEmbedUrl ? " cf-detail-video" : ""}`}>
-            {selectedCf.videoEmbedUrl ? (
-              <iframe
-                src={selectedCf.videoEmbedUrl}
-                title={`${selectedCf.shortTitle} ${videoPlatformLabel}`}
-                allow={MEDIA_IFRAME_ALLOW}
-                allowFullScreen
-                loading="lazy"
-              />
-            ) : (
-              <img src={selectedCf.image} alt={`${selectedCf.shortTitle} CF visual anchor`} />
-            )}
+          <div className="cf-detail-image">
+            <img src={selectedCf.image} alt={`${selectedCf.shortTitle} CF visual anchor`} />
           </div>
           <div className="cf-detail-copy">
             <p>{selectedCf.productLane}</p>
@@ -609,6 +605,8 @@ export function CfArchivePage() {
           </div>
         </article>
       </section>
+
+      <CfSocialProofGrid cfId={selectedCf.id} cfTitle={selectedCf.shortTitle} />
     </SectionShell>
   );
 }

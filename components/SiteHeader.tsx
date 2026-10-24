@@ -1,4 +1,18 @@
-export type SiteHeaderActive = "home" | "archive" | "members" | "story" | "track" | "cf" | "member" | "vote";
+export type SiteHeaderActive =
+  | "home"
+  | "archive"
+  | "members"
+  | "story"
+  | "track"
+  | "cf"
+  | "member"
+  | "vote"
+  | "campaign"
+  | "share"
+  | "fan"
+  | "business"
+  | "studio"
+  | "membership";
 
 type SiteHeaderProps = {
   active?: SiteHeaderActive;
@@ -26,9 +40,17 @@ export function SiteHeader({ active = "home" }: SiteHeaderProps) {
         <a aria-current={active === "vote" ? "page" : undefined} href="/vote">
           Vote
         </a>
+        <a aria-current={active === "business" ? "page" : undefined} href="/business">
+          Business
+        </a>
       </nav>
       <div className="harne">
-        <a href="/vote">Harne Vote</a>
+        <a
+          aria-current={active === "fan" || active === "membership" ? "page" : undefined}
+          href="/fan"
+        >
+          Fan Room
+        </a>
         <i />
         <span aria-hidden="true" />
       </div>

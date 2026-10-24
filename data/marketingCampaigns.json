@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "loom-marketing-campaign-catalog.v1",
+  "campaigns": [
+    {
+      "id": "first-signal",
+      "slug": "first-signal",
+      "status": "active",
+      "eyebrow": "Member entry",
+      "title": "Start with one signal.",
+      "audience": "First-time visitors who need one clear member entry before exploring all thirteen.",
+      "promise": "Meet Saeyan through one identity thread, then choose how the signal continues.",
+      "message": "A smaller first choice makes the full Loom world easier to enter.",
+      "contentType": "member",
+      "contentKey": "M01",
+      "touchpointId": "web-first-signal-hero",
+      "hero": {
+        "image": "/assets/members/M01/profile.webp",
+        "alt": "Saeyan first signal portrait"
+      },
+      "proof": [
+        "Saeyan is M01 and Loom's first signal.",
+        "Her live Harne vote offers three public identity threads.",
+        "The destination keeps the full member archive one step away."
+      ],
+      "primaryCta": {
+        "label": "Meet Saeyan",
+        "href": "/member/m01?campaign=first-signal"
+      },
+      "secondaryCta": {
+        "label": "Choose a thread",
+        "href": "/vote?campaign=first-signal"
+      }
+    },
+    {
+      "id": "ink-proof",
+      "slug": "ink-proof",
+      "status": "active",
+      "eyebrow": "Track entry",
+      "title": "The mark comes back.",
+      "audience": "Music and visual-direction viewers who want a complete track before opening production detail.",
+      "promise": "Enter through the Ink final master and continue into its visible track evidence.",
+      "message": "One finished screen should lead to the members, choices, and production logic behind it.",
+      "contentType": "track",
+      "contentKey": "loom-track-ink-final-master-v24",
+      "touchpointId": "web-ink-proof-hero",
+      "hero": {
+        "image": "/assets/tracks/ink/contact-sheets/02a-passed/ink-s00-s03-keyframe-sheet-v2.webp",
+        "alt": "Ink passed storyboard contact sheet"
+      },
+      "proof": [
+        "The current site links the Ink final master and its visual master set.",
+        "Track pages preserve source-facing archive context instead of inventing performance claims.",
+        "The next action can be a track view, member discovery, or Harne signal."
+      ],
+      "primaryCta": {
+        "label": "Open Ink",
+        "href": "/track?campaign=ink-proof#ink"
+      },
+      "secondaryCta": {
+        "label": "Enter Fan Room",
+        "href": "/fan?campaign=ink-proof"
+      }
+    },
+    {
+      "id": "spec-film-lab",
+      "slug": "spec-film-lab",
+      "status": "active",
+      "eyebrow": "Business entry",
+      "title": "See the idea become proof.",
+      "audience": "Brand, fashion, beauty, and content teams evaluating Loom's planning-to-screen process.",
+      "promise": "Review selected spec-film cases through objective, viewer read, proof, and claim boundaries.",
+      "message": "A commercial case is useful when the screen logic and the limits of the claim are both visible.",
+      "contentType": "cf",
+      "contentKey": "CF_COSMETIC_TARGET_DISCOVERY_001",
+      "touchpointId": "web-spec-film-lab-hero",
+      "hero": {
+        "image": "/assets/cf/cosmetic-morning-luma/rena-profile-apply-side.webp",
+        "alt": "Rena morning cosmetic spec-film frame"
+      },
+      "proof": [
+        "Cases expose objective, story, viewer read, and visible proof.",
+        "Spec work is labeled as spec work, not an official brand partnership.",
+        "The inquiry route stays separate from analytics event data."
+      ],
+      "primaryCta": {
+        "label": "View case studies",
+        "href": "/business?campaign=spec-film-lab#cases"
+      },
+      "secondaryCta": {
+        "label": "Open CF archive",
+        "href": "/cf?campaign=spec-film-lab"
+      }
+    }
+  ]
+}

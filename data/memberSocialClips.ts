@@ -6,24 +6,28 @@ import {
   youtubeShortsShareUrl
 } from "./embedSources";
 import { tiktokVideoShareUrl } from "./publicChannels";
+import {
+  signalDeckPlatformLabel,
+  signalDeckPublications,
+  type SignalDeckPublicationPlatform,
+  type SignalDeckPublicationVisual
+} from "./signalDeckPublications";
 import { tiktokMemberAssets } from "./tiktokAssets";
 
 /**
- * Canonical member social-embed registry (TikTok + YouTube Shorts).
+ * Member-scoped read model for the public Signal Deck publication registry.
  *
- * Manage every public/draft social embed here. After a founder-requested
- * platform API upload:
- *   1. Append under the matching member in `manualClipsByMember`
- *   2. Set accurate `publishedAt` (upload time)
- *   3. Redeploy Signal Deck
+ * New public posts are written to `signalDeckPublications.json` only through
+ * the hash-bound public closeout. Legacy TikTok and older CF rows remain
+ * read-only compatibility inputs until they receive exact publication mapping.
  *
  * Sorting is always newest `publishedAt` first. No platform is preferred.
  */
-export type SocialClipPlatform = "tiktok" | "youtube_shorts";
+export type SocialClipPlatform = SignalDeckPublicationPlatform;
 
 export type MemberSocialClip = {
   id: string;
-  memberCode: MemberCode;
+  memberCode: MemberCode | null;
   platform: SocialClipPlatform;
   title: string;
   /** ISO timestamp used for newest-first ordering. */
@@ -33,6 +37,14 @@ export type MemberSocialClip = {
   views: number | null;
   likes: number | null;
   duration: number | null;
+  postId?: string;
+  contentId?: string;
+  contentKind?: "mv" | "cf";
+  contentLabel?: string;
+  memberCodes: MemberCode[];
+  trackId?: string;
+  cfId?: string;
+  visual?: SignalDeckPublicationVisual;
 };
 
 type ManualClipInput = {
@@ -46,6 +58,14 @@ type ManualClipInput = {
   views?: number | null;
   likes?: number | null;
   duration?: number | null;
+  postId?: string;
+  contentId?: string;
+  contentKind?: "mv" | "cf";
+  contentLabel?: string;
+  memberCodes?: MemberCode[];
+  trackId?: string;
+  cfId?: string;
+  visual?: SignalDeckPublicationVisual;
 };
 
 function youtubeShortsPlayerUrl(id: string) {
@@ -71,9 +91,25 @@ function extractYoutubeId(url: string | undefined): string | null {
   return youtuBe?.[1] ?? null;
 }
 
-function buildClip(memberCode: MemberCode, input: ManualClipInput): MemberSocialClip {
-  const isYoutube = input.platform === "youtube_shorts";
-  const id = `${isYoutube ? "yt" : "tt"}-${memberCode}-${input.videoId}`;
+function buildClip(memberCode: MemberCode | null, input: ManualClipInput): MemberSocialClip {
+  const isYoutube = input.platform === "youtube" || input.platform === "youtube_shorts";
+  const platformPrefix = isYoutube ? "yt" : input.platform === "instagram_reels" ? "ig" : "tt";
+  const id = `${platformPrefix}-${memberCode ?? "loom"}-${input.videoId}`;
+
+  const fallbackShareUrl =
+    input.platform === "instagram_reels"
+      ? `https://www.instagram.com/reel/${input.videoId}/`
+      : input.platform === "youtube"
+        ? `https://youtu.be/${input.videoId}`
+        : isYoutube
+          ? youtubeShortsShareUrl(input.videoId)
+          : tiktokVideoShareUrl(input.videoId);
+  const fallbackPlayerUrl =
+    input.platform === "instagram_reels"
+      ? `https://www.instagram.com/reel/${input.videoId}/embed`
+      : isYoutube
+        ? youtubeShortsPlayerUrl(input.videoId)
+        : tiktokPlayerUrl(input.videoId);
 
   return {
     id,
@@ -81,46 +117,53 @@ function buildClip(memberCode: MemberCode, input: ManualClipInput): MemberSocial
     platform: input.platform,
     title: input.title,
     publishedAt: input.publishedAt,
-    shareUrl:
-      input.shareUrl ??
-      (isYoutube ? youtubeShortsShareUrl(input.videoId) : tiktokVideoShareUrl(input.videoId)),
-    playerUrl:
-      input.playerUrl ??
-      (isYoutube ? youtubeShortsPlayerUrl(input.videoId) : tiktokPlayerUrl(input.videoId)),
+    shareUrl: input.shareUrl ?? fallbackShareUrl,
+    playerUrl: input.playerUrl ?? fallbackPlayerUrl,
     views: input.views ?? null,
     likes: input.likes ?? null,
-    duration: input.duration ?? null
+    duration: input.duration ?? null,
+    postId: input.postId,
+    contentId: input.contentId,
+    contentKind: input.contentKind,
+    contentLabel: input.contentLabel,
+    memberCodes: input.memberCodes ?? (memberCode ? [memberCode] : []),
+    trackId: input.trackId,
+    cfId: input.cfId,
+    visual: input.visual
   };
 }
 
-/**
- * Member-owned manual embeds (post-API uploads and curated overrides).
- * Add new rows under the member code — this is the primary write surface.
- */
-const manualClipsByMember: Partial<Record<MemberCode, ManualClipInput[]>> = {
-  M07: [
-    {
-      platform: "youtube_shorts",
-      videoId: "br8NKQIHjOQ",
-      title: "Bouquet Gaze · full brand film",
-      publishedAt: "2026-07-30T17:08:00+09:00",
-      duration: 19
-    },
-    {
-      platform: "youtube_shorts",
-      videoId: "xNfAkfhipSE",
-      title: "Bouquet Gaze · mutual eyeline cut",
-      publishedAt: "2026-07-30T16:52:00+09:00",
-      duration: 4
-    }
-  ]
-};
+const publicCloseoutClips: MemberSocialClip[] = signalDeckPublications.flatMap((publication) => {
+  const owners: Array<MemberCode | null> = publication.member_codes.length
+    ? publication.member_codes
+    : [null];
 
-function expandManualClips(): MemberSocialClip[] {
-  return (Object.entries(manualClipsByMember) as [MemberCode, ManualClipInput[]][]).flatMap(
-    ([memberCode, clips]) => clips.map((clip) => buildClip(memberCode, clip))
+  return owners.map((memberCode) =>
+    buildClip(memberCode, {
+      platform: publication.platform,
+      videoId: publication.platform_post_id,
+      title: publication.title,
+      publishedAt: publication.published_at,
+      shareUrl: publication.published_url,
+      playerUrl: publication.embed_url,
+      views: publication.views,
+      likes: publication.likes,
+      duration: publication.duration,
+      postId: publication.post_id,
+      contentId: publication.content_id,
+      contentKind: publication.content_kind,
+      contentLabel: publication.content_label,
+      memberCodes: publication.member_codes,
+      trackId: publication.track_id,
+      cfId: publication.cf_id,
+      visual:
+        (memberCode
+          ? publication.visuals.find((visual) => visual.member_codes.includes(memberCode))
+          : undefined) ??
+        publication.visuals[0]
+    })
   );
-}
+});
 
 const cfYoutubeClips: MemberSocialClip[] = cfCampaigns.flatMap((campaign) => {
   if (campaign.videoPlatform !== "youtube_shorts") {
@@ -132,12 +175,17 @@ const cfYoutubeClips: MemberSocialClip[] = cfCampaigns.flatMap((campaign) => {
     return [];
   }
 
-  // Skip when the same video id is already curated under manualClipsByMember.
+  // Skip when the same member/video pair is already closed in the public registry.
   return campaign.memberCodes
-    .filter((memberCode) => {
-      const manuals = manualClipsByMember[memberCode] ?? [];
-      return !manuals.some((clip) => clip.platform === "youtube_shorts" && clip.videoId === youtubeId);
-    })
+    .filter(
+      (memberCode) =>
+        !signalDeckPublications.some(
+          (publication) =>
+            publication.platform === "youtube_shorts" &&
+            publication.platform_post_id === youtubeId &&
+            publication.member_codes.includes(memberCode)
+        )
+    )
     .map((memberCode) =>
       buildClip(memberCode, {
         platform: "youtube_shorts",
@@ -169,7 +217,7 @@ function dedupeClips(clips: MemberSocialClip[]) {
   const out: MemberSocialClip[] = [];
 
   for (const clip of clips) {
-    const key = `${clip.platform}:${clip.shareUrl}`;
+    const key = `${clip.memberCode}:${clip.platform}:${clip.shareUrl}`;
     if (seen.has(key)) {
       continue;
     }
@@ -191,13 +239,31 @@ function byNewest(a: MemberSocialClip, b: MemberSocialClip) {
 
 /** Flat catalog, newest first. Single source for home + member social proof. */
 export const memberSocialClips: MemberSocialClip[] = dedupeClips([
-  ...expandManualClips(),
+  ...publicCloseoutClips,
   ...cfYoutubeClips,
   ...legacyTikTokClips
 ]).sort(byNewest);
 
 export function getSocialClipsForMember(memberCode: MemberCode) {
   return memberSocialClips.filter((clip) => clip.memberCode === memberCode);
+}
+
+function uniquePosts(clips: MemberSocialClip[]) {
+  const seen = new Set<string>();
+  return clips.filter((clip) => {
+    const key = clip.postId ?? `${clip.platform}:${clip.shareUrl}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+export function getSocialClipsForTrack(trackId: string) {
+  return uniquePosts(memberSocialClips.filter((clip) => clip.trackId === trackId));
+}
+
+export function getSocialClipsForCf(cfId: string) {
+  return uniquePosts(memberSocialClips.filter((clip) => clip.cfId === cfId));
 }
 
 /**
@@ -210,6 +276,9 @@ export function getFeaturedHomeClips(memberCodes?: readonly MemberCode[]) {
   const latestByMember = new Map<MemberCode, MemberSocialClip>();
 
   for (const clip of memberSocialClips) {
+    if (!clip.memberCode) {
+      continue;
+    }
     if (allow && !allow.has(clip.memberCode)) {
       continue;
     }
@@ -222,7 +291,7 @@ export function getFeaturedHomeClips(memberCodes?: readonly MemberCode[]) {
 }
 
 export function platformLabel(platform: SocialClipPlatform) {
-  return platform === "youtube_shorts" ? "YouTube Shorts" : "TikTok";
+  return signalDeckPlatformLabel(platform);
 }
 
 // Backward-compatible aliases used during the featuredMemberClips transition.
@@ -233,6 +302,9 @@ export const getFeaturedClipsForMember = getSocialClipsForMember;
 export function getLatestFeaturedClipByMember() {
   const latest = new Map<MemberCode, MemberSocialClip>();
   for (const clip of memberSocialClips) {
+    if (!clip.memberCode) {
+      continue;
+    }
     if (!latest.has(clip.memberCode)) {
       latest.set(clip.memberCode, clip);
     }

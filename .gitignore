@@ -12,3 +12,21 @@ scripts/*
 !scripts/deploy-safe.mjs
 !scripts/validate-member-assets.mjs
 !scripts/validate-public-images.mjs
+!scripts/validate-content-data.mjs
+!scripts/validate-marketing-platform.mjs
+!scripts/validate-web-governance.mjs
+!scripts/update-web-version-registry.mjs
+!scripts/test-marketing-rls.mjs
+!scripts/validate-harne.mjs
+!scripts/test-deploy-proxy-packaging.mjs
+!scripts/test-deploy-safety.mjs
+!scripts/test-harne-chat-security.mjs
+!scripts/test-harne-chat-db.py
+!scripts/test-harne-vote-db.py
+!scripts/test-harne-vote-security.mjs
+!scripts/test-harne-actor-binding.mjs
+!scripts/test-harne-ui-state.mjs
+
+# Source media stays local. Approved web-ready public assets belong to this repository.
+/assets/
+/docs/loom-final-homepage-target.png

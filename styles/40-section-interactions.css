@@ -1114,6 +1114,7 @@
   transform: rotate(45deg);
 }
 
+/* Harne vote page and the shared home vote modal. */
 .vote-page-shell {
   overflow: visible;
 }
@@ -1568,6 +1569,7 @@
   line-height: 1.45;
 }
 
+/* Member chat card and dock. */
 .member-chat-card {
   display: grid;
   gap: 14px;
@@ -1957,6 +1959,237 @@
   opacity: 1;
 }
 
+/* Harne authentication and live-API status surfaces. */
+.harne-auth-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 16px;
+  border: 1px solid rgba(145, 199, 220, 0.22);
+  background:
+    linear-gradient(90deg, rgba(145, 199, 220, 0.12), transparent 72%),
+    rgba(2, 4, 5, 0.72);
+}
+
+.harne-auth-bar p,
+.harne-auth-bar span {
+  margin: 0;
+}
+
+.harne-auth-bar p {
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.harne-auth-bar span {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.harne-auth-bar > div {
+  min-width: 0;
+}
+
+.harne-auth-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.harne-auth-actions a,
+.harne-auth-actions button,
+.harne-auth-notice a {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  border: 1px solid rgba(230, 238, 242, 0.18);
+  background: rgba(230, 238, 242, 0.06);
+  color: var(--text);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.harne-auth-actions button {
+  cursor: pointer;
+}
+
+.harne-auth-actions button:hover,
+.harne-auth-actions a:hover,
+.harne-auth-notice a:hover {
+  border-color: var(--cyan);
+  background: rgba(145, 199, 220, 0.12);
+}
+
+.harne-auth-notice,
+.harne-inline-error,
+.harne-auth-status {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.harne-auth-notice,
+.harne-inline-error {
+  padding: 13px 15px;
+  border: 1px solid rgba(210, 135, 117, 0.4);
+  background: rgba(210, 135, 117, 0.08);
+}
+
+.harne-auth-notice a {
+  margin-top: 10px;
+}
+
+.harne-live-status {
+  color: var(--cyan);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.harne-login-shell {
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: 34px 18px;
+}
+
+.harne-login-card {
+  position: relative;
+  z-index: 1;
+  width: min(540px, 100%);
+  padding: clamp(24px, 5vw, 48px);
+  border: 1px solid rgba(230, 238, 242, 0.15);
+  background:
+    linear-gradient(135deg, rgba(145, 199, 220, 0.1), transparent 48%),
+    rgba(3, 5, 6, 0.9);
+  box-shadow: 0 28px 110px rgba(0, 0, 0, 0.46);
+}
+
+.harne-login-card h1 {
+  max-width: 420px;
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2.8rem, 8vw, 5.8rem);
+  font-weight: 400;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.harne-login-card > p:not(.eyebrow):not(.harne-auth-status) {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.harne-login-card .harne-auth-notice {
+  margin-top: 22px;
+}
+
+.harne-login-actions,
+.harne-login-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.harne-login-actions button,
+.harne-login-form button {
+  min-height: 46px;
+  border: 1px solid rgba(230, 238, 242, 0.16);
+  background: rgba(230, 238, 242, 0.06);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.harne-login-actions button:hover,
+.harne-login-form button:hover {
+  border-color: var(--cyan);
+  background: rgba(145, 199, 220, 0.14);
+}
+
+.harne-login-actions button:disabled,
+.harne-login-form button:disabled,
+.harne-auth-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.harne-login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  color: var(--quiet);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.harne-login-divider::before,
+.harne-login-divider::after {
+  height: 1px;
+  flex: 1;
+  background: rgba(230, 238, 242, 0.12);
+  content: "";
+}
+
+.harne-login-form label {
+  color: var(--quiet);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.harne-login-form input {
+  min-height: 46px;
+  border: 1px solid rgba(230, 238, 242, 0.16);
+  border-radius: 0;
+  background: rgba(1, 2, 3, 0.72);
+  color: var(--text);
+  font: inherit;
+  padding: 0 14px;
+}
+
+.harne-login-form input:focus {
+  outline: 1px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.harne-auth-status {
+  min-height: 22px;
+  margin: 16px 0 0;
+}
+
+.harne-back-link {
+  display: inline-block;
+  margin-top: 22px;
+  color: var(--cyan);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
 .member-chat-member-rail button.has-signal:not(.is-active)::after {
   opacity: 0.42;
 }
@@ -1977,6 +2210,7 @@
   padding: 0 14px;
 }
 
+/* Home vote modal next-track panel. */
 .vote-track-panel {
   display: grid;
   grid-template-columns: minmax(220px, 0.36fr) minmax(0, 0.64fr);

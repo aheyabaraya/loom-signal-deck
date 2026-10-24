@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "loom-membership-plan-catalog.v1",
+  "paymentsEnabled": false,
+  "plans": [
+    {
+      "key": "signal-free",
+      "name": "Signal",
+      "status": "available",
+      "priceDisplay": "Free",
+      "billingEnabled": false,
+      "description": "Keep a local fan shelf and move through the public Loom archive.",
+      "features": [
+        "Local favorite member and track",
+        "Public campaign and share pages",
+        "Harne vote and account sign-in when enabled"
+      ]
+    },
+    {
+      "key": "archive-plus",
+      "name": "Archive Plus",
+      "status": "concept",
+      "priceDisplay": "Pricing not set",
+      "billingEnabled": false,
+      "description": "A future cross-device archive layer for deeper saved collections and release notes.",
+      "features": [
+        "Cross-device signal shelf concept",
+        "Saved member, track, and CF collections",
+        "Early archive update concept"
+      ]
+    },
+    {
+      "key": "studio-circle",
+      "name": "Studio Circle",
+      "status": "concept",
+      "priceDisplay": "Pricing not set",
+      "billingEnabled": false,
+      "description": "A future community and studio-observation layer; no paid access is active.",
+      "features": [
+        "Production note concept",
+        "Structured feedback concept",
+        "Private event concept"
+      ]
+    }
+  ]
+}
