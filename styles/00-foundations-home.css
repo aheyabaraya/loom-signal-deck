@@ -1036,7 +1036,8 @@ img {
   font-size: var(--type-title-track);
   font-weight: 400;
   line-height: var(--leading-title-track);
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
   text-transform: uppercase;
 }
 

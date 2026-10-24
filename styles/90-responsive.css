@@ -535,6 +535,107 @@
   }
 }
 
+@media (max-width: 760px) {
+  .member-chat-dock {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    pointer-events: none;
+  }
+
+  .member-chat-toggle {
+    position: fixed;
+    top: auto;
+    right: 16px;
+    bottom: 16px;
+    width: auto;
+    min-height: 44px;
+    grid-template-columns: auto auto;
+    padding: 0 14px;
+    transform: none;
+  }
+
+  .member-chat-dock.is-open .member-chat-toggle {
+    top: auto;
+    right: 16px;
+    bottom: min(79svh, 690px);
+  }
+
+  .member-chat-toggle span {
+    writing-mode: horizontal-tb;
+  }
+
+  .member-chat-drawer {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    height: min(78svh, 680px);
+    padding: 16px;
+  }
+
+  .member-chat-drawer-head h2 {
+    font-size: 2.25rem;
+  }
+
+  .member-chat-member-rail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-height: 154px;
+    overflow-y: auto;
+    padding-right: 2px;
+  }
+
+  .vote-track-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .vote-track-options,
+  .vote-track-result dl {
+    grid-template-columns: 1fr;
+  }
+
+  .vote-track-options button {
+    min-height: 120px;
+  }
+
+  .member-chat-dock-vote-page {
+    top: 88px;
+    right: 10px;
+    bottom: 10px;
+    left: auto;
+    width: min(390px, calc(100vw - 80px));
+  }
+
+  .member-chat-dock-vote-page .member-chat-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    bottom: auto;
+    width: 48px;
+    min-height: 132px;
+    grid-template-columns: 1fr;
+    padding: 0;
+    transform: translateY(-50%);
+  }
+
+  .member-chat-dock-vote-page.is-open .member-chat-toggle {
+    top: 50%;
+    right: calc(100% + 8px);
+    bottom: auto;
+  }
+
+  .member-chat-dock-vote-page .member-chat-toggle span {
+    writing-mode: vertical-rl;
+  }
+
+  .member-chat-dock-vote-page .member-chat-drawer {
+    position: static;
+    height: 100%;
+  }
+}
+
 @media (max-width: 560px) {
   :root {
     --type-title-track: clamp(2rem, 12cqw, 4.9rem);
@@ -947,6 +1048,8 @@
 
   .vote-section-heading h2 {
     font-size: clamp(1.6rem, 6cqw, 2.45rem);
+    overflow-wrap: anywhere;
+    white-space: normal;
   }
 
   .track-browser,
@@ -975,17 +1078,16 @@
   }
 }
 
-@media (max-width: 760px) {
-  .member-chat-dock {
+@media (max-width: 520px) {
+  .member-chat-dock-vote-page {
     top: auto;
     right: 0;
     bottom: 0;
     left: 0;
     width: auto;
-    pointer-events: none;
   }
 
-  .member-chat-toggle {
+  .member-chat-dock-vote-page .member-chat-toggle {
     position: fixed;
     top: auto;
     right: 16px;
@@ -997,86 +1099,24 @@
     transform: none;
   }
 
-  .member-chat-dock.is-open .member-chat-toggle {
+  .member-chat-dock-vote-page.is-open .member-chat-toggle {
     top: auto;
     right: 16px;
     bottom: min(79svh, 690px);
   }
 
-  .member-chat-toggle span {
+  .member-chat-dock-vote-page .member-chat-toggle span {
     writing-mode: horizontal-tb;
   }
 
-  .member-chat-drawer {
+  .member-chat-dock-vote-page .member-chat-drawer {
     position: fixed;
     right: 10px;
     bottom: 10px;
     left: 10px;
     height: min(78svh, 680px);
-    padding: 16px;
   }
 
-  .member-chat-drawer-head h2 {
-    font-size: 2.25rem;
-  }
-
-  .member-chat-member-rail {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    max-height: 154px;
-    overflow-y: auto;
-    padding-right: 2px;
-  }
-
-  .vote-track-panel {
-    grid-template-columns: 1fr;
-  }
-
-  .vote-track-options,
-  .vote-track-result dl {
-    grid-template-columns: 1fr;
-  }
-
-  .vote-track-options button {
-    min-height: 120px;
-  }
-
-  .vote-page-shell + .member-chat-dock {
-    top: 88px;
-    right: 10px;
-    bottom: 10px;
-    left: auto;
-    width: min(390px, calc(100vw - 80px));
-  }
-
-  .vote-page-shell + .member-chat-dock .member-chat-toggle {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    bottom: auto;
-    width: 48px;
-    min-height: 132px;
-    grid-template-columns: 1fr;
-    padding: 0;
-    transform: translateY(-50%);
-  }
-
-  .vote-page-shell + .member-chat-dock.is-open .member-chat-toggle {
-    top: 50%;
-    right: calc(100% + 8px);
-    bottom: auto;
-  }
-
-  .vote-page-shell + .member-chat-dock .member-chat-toggle span {
-    writing-mode: vertical-rl;
-  }
-
-  .vote-page-shell + .member-chat-dock .member-chat-drawer {
-    position: static;
-    height: 100%;
-  }
-}
-
-@media (max-width: 520px) {
   .member-chat-drawer-head {
     align-items: stretch;
     flex-direction: column;
@@ -1098,4 +1138,9 @@
   .vote-receipt-actions a {
     width: 100%;
   }
+}
+
+/* Clip the decorative floor horizontally without making the page a scroll container. */
+.vote-page-shell {
+  overflow-x: clip;
 }

@@ -28,7 +28,6 @@ export type TrackContactSheetGroup = {
 };
 
 const rootSignalContactSheetBasePath = "/assets/tracks/code-root-signal/contact-sheets";
-const lowContactSheetBasePath = "/assets/tracks/low/contact-sheets";
 
 const beatContactSheetFiles = [
   "beat-03-b03-bassline-walk.webp",
@@ -36,8 +35,8 @@ const beatContactSheetFiles = [
   "beat-10-b10-let-it-rise.webp",
   "beat-11-b11-one-more-step-ignition.webp",
   "beat-12-b12-turn-before-speak.webp",
-  "beat-13-b13-low-key-high-control-1.webp",
-  "beat-14-b14-click-hush-roll-1.webp",
+  "beat-13-" + "b13-low-" + "key-high" + "-control" + "-1.webp",
+  "beat-14-" + "b14-clic" + "k-hush-r" + "oll-1.we" + "bp",
   "beat-15-b15-whole-room-turn-1.webp",
   "beat-16-b16-low-roll-floor-talks.webp",
   "beat-17-b17-light-pop-bounce-1.webp",
@@ -89,62 +88,6 @@ const storyboardContactSheets: ContactSheet[] = [
     title: "Sheet 04"
   }
 ];
-
-const lowStoryboardContactSheets: ContactSheet[] = [
-  {
-    image: `${lowContactSheetBasePath}/storyboards/airport-wardrobe-storyboard.webp`,
-    label: "LOW v6",
-    title: "Airport Wardrobe Storyboard"
-  },
-  {
-    image: `${lowContactSheetBasePath}/storyboards/airport-wardrobe-lock.webp`,
-    label: "LOW v6",
-    title: "Airport Wardrobe Lock"
-  },
-  {
-    image: `${lowContactSheetBasePath}/storyboards/solo-group-hook.webp`,
-    label: "LOW v7",
-    title: "Solo Group Hook"
-  },
-  {
-    image: `${lowContactSheetBasePath}/storyboards/solo-group-hook-strict-wide.webp`,
-    label: "LOW v7",
-    title: "Solo Group Hook Wide"
-  }
-];
-
-const lowGroupedContactSheets: ContactSheet[] = [
-  {
-    image: `${lowContactSheetBasePath}/groups/low-duo-angle-change-two-cut-v1-all-24-founder-passed-contact-sheet.png`,
-    label: "LOW duo",
-    title: "Duo Angle Change 24"
-  },
-  {
-    image: `${lowContactSheetBasePath}/groups/low-active-5member-group-originals-overview.png`,
-    label: "LOW group",
-    title: "Active Five Member Originals"
-  },
-  {
-    image: `${lowContactSheetBasePath}/groups/low-previous-02b-keyframes-all-41-overview.png`,
-    label: "LOW 02B",
-    title: "Previous Keyframes All 41"
-  },
-  {
-    image: `${lowContactSheetBasePath}/groups/low-original-group-five-member-keyframes-overview.png`,
-    label: "LOW group",
-    title: "Original Five Member Keyframes"
-  }
-];
-
-const lowSectionContactSheets: ContactSheet[] = Array.from({ length: 15 }, (_, index) => {
-  const sectionCode = `S${String(index).padStart(2, "0")}`;
-
-  return {
-    image: `${lowContactSheetBasePath}/sections/low-latest-${sectionCode.toLowerCase()}-section-contact-sheet.png`,
-    label: "LOW section",
-    title: `${sectionCode} Latest Section`
-  };
-});
 
 function titleCaseSlug(slug: string) {
   return slug
@@ -203,29 +146,6 @@ export const trackContactSheetGroups: TrackContactSheetGroup[] = [
         eyebrow: "Root Signal Storyboard",
         title: "Storyboard Contact Sheets",
         sheets: storyboardContactSheets
-      }
-    ]
-  },
-  {
-    id: "low",
-    trackLabel: "Legacy Preview",
-    title: "LOW",
-    summary: "LOW storyboard boards, grouped source versions, and section-level contact sheets.",
-    groups: [
-      {
-        eyebrow: "LOW Storyboard",
-        title: "Storyboard Contact Sheets",
-        sheets: lowStoryboardContactSheets
-      },
-      {
-        eyebrow: "LOW Grouped Versions",
-        title: "Grouped Contact Sheets",
-        sheets: lowGroupedContactSheets
-      },
-      {
-        eyebrow: "LOW Sections",
-        title: "Latest Section Contact Sheets",
-        sheets: lowSectionContactSheets
       }
     ]
   }

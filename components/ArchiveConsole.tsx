@@ -93,6 +93,7 @@ function getBriefPreview(brief: string) {
   return trimmed.length > 140 ? `${trimmed.slice(0, 140)}...` : trimmed;
 }
 
+/** @deprecated No active route renders this console. Keep active archive work in route-owned pages. */
 export function ArchiveConsole() {
   const [mode, setMode] = useState<ArchiveMode>("members");
   const [selectedCode, setSelectedCode] = useState<MemberCode>(defaultMemberCode);
